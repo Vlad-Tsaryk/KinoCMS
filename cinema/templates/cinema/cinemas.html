@@ -1,0 +1,48 @@
+{% extends "layout/basic.html" %}
+{% load static %}
+{% block content %}
+
+    <div class="card card-secondary">
+        <div class="card-header">
+            <h4 class="card-title">Cinemas</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for cinema in cinemas %}
+                    <div class="col-sm-2">
+                        <a href="{% url 'cinema_update' cinema.pk %}" data-toggle="lightbox"
+                           data-title="sample 1 - white" data-gallery="gallery" style="text-align: center"
+                           id="{{ cinema.name }}">
+                            {% if cinema.logo %}
+                                <img src="{{ cinema.logo.url }}" height="250" width="150"
+                                     class="d-block ml-auto mr-auto d-inline">
+                            {% else %}
+                                <img src="{% static 'default-placeholder-150x250.png' %}" height="250" width="150"
+                                     class="d-block ml-auto mr-auto d-inline">
+                            {% endif %}
+                        </a>
+                        <label class="d-block ml-auto mr-auto text-center"
+                               for="{{ cinema.name }}">{{ cinema.name }}</label>
+                    </div>
+                {% endfor %}
+                <div class="col-sm-2">
+                    <a class="d-block position-absolute top-50 start-50 translate-middle"
+                       href="{% url 'add_cinema' %}" data-toggle="lightbox"
+                       data-title="sample 1 - white" data-gallery="gallery" style="text-align: center"
+                       id="{{ film.name }}">
+                        <img src="{% static 'cinema/dist/img/plus_icon.png' %}"
+                             class="d-block ml-auto mr-auto d-inline">
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#nav_cinemas').attr('class', 'nav-link active')
+    </script>
+{% endblock %}

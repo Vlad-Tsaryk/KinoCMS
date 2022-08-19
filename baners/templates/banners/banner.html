@@ -1,0 +1,196 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+    <style>
+        #banner-form-list {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="content">
+        <div class="card card-primary ">
+            <div class="card-header">
+                <h3 class="card-title">Banners</h3>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-check form-switch position-absolute end-0">
+                    {{ banner_collection_form.active }}
+                    <label class="form-check-label"
+                           for="{{ banner_collection_form.active.id_for_label }}">Active</label>
+                </div>
+
+                <div class="row" id="banner-form-list">
+                    {{ formset.management_form }}
+                    {% for form in formset %}
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+
+                        <div id="banner_{{ form.prefix }}" class="col-sm-2 d-inline-block mt-4">
+                            <div id="banner_img" class="mx-auto position-relative" style="width: 150px">
+                                {% if form.instance.image %}
+                                    <img id="img_{{ form.image.auto_id }}" src="{{ form.instance.image.url }}"
+                                         class="d-block ml-auto mr-auto"
+                                         height="250" width="150">
+                                {% else %}
+                                    <img id="img_{{ form.image.auto_id }}" height="250" width="150"
+                                         class="d-block ml-auto mr-auto"
+                                         src="{% static 'default-placeholder-150x250.png' %} ">
+                                {% endif %}
+                                <a class="btn position-absolute top-0 start-100 translate-middle"
+                                   id="delete_img" data-toggle="lightbox"
+                                   data-title="sample 1 - white" data-gallery="gallery"
+                                   onclick="delete_banner('{{ form.prefix }}')">
+                                    <img src="{% static 'cinema/dist/img/remove.png' %}" width="32">
+                                </a>
+                            </div>
+                            <div class="input-bnt">
+                                <button class="btn btn-secondary ml-auto mr-auto d-block" type="button"
+                                        onclick="chooseFile('{{ form.image.auto_id }}','img_{{ form.image.auto_id }}')">
+                                    Добавить
+                                </button>
+                                <div style="height:0px;overflow:hidden">
+                                    {{ form.image }}
+                                </div>
+
+                            </div>
+                            <label for='{{ formset.empty_form.url.label_for_id }}'>Url</label>
+                            {{ form.url }}
+
+                            <label for='{{ formset.empty_form.text.label_for_id }}'>Text</label>
+                            {{ form.text }}
+                            {{ form.errors }}
+                        </div>
+                    {% endfor %}
+                    <div class="col-sm-1 d-inline-block" style="height: 250px">
+                        <a class="btn d-block position-absolute top-50 start-50 translate-middle"
+                           id="add_more" data-toggle="lightbox"
+                           data-title="sample 1 - white" data-gallery="gallery">
+                            <img class="d-block ml-auto mr-auto d-inline"
+                                 src="{% static 'cinema/dist/img/plus_icon.png' %}">
+                        </a>
+
+
+                    </div>
+
+                </div>
+
+
+                <div id="empty_form-banner" class="d-none">
+                    <div id="banner_img" class="mx-auto position-relative" style="width: 150px">
+                        <img id="img_{{ formset.empty_form.image.auto_id }}" height="250" width="150"
+                             class="d-block ml-auto mr-auto"
+                             src="{% static 'default-placeholder-150x250.png' %} ">
+                        <a class="btn position-absolute top-0 start-100 translate-middle"
+                           id="delete_img" data-toggle="lightbox"
+                           data-title="sample 1 - white" data-gallery="gallery"
+                           onclick="delete_banner('{{ formset.empty_form.prefix }}')">
+                            <img src="{% static 'cinema/dist/img/remove.png' %}" width="32">
+                        </a>
+                    </div>
+                    <div class="input-bnt">
+                        <button class="btn btn-secondary ml-auto mr-auto d-block" type="button"
+                                onclick="chooseFile('{{ formset.empty_form.image.auto_id }}','img_{{ formset.empty_form.image.auto_id }}')">
+                            Добавить
+                        </button>
+                        <div style="height:0px;overflow:hidden">
+                            {{ formset.empty_form.image }}
+                        </div>
+                    </div>
+                    <label for='{{ formset.empty_form.url.label_for_id }}'>Url</label>
+                    {{ formset.empty_form.url }}
+                    <label for='{{ formset.empty_form.text.label_for_id }}'>Text</label>
+                    {{ formset.empty_form.text }}
+                </div>
+                {{ banner_collection_form.management_form }}
+                {% for collection_form in banner_collection_form %}
+                    {% for hidden in collection_form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                {% endfor %}
+                {{ banner_collection_form.rotation_speed }}
+            <div class="banner-delete" hidden>
+            {% for form in formset %}
+            {{ form.DELETE }}
+        {% endfor %}</div>
+                <input type="hidden" name="form_type" value="banners_form">
+                <input type="submit" value="Save" class="btn btn-primary">
+
+
+            </form>
+        </div>
+
+        <div class="card card-primary ">
+            <div class="card-header">
+                <h3 class="card-title">Background Banner</h3>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-2 d-block">
+                        {{ background_banner_form.is_image }}
+                    </div>
+                    <div id="background_img" class="col">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div>
+                                    {% if background_banner_form.instance.image %}
+                                        <img id="img_{{ background_banner_form.image.auto_id }}"
+                                             src="{{ background_banner_form.instance.image.url }}"
+                                             class="d-block ml-auto mr-auto d-inline"
+                                             height="150" width="250">
+                                    {% else %}
+                                        <img id="img_{{ background_banner_form.image.auto_id }}" height="100"
+                                             width="200"
+                                             class="d-block ml-auto mr-auto d-inline"
+                                             src="{% static 'default-placeholder-150x250.png' %} ">
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                                        type="button"
+                                        onclick="chooseFile('{{ background_banner_form.image.auto_id }}','img_{{ background_banner_form.image.auto_id }}')">
+                                    Добавить
+                                </button>
+                                <div style="height:0px;overflow:hidden">
+                                    {{ background_banner_form.image }}
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                {{ background_banner_form.image.clear }}
+                                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                                        type="button"
+                                        onclick="clearFile('{{ background_banner_form.image.auto_id }}','img_{{ background_banner_form.image.auto_id }}')"
+                                >Удалить
+                                </button>
+                            </div>
+                            {#                    {{ background_banner_form.image }}#}
+                        </div>
+                    </div>
+
+                    <div id="color_picker" class="col">
+                        {{ background_banner_form.color }}
+                    </div>
+
+                    {#                {{ background_banner_form }}#}
+                </div>
+                <input type="hidden" name="form_type" value="back_banner_form">
+                <input type="submit" value="Save" class="btn btn-primary">
+            </form>
+
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'cinema/dist/js/banners.js' %}"></script>
+
+{% endblock %}
