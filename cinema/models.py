@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from gallery_seo.models import SEO, Image_gallery
 
@@ -37,11 +39,12 @@ class Film(models.Model):
 class Hall(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
-    cinema = models.OneToOneField(Cinema, on_delete=models.SET_NULL, null=True)
+    cinema = models.ForeignKey(Cinema, on_delete=models.SET_NULL, null=True)
     scheme = models.ImageField(upload_to='halls')
     banner_image = models.ImageField(upload_to='halls')
     gallery = models.ForeignKey(Image_gallery, on_delete=models.PROTECT)
     seo = models.OneToOneField(SEO, on_delete=models.PROTECT)
+    date_create = models.DateTimeField(auto_now_add=True)
 
 
 class Session(models.Model):

@@ -3,140 +3,158 @@
 {% block head %}
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet"
-          href="{% static 'cinema/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+          href="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 {% endblock %}
 {% block content %}
     <section class="content">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-{#            {{ cinema.as_p }}#}
-{#        {{ cinema_form.instance}}#}
-            {% for hidden in cinema_form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            <div class="form-group">
-                <label for="name_id" class="form-label">Name</label>
-                {{ cinema_form.name }}
-            </div>
-            <div class="form-group">
-                <label for="description_id">Description</label>
-                {{ cinema_form.description }}
-            </div>
-            <div class="form-group">
-                <label for="description_id">Conditions</label>
-                {{ cinema_form.conditions }}
-            </div>
-        <div class="form-group">
-                <label for="description_id">Email</label>
-                {{ cinema_form.email}}
-            </div>
-        <div class="form-group">
-                <label for="description_id">Phone</label>
-                {{ cinema_form.phone }}
-            </div>
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {#            {{ cinema.as_p }}#}
+    {#        {{ cinema_form.instance}}#}
+    {% for hidden in cinema_form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+    <div class="form-group">
+        <label for="name_id" class="form-label">Name</label>
+        {{ cinema_form.name }}
+    </div>
+    <div class="form-group">
+        <label for="description_id">Description</label>
+        {{ cinema_form.description }}
+    </div>
+    <div class="form-group">
+        <label for="description_id">Conditions</label>
+        {{ cinema_form.conditions }}
+    </div>
+    <div class="form-group">
+        <label for="description_id">Email</label>
+        {{ cinema_form.email }}
+    </div>
+    <div class="form-group">
+        <label for="description_id">Phone</label>
+        {{ cinema_form.phone }}
+    </div>
 
-{#            <div class="form-group">#}
-{#                <label>Date</label>#}
-{#                <div class="input-group date" id="reservationdate" data-target-input="nearest">#}
-{#                    {{ film_form.date }}#}
-{#                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">#}
-{#                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-            <div class="form-group">
-                <label for="{{ cinema_form.logo.id_for_label }}" class="form-label">Logo</label>
-                <div class="row">
-                    <div class="col-sm-2">
-                        <div>
-                                <img id="img_{{ cinema_form.logo.auto_id }}" height="250" width="150"
-                                     class="d-block ml-auto mr-auto d-inline"
-                                     src="{{ cinema_form.instance.logo.url }}">
-                        </div>
+    {#            <div class="form-group">#}
+    {#                <label>Date</label>#}
+    {#                <div class="input-group date" id="reservationdate" data-target-input="nearest">#}
+    {#                    {{ film_form.date }}#}
+    {#                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">#}
+    {#                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            </div>#}
+    <div class="form-group">
+        <label for="{{ cinema_form.logo.id_for_label }}" class="form-label">Logo</label>
+        <div class="row">
+            <div class="col-sm-2">
+                <div>
+                    <img id="img_{{ cinema_form.logo.auto_id }}" height="250" width="150"
+                         class="d-block ml-auto mr-auto d-inline"
+                         src="{{ cinema_form.instance.logo.url }}">
+                </div>
 
-                    </div>
-                    <div class="col-sm-2">
-                        <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
-                                type="button"
-                                onclick="chooseFile('{{ cinema_form.logo.auto_id }}','img_{{ cinema_form.logo.auto_id }}')">
-                            Добавить
-                        </button>
-                        <div style="height:0px;overflow:hidden">
-                            {{ cinema_form.logo }}
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        {{ cinema_form.logo.clear }}
-                        <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
-                                type="button"
-                                onclick="clearFile('{{ cinema_form.logo.auto_id }}','img_{{ cinema_form.logo.auto_id }}')"
-                        >Удалить
-                        </button>
-                    </div>
-
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                        type="button"
+                        onclick="chooseFile('{{ cinema_form.logo.auto_id }}','img_{{ cinema_form.logo.auto_id }}')">
+                    Добавить
+                </button>
+                <div style="height:0;overflow:hidden">
+                    {{ cinema_form.logo }}
                 </div>
             </div>
-        <div class="form-group">
-            <label for="{{ cinema_form.banner_image.id_for_label }}" class="form-label">Banner image</label>
-                <div class="row">
-                    <div class="col-sm-2">
-                        <div>
-                                <img id="img_{{ cinema_form.banner_image.auto_id }}" height="250" width="150"
-                                     class="d-block ml-auto mr-auto d-inline"
-                                     src="{{ cinema_form.instance.banner_image.url }} ">
-                        </div>
+            <div class="col-sm-2">
+                {{ cinema_form.logo.clear }}
+                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                        type="button"
+                        onclick="clearFile('{{ cinema_form.logo.auto_id }}','img_{{ cinema_form.logo.auto_id }}')"
+                >Удалить
+                </button>
+            </div>
 
-                    </div>
-                    <div class="col-sm-2">
-                        <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
-                                type="button"
-                                onclick="chooseFile('{{ cinema_form.banner_image.auto_id }}','img_{{ cinema_form.banner_image.auto_id }}')">
-                            Добавить
-                        </button>
-                        <div style="height:0px;overflow:hidden">
-                            {{ cinema_form.banner_image }}
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        {{ cinema_form.banner_image.clear }}
-                        <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
-                                type="button"
-                                onclick="clearFile('{{ cinema_form.banner_image.auto_id }}','img_{{ cinema_form.banner_image.auto_id }}')"
-                        >Удалить
-                        </button>
-                    </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="{{ cinema_form.banner_image.id_for_label }}" class="form-label">Banner image</label>
+        <div class="row">
+            <div class="col-sm-2">
+                <div>
+                    <img id="img_{{ cinema_form.banner_image.auto_id }}" height="250" width="150"
+                         class="d-block ml-auto mr-auto d-inline"
+                         src="{{ cinema_form.instance.banner_image.url }} ">
+                </div>
 
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                        type="button"
+                        onclick="chooseFile('{{ cinema_form.banner_image.auto_id }}','img_{{ cinema_form.banner_image.auto_id }}')">
+                    Добавить
+                </button>
+                <div style="height:0;overflow:hidden">
+                    {{ cinema_form.banner_image }}
                 </div>
             </div>
+            <div class="col-sm-2">
+                {{ cinema_form.banner_image.clear }}
+                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                        type="button"
+                        onclick="clearFile('{{ cinema_form.banner_image.auto_id }}','img_{{ cinema_form.banner_image.auto_id }}')"
+                >Удалить
+                </button>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}
 {% block content2 %}
-            <div class="form-group">
-            <label>Halls</label>
-                <div class="container">
-                <table class="table table-bordered">
-                  <thead>
+    <div class="form-group">
+        <label>Halls</label>
+        <div class="container">
+            <table  class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date Create</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for hall in halls %}
                     <tr>
-                      <th>Name</th>
-                      <th>Date Create</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
-                <input type="button" value="Create Hall" id="create_hall"
-                       class="btn btn-secondary ml-auto mr-auto d-block"
-{#                       href="{% url 'add_hall' cinema_form.auto_id %}"#}
-                >
-            </div>
-                </div>
+                        <td>{{ hall.name }}</td>
+                        <td>{{ hall.date_create }}</td>
 
-        {% endblock %}
-        {% block content3 %}
-        {{ cinema_form.errors }}
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+                        <th class="border-0"><a
+                                href="{% url 'hall_update' cinema_form.instance.id hall.pk%}"
+                        ><img height="48px"
+                                                                   src="{% static 'cinema/img/pencil.png' %}"></a>
+                        </th>
+                        <td class="border-0"><a onclick="return confirm('Are you sure?');"
+                               href="{% url 'delete_hall' cinema_form.instance.id  hall.pk  %}"
+                        ><img height="48px"
+                                                                   src="{% static 'cinema/img/trash-can.png' %}"></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a class="btn btn-secondary" href="{% url 'add_hall' cinema_form.instance.id %}"> Create hall</a>
+            {#                <input type="button" value="Create Hall" id="create_hall"#}
+            {#                       class="btn btn-secondary ml-auto mr-auto d-block"#}
+            {#                >#}
+        </div>
+    </div>
+
+{% endblock %}
+{% block content3 %}
+    {{ cinema_form.errors }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
 
     </section>
@@ -144,14 +162,16 @@
 {% endblock %}
 {% block scripts %}
     <!-- InputMask -->
-    <script src="{% static 'cinema/plugins/moment/moment.min.js' %}"></script>
-    <script src="{% static 'cinema/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
+    <script src="{% static 'adminLte/plugins/moment/moment.min.js' %}"></script>
+    <script src="{% static 'adminLte/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
     <!-- Tempusdominus Bootstrap 4 -->
-    <script src="{% static 'cinema/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
-    <script src="{% static 'cinema/dist/js/create_update_film.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script src="{% static 'cinema/js/create_update_film.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
     <script>
-    $('#id_phone').inputmask('+38 (999) 999-99-99')
+        $('#id_phone').inputmask('+38 (999) 999-99-99')
     </script>
 
 {% endblock %}

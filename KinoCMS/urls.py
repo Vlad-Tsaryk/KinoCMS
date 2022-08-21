@@ -25,7 +25,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
     path('cinema/', include('cinema.urls')),
-    path('banners/', include('baners.urls'))
+    path('banners/', include('baners.urls')),
+    path('pages/', include('pages.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

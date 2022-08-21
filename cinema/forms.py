@@ -10,7 +10,7 @@ class FilmForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'name_id'}))
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}))
     trailer_url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control'}))
-    date = forms.DateField(widget=forms.DateInput(format='%Y/%m/%d',
+    date = forms.DateField(widget=forms.DateInput(format='%m/%d/%Y',
                                                   attrs={'class': "form-control datetimepicker-input",
                                                          'data-target': '#reservationdate'}))
     # main_image = forms.ImageField(required=False)
@@ -32,8 +32,7 @@ class HallForm(forms.ModelForm):
 
     class Meta:
         model = Hall
-        fields = '__all__'
-
+        fields = ['name', 'description', 'scheme', 'banner_image']
 
 class CinemaForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'name_id'}))

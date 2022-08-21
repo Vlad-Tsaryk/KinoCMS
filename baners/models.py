@@ -1,5 +1,8 @@
 from django.db import models
 
+Rotation_Speed_CHOISES = [('5s', '5s'),
+                          ('10s', '10s'),
+                          ('15s', '15s')]
 
 # Create your models here.
 class Background_banner(models.Model):
@@ -9,8 +12,8 @@ class Background_banner(models.Model):
 
 
 class Banner_collection(models.Model):
-    rotation_speed = models.TimeField()
-    active = models.CharField(max_length=10)
+    rotation_speed = models.CharField(max_length=10, choices=Rotation_Speed_CHOISES, default='5s')
+    active = models.BooleanField(default=True)
 
 
 class Banner(models.Model):
@@ -21,8 +24,8 @@ class Banner(models.Model):
 
 
 class Banner_news_collection(models.Model):
-    rotation_speed = models.TimeField()
-    active = models.BooleanField()
+    rotation_speed = models.CharField(max_length=10, choices=Rotation_Speed_CHOISES, default='5s')
+    active = models.BooleanField(default=True)
 
 
 class Banner_news(models.Model):

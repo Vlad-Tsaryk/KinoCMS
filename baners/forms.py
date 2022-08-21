@@ -13,29 +13,52 @@ class BannerForm(forms.ModelForm):
         fields = ['image', 'url', 'text']
 
 
+BannerFormSet = modelformset_factory(model=Banner, form=BannerForm, extra=0, can_delete=True)
+
+
+class BannerCollectionForm(forms.ModelForm):
+    active = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
+    rotation_speed = forms.ChoiceField(choices=Rotation_Speed_CHOISES,
+                                       widget=forms.Select(attrs={'class': 'form-select d-inline',
+                                                                  'style': 'width:auto'}))
+    class Meta:
+        model = Banner_collection
+        fields = ['active', 'rotation_speed']
+
+
 class BackgroundBannerForm(forms.ModelForm):
     CHOICES = [(True, 'Фото на фон'),
                (False, 'Просто фон')]
 
     color = forms.CharField(widget=forms.TextInput(attrs={'type': "color",
                                                           'class': "form-control form-control-color"}))
-    is_image = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect())
+    is_image = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect(attrs={}))
 
+    # is_image = forms.BooleanField
     class Meta:
         model = Background_banner
         fields = '__all__'
 
 
-BannerFormSet = modelformset_factory(model=Banner, form=BannerForm, extra=0, can_delete=True)
 
 
-class BannerCollectionForm(forms.ModelForm):
-    CHOICES = [('5s', '5s'),
-               ('10s', '10s'),
-               ('15s', '15s')]
-    rotation_speed = forms.TimeField(widget=forms.TimeInput())
-    # active = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
+class BannerNewsCollectionForm(forms.ModelForm):
+    active = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
+    rotation_speed = forms.ChoiceField(choices=Rotation_Speed_CHOISES,
+                                       widget=forms.Select(attrs={'class': 'form-select d-inline',
+                                                                  'style': 'width:auto'}))
 
     class Meta:
-        model = Banner_collection
-        fields = ['active', 'rotation_speed']
+        model = Banner_news_collection
+        fields = '__all__'
+
+
+class BannerNewsForm(forms.ModelForm):
+    url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = Banner_news
+        fields = ['image', 'url']
+
+
+BannerNewsFormSet = modelformset_factory(model=Banner_news, form=BannerNewsForm, extra=0, can_delete=True)

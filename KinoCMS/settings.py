@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'users.apps.UsersConfig',
     'gallery_seo.apps.GallerySeoConfig',
-    "debug_toolbar"
+    "debug_toolbar",
+    'adminLte.apps.AdminlteConfig'
 ]
 
 MIDDLEWARE = [
@@ -131,7 +132,7 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/img/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/img')
 
 
 # Default primary key field type

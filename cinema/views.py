@@ -62,7 +62,7 @@ def film_update(request, film_id):
     gallery_qs = Image.objects.filter(galleryId=obj.gallery.pk)
     if request.method == 'POST':
         film_form = FilmForm(request.POST, request.FILES or None, instance=obj)
-        image_form_set = ImageFormSet(request.POST, request.FILES or None, queryset=gallery_qs)
+        image_form_set = ImageFormSet(request.POST, request.FILES, queryset=gallery_qs)
         seo_form = SeoForm(request.POST, instance=obj.seo)
         print(request.POST, request.FILES)
         if all([film_form.is_valid(), seo_form.is_valid(), image_form_set.is_valid()]):
@@ -71,6 +71,7 @@ def film_update(request, film_id):
             film = film_form.save(commit=False)
             images = image_form_set.save(commit=False)
             film.seo = seo
+            print(image_form_set.deleted_objects)
             for del_image in image_form_set.deleted_objects:
                 print(del_image)
                 del_image.delete()
@@ -138,6 +139,7 @@ def cinemas(request):
 def cinema_update(request, cinema_id):
     obj = get_object_or_404(Cinema, id=cinema_id)
     gallery_qs = Image.objects.filter(galleryId=obj.gallery.pk)
+    halls = Hall.objects.filter(cinema_id=cinema_id)
     if request.method == 'POST':
         cinema_form = CinemaForm(request.POST, request.FILES or None, instance=obj)
         image_form_set = ImageFormSet(request.POST, request.FILES or None, queryset=gallery_qs)
@@ -165,9 +167,12 @@ def cinema_update(request, cinema_id):
         image_form_set = ImageFormSet(queryset=gallery_qs)
         cinema_form = CinemaForm(instance=obj)
         seo_form = SeoForm(instance=obj.seo)
-    return render(request, 'cinema/cinema_update.html', {'cinema_form': cinema_form, 'seo_form': seo_form,
-                                                       'images_formset': image_form_set,
-                                                       })
+
+    context = {'cinema_form': cinema_form,
+               'seo_form': seo_form,
+               'images_formset': image_form_set,
+               'halls': halls}
+    return render(request, 'cinema/cinema_update.html', context)
 
 
 def add_hall(request, cinema_id):
@@ -175,6 +180,7 @@ def add_hall(request, cinema_id):
         hall_form = HallForm(request.POST, request.FILES)
         seo_form = SeoForm(request.POST)
         image_form_set = ImageFormSet(request.POST, request.FILES, queryset=Image.objects.none())
+        print(request.POST, request.FILES)
         if all([seo_form.is_valid(), hall_form.is_valid(), image_form_set.is_valid()]):
             seo = seo_form.save(commit=False)
             seo.save()
@@ -192,7 +198,7 @@ def add_hall(request, cinema_id):
             hall.gallery = gallery
             hall.save()
             print(request.POST, request.FILES)
-            return redirect('cinemas')
+            return redirect('cinema_update', cinema_id)
     else:
         print('not valid')
         hall_form = HallForm()
@@ -200,3 +206,45 @@ def add_hall(request, cinema_id):
         image_form_set = ImageFormSet(queryset=Image.objects.none())
     context = {'hall_form': hall_form, 'images_formset': image_form_set, 'seo_form': seo_form}
     return render(request, 'cinema/hall_create.html', context)
+
+
+def hall_update(request, cinema_id, hall_id):
+    obj = get_object_or_404(Hall, id=hall_id)
+    gallery_qs = Image.objects.filter(galleryId=obj.gallery.pk)
+    if request.method == 'POST':
+        hall_form = HallForm(request.POST, request.FILES or None, instance=obj)
+        image_form_set = ImageFormSet(request.POST, request.FILES or None, queryset=gallery_qs)
+        seo_form = SeoForm(request.POST, instance=obj.seo)
+        print(request.POST, request.FILES)
+        if all([hall_form.is_valid(), seo_form.is_valid(), image_form_set.is_valid()]):
+            seo = seo_form.save(commit=False)
+            seo.save()
+            hall = hall_form.save(commit=False)
+            images = image_form_set.save(commit=False)
+            hall.seo = seo
+            for del_image in image_form_set.deleted_objects:
+                print(del_image)
+                del_image.delete()
+            for image in images:
+                if image.image:
+                    image.galleryId = hall.gallery
+                    image.save()
+            hall.save()
+            print(request.POST, request.FILES)
+            return redirect('cinema_update', cinema_id)
+    else:
+        print('no valid')
+        image_form_set = ImageFormSet(queryset=gallery_qs)
+        hall_form = HallForm(instance=obj)
+        seo_form = SeoForm(instance=obj.seo)
+
+    context = {'hall_form': hall_form,
+               'seo_form': seo_form,
+               'images_formset': image_form_set}
+    return render(request, 'cinema/hall_update.html', context)
+
+
+def delete_hall(request, hall_id, cinema_id):
+    hall = Hall.objects.get(id=hall_id)
+    hall.delete()
+    return redirect('cinema_update', cinema_id)

@@ -1,5 +1,7 @@
 from django.urls import path
-from .views import index, films, add_film, film_update, add_cinema, cinemas, cinema_update, add_hall
+from .views import index, films, add_film, film_update, add_cinema, cinemas, cinema_update, add_hall, delete_hall,\
+    hall_update
+
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -12,6 +14,8 @@ urlpatterns = [
     path('cinemas/addcinema/', add_cinema, name='add_cinema'),
     path('cinemas/edit/<int:cinema_id>', cinema_update, name='cinema_update'),
     path('cinemas/addhall/<int:cinema_id>', add_hall, name='add_hall'),
+    path('cinemas/updatehall/<int:cinema_id>/<int:hall_id>', hall_update, name='hall_update'),
+    path('cinemas/deletehall/<int:cinema_id>/<int:hall_id>', delete_hall, name='delete_hall')
 
 ]
 
