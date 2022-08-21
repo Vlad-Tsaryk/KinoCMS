@@ -1,0 +1,101 @@
+{% extends "layout/basic.html" %}
+{% load static %}
+{% block head %}
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet"
+          href="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+{% endblock %}
+{% block content %}
+    <section class="content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for hidden in news_promo_form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            <div class="form-group">
+            <div class="form-check form-switch position-absolute end-0">
+                    {{ news_promo_form.active }}
+                    <label class="form-check-label"
+                           for="{{ news_promo_form.active.id_for_label }}">Active</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name_id" class="form-label">Name</label>
+                {{ news_promo_form.name }}
+            </div>
+            <div class="form-group">
+                <label for="description_id">Description</label>
+                {{ news_promo_form.description }}
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                    {{ news_promo_form.date }}
+                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div>
+                            {% if news_promo_form.instance.main_image %}
+                                <img id="img_{{ news_promo_form.main_image.auto_id }}"
+                                     src="{{ news_promo_form.instance.main_image.url }}"
+                                     class="d-block ml-auto mr-auto d-inline"
+                                     height="250" width="150">
+                            {% else %}
+                                <img id="img_{{ news_promo_form.main_image.auto_id }}" height="250" width="150"
+                                     class="d-block ml-auto mr-auto d-inline"
+                                     src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %} ">
+                            {% endif %}
+                        </div>
+
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                                type="button"
+                                onclick="chooseFile('{{ news_promo_form.main_image.auto_id }}','img_{{ news_promo_form.main_image.auto_id }}')">
+                            Добавить
+                        </button>
+                        <div style="height:0px;overflow:hidden">
+                            {{ news_promo_form.main_image }}
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        {{ news_promo_form.main_image.clear }}
+                        <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                                type="button"
+                                onclick="clearFile('{{ news_promo_form.main_image.auto_id }}','img_{{ news_promo_form.main_image.auto_id }}')"
+                        >Удалить
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+{% endblock %}
+    {% block content2 %}
+            <div class="form-group">
+                <label for="trailer_url">Trailer URL</label>
+                {{ news_promo_form.trailer_url }}
+            </div>
+        <div hidden>
+        {{ news_promo_form.type }}
+        </div>
+            {{ news_promo_form.errors }}
+        {% endblock %}
+{% block content3 %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </section>
+{% endblock %}
+{% block scripts %}
+    <!-- InputMask -->
+    <script src="{% static 'adminLte/plugins/moment/moment.min.js' %}"></script>
+    <script src="{% static 'adminLte/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script src="{% static 'pages/js/create_page.js' %}"></script>
+
+{% endblock %}
