@@ -7,97 +7,97 @@
 {% endblock %}
 {% block content %}
     <section class="content">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for hidden in film_form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            <div class="form-group">
-                <label for="name_id" class="form-label">Name</label>
-                {{ film_form.name }}
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for hidden in film_form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+    <div class="form-group">
+        <label for="name_id" class="form-label">Name</label>
+        {{ film_form.name }}
+    </div>
+    <div class="form-group">
+        <label for="description_id">Description</label>
+        {{ film_form.description }}
+    </div>
+    <div class="form-group">
+        <label>Date</label>
+        <div class="input-group date" id="reservationdate" data-target-input="nearest">
+            {{ film_form.date }}
+            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
             </div>
-            <div class="form-group">
-                <label for="description_id">Description</label>
-                {{ film_form.description }}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-2">
+                <div>
+                    {% if film_form.instance.main_image %}
+                        <img id="img_{{ film_form.main_image.auto_id }}"
+                             src="{{ film_form.instance.main_image.url }}"
+                             class="d-block ml-auto mr-auto d-inline"
+                             height="250" width="150">
+                    {% else %}
+                        <img id="img_{{ film_form.main_image.auto_id }}" height="250" width="150"
+                             class="d-block ml-auto mr-auto d-inline"
+                             src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %} ">
+                    {% endif %}
+                </div>
+
             </div>
-            <div class="form-group">
-                <label>Date</label>
-                <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                    {{ film_form.date }}
-                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
+            <div class="col-sm-2">
+                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                        type="button"
+                        onclick="chooseFile('{{ film_form.main_image.auto_id }}','img_{{ film_form.main_image.auto_id }}')">
+                    Добавить
+                </button>
+                <div style="height:0px;overflow:hidden">
+                    {{ film_form.main_image }}
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-2">
-                        <div>
-                            {% if film_form.instance.main_image %}
-                                <img id="img_{{ film_form.main_image.auto_id }}"
-                                     src="{{ film_form.instance.main_image.url }}"
-                                     class="d-block ml-auto mr-auto d-inline"
-                                     height="250" width="150">
-                            {% else %}
-                                <img id="img_{{ film_form.main_image.auto_id }}" height="250" width="150"
-                                     class="d-block ml-auto mr-auto d-inline"
-                                     src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %} ">
-                            {% endif %}
-                        </div>
-
-                    </div>
-                    <div class="col-sm-2">
-                        <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
-                                type="button"
-                                onclick="chooseFile('{{ film_form.main_image.auto_id }}','img_{{ film_form.main_image.auto_id }}')">
-                            Добавить
-                        </button>
-                        <div style="height:0px;overflow:hidden">
-                            {{ film_form.main_image }}
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        {{ film_form.main_image.clear }}
-                        <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
-                                type="button"
-                                onclick="clearFile('{{ film_form.main_image.auto_id }}','img_{{ film_form.main_image.auto_id }}')"
-                        >Удалить
-                        </button>
-                    </div>
-
-                </div>
+            <div class="col-sm-2">
+                {{ film_form.main_image.clear }}
+                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                        type="button"
+                        onclick="clearFile('{{ film_form.main_image.auto_id }}','img_{{ film_form.main_image.auto_id }}')"
+                >Удалить
+                </button>
             </div>
+
+        </div>
+    </div>
 {% endblock %}
-    {% block content2 %}
-            <div class="form-group">
-                <label for="trailer_url">Trailer URL</label>
-                {{ film_form.trailer_url }}
-            </div>
-            <div class="form-group">
+{% block content2 %}
+    <div class="form-group">
+        <label for="trailer_url">Trailer URL</label>
+        {{ film_form.trailer_url }}
+    </div>
+    <div class="form-group">
 
-                <div id="types_id" class="row col-4">
-                    <label class="mr-5" for="types_id">Types: </label>
-                    {#                    <div class="custom-control custom-checkbox col-2">#}
-                    <div class="col-2">
-                        {{ film_form.type_2D }}
-                        <label for="id_type_2D">2D</label>
-                    </div>
-                    <div class="col-2">
-                        {{ film_form.type_3D }}
-                        <label for="id_type_3D">3D</label>
-                    </div>
-                    <div class="col-2">
-                        {{ film_form.type_IMAX }}
-                        <label for="id_type_IMAX">IMAX</label>
-                        {#                        <label for="id_type_IMAX" class="custom-control-label ">IMAX</label>#}
-                    </div>
-                </div>
+        <div id="types_id" class="row col-4">
+            <label class="mr-5" for="types_id">Types: </label>
+            {#                    <div class="custom-control custom-checkbox col-2">#}
+            <div class="col-2">
+                {{ film_form.type_2D }}
+                <label for="id_type_2D">2D</label>
             </div>
-            {{ film_form.errors }}
-        {% endblock %}
+            <div class="col-2">
+                {{ film_form.type_3D }}
+                <label for="id_type_3D">3D</label>
+            </div>
+            <div class="col-2">
+                {{ film_form.type_IMAX }}
+                <label for="id_type_IMAX">IMAX</label>
+                {#                        <label for="id_type_IMAX" class="custom-control-label ">IMAX</label>#}
+            </div>
+        </div>
+    </div>
+    {{ film_form.errors }}
+{% endblock %}
 {% block content3 %}
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
     </section>
 {% endblock %}
 {% block scripts %}
@@ -107,5 +107,7 @@
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
     <script src="{% static 'cinema/js/create_update_film.js' %}"></script>
-
+        <script>
+    $('#nav_films').attr('class', 'nav-link active')
+</script>
 {% endblock %}

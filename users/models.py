@@ -1,25 +1,28 @@
 from django.db import models
 from cinema.models import Session
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
-class User(models.Model):
+class User(AbstractUser):
+    CHOISES_language = [('Ukranian', 'Українська'), ('Russian', 'Русский')]
+    CHOISES_gender = [('Male', 'Male'), ('Female', 'Male')]
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    nickname = models.CharField(max_length=50)
-    email = models.EmailField
+    username = models.CharField(max_length=50, unique=True)
+    email = models.EmailField(unique=True)
     address = models.CharField(max_length=150)
-    password = models.CharField(max_length=50)
+    password = models.CharField(max_length=255)
     card_number = models.CharField(max_length=19)
-    phone = models.CharField(max_length=11)
-    birth_date = models.DateField
+    phone = models.CharField(max_length=11, unique=True)
+    birth_date = models.DateField(null=True)
     city = models.CharField(max_length=50)
-    gender = models.BooleanField
-    language = models.BooleanField
+    gender = models.CharField(max_length=10, choices=CHOISES_gender)
+    language = models.CharField(max_length=10, choices=CHOISES_language)
 
 
 class Ticket(models.Model):
     session = models.ForeignKey(Session, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    seat = models.SmallIntegerField
-    reservation = models.BooleanField
+    seat = models.SmallIntegerField()
+    reservation = models.BooleanField()

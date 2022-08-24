@@ -111,28 +111,28 @@
                 </div>
             </div>
 {% endblock %}
-{% block content2 %}
-            <div class="form-group">
-            <label>Halls</label>
-                <div class="container">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Date Create</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
-                <input type="button" value="Create Hall" id="create_hall"
-                       class="btn btn-secondary ml-auto mr-auto d-block"
+{#{% block content2 %}#}
+{#            <div class="form-group">#}
+{#            <label>Halls</label>#}
+{#                <div class="container">#}
+{#                <table class="table table-bordered">#}
+{#                  <thead>#}
+{#                    <tr>#}
+{#                      <th>Name</th>#}
+{#                      <th>Date Create</th>#}
+{#                    </tr>#}
+{#                  </thead>#}
+{#                  <tbody>#}
+{#                  </tbody>#}
+{#                </table>#}
+{#                <input type="button" value="Create Hall" id="create_hall"#}
+{#                       class="btn btn-secondary ml-auto mr-auto d-block"#}
 {#                       href="{% url 'add_hall' cinema_form.auto_id %}"#}
-                >
-            </div>
-                </div>
-
-        {% endblock %}
+{#                >#}
+{#            </div>#}
+{#                </div>#}
+{##}
+{#        {% endblock %}#}
         {% block content3 %}
         {{ cinema_form.errors }}
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -153,5 +153,7 @@
     <script>
     $('#id_phone').inputmask('+38 (999) 999-99-99')
     </script>
-
+    <script>
+        $('#nav_cinemas').attr('class', 'nav-link active')
+    </script>
 {% endblock %}

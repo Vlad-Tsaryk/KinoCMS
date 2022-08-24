@@ -1,0 +1,103 @@
+{% extends "layout/basic.html" %}
+{% load static %}
+{% block content %}
+
+    <div class="card card-secondary">
+        <div class="card-header">
+            <h4 class="card-title">Promos</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date Create</th>
+                    <th>Status</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Main_page</td>
+                    <td>{{ main_page.date }}</td>
+                    <td>{% if main_page.active %}
+                        ON
+                    {% else %}
+                        OFF
+                    {% endif %}</td>
+
+                    <th class="border-0" width="48px"><a
+                            href="{% url 'update_main_page' main_page.pk %}"
+                    ><img height="48px"
+                          src="{% static 'cinema/img/pencil.png' %}"></a>
+                    </th>
+                </tr>
+
+                {% for page in pages|slice:":5" %}
+                    <tr>
+                        <td>{{ page.name }}</td>
+                        <td>{{ page.date }}</td>
+                        <td>{% if page.active %}
+                            ON
+                        {% else %}
+                            OFF
+                        {% endif %}</td>
+
+                        <th class="border-0" width="48px"><a
+                                href="{% url 'update_page' page.pk %}"
+                        ><img height="48px"
+                              src="{% static 'cinema/img/pencil.png' %}"></a>
+                        </th>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td>Contact page</td>
+                    <td>{{ contact_page.date }}</td>
+                    <td>{% if contact_page.active %}
+                        ON
+                    {% else %}
+                        OFF
+                    {% endif %}</td>
+
+                    <th class="border-0" width="48px"><a
+                            href="{% url 'contact_page' %}"
+                    ><img height="48px"
+                          src="{% static 'cinema/img/pencil.png' %}"></a>
+                    </th>
+                </tr>
+                {% for page in pages|slice:"5:" %}
+                    <tr>
+                        <td>{{ page.name }}</td>
+                        <td>{{ page.date }}</td>
+                        <td>{% if page.active %}
+                            ON
+                        {% else %}
+                            OFF
+                        {% endif %}</td>
+
+                        <th class="border-0" width="48px"><a
+                                href="{% url 'update_page' page.pk %}"
+                        ><img height="48px"
+                              src="{% static 'cinema/img/pencil.png' %}"></a>
+                        </th>
+                        <td class="border-0" width="48px"><a onclick="return confirm('Are you sure?');"
+                                                             href="{% url 'delete_page' page.pk %}"
+                        ><img height="48px"
+                              src="{% static 'cinema/img/trash-can.png' %}"></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            <a href="{% url 'add_page' %}" class="btn btn-secondary">Add page</a>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#nav_pages').attr('class', 'nav-link active')
+    </script>
+{% endblock %}

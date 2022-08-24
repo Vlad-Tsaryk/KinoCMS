@@ -129,12 +129,12 @@
                         <td>{{ hall.name }}</td>
                         <td>{{ hall.date_create }}</td>
 
-                        <th class="border-0"><a
+                        <th class="border-0" width="48px"><a
                                 href="{% url 'hall_update' cinema_form.instance.id hall.pk%}"
                         ><img height="48px"
                                                                    src="{% static 'cinema/img/pencil.png' %}"></a>
                         </th>
-                        <td class="border-0"><a onclick="return confirm('Are you sure?');"
+                        <td class="border-0" width="48px"><a onclick="return confirm('Are you sure?');"
                                href="{% url 'delete_hall' cinema_form.instance.id  hall.pk  %}"
                         ><img height="48px"
                                                                    src="{% static 'cinema/img/trash-can.png' %}"></a>
@@ -173,5 +173,7 @@
     <script>
         $('#id_phone').inputmask('+38 (999) 999-99-99')
     </script>
-
+    <script>
+        $('#nav_cinemas').attr('class', 'nav-link active')
+    </script>
 {% endblock %}

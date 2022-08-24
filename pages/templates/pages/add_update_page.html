@@ -1,0 +1,87 @@
+{% extends "layout/basic.html" %}
+{% load static %}
+{% block head %}
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet"
+          href="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+{% endblock %}
+{% block content %}
+    <section class="content">
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for hidden in other_page_form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+    <div class="form-group">
+        <div class="form-check form-switch position-absolute end-0">
+            {{ main_page_form.active }}
+            <label class="form-check-label"
+                   for="{{ main_page_form.active.id_for_label }}">Active</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name_id" class="form-label">Name</label>
+        {{ other_page_form.name }}
+    </div>
+    <div class="form-group">
+        <label for="description_id">Description</label>
+        {{ other_page_form.description }}
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-2">
+                <div>
+                    {% if other_page_form.instance.main_image %}
+                        <img id="img_{{ other_page_form.main_image.auto_id }}"
+                             src="{{ other_page_form.instance.main_image.url }}"
+                             class="d-block ml-auto mr-auto d-inline"
+                             height="250" width="150">
+                    {% else %}
+                        <img id="img_{{ other_page_form.main_image.auto_id }}" height="250" width="150"
+                             class="d-block ml-auto mr-auto d-inline"
+                             src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %} ">
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                        type="button"
+                        onclick="chooseFile('{{ other_page_form.main_image.auto_id }}',
+                                'img_{{ other_page_form.main_image.auto_id }}')">
+                    Добавить
+                </button>
+                <div style="height:0px;overflow:hidden">
+                    {{ other_page_form.main_image }}
+                </div>
+            </div>
+            <div class="col-sm-2">
+                {{ other_page_form.main_image.clear }}
+                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                        type="button"
+                        onclick="clearFile('{{ other_page_form.main_image.auto_id }}',
+                                'img_{{ other_page_form.main_image.auto_id }}')"
+                >Удалить
+                </button>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+{% block content3 %}
+    {{ other_page_form.errors }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    </section>
+{% endblock %}
+{% block scripts %}
+    <!-- InputMask -->
+    <script src="{% static 'adminLte/plugins/moment/moment.min.js' %}"></script>
+    <script src="{% static 'adminLte/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script src="{% static 'pages/js/create_page.js' %}"></script>
+    <script>
+        $('#nav_pages').attr('class', 'nav-link active')
+    </script>
+{% endblock %}

@@ -1,0 +1,187 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet"
+          href="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+{% endblock %}
+{% block content %}
+    <section class="content">
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row mx-auto" id="contact-form-list">
+        {{ contact_formset.management_form }}
+        {% for contact in contact_formset %}
+            {% for hidden in contact.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            <div class="card" id="contact_page_{{ contact.prefix }}">
+            {% if contact == contact_formset.0 %}
+                {% else %}
+                    <div class="form-group">
+                        <div class="form-check form-switch position-absolute end-0">
+                            {{ contact.active }}
+                            <label class="form-check-label"
+                                   for="{{ contact.active.id_for_label }}">Active</label>
+                        </div>
+                    </div>
+            {% endif %}
+                    <div class="form-group">
+                        <label for="{{ contact.name.id_for_label }}" class="form-label">Name</label>
+                        {{ contact.name }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ contact.address.id_for_label }}">Address</label>
+                        {{ contact.address }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ contact.coords.id_for_label }}">Coords</label>
+                        {{ contact.coords }}
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                        <div class="col-1">
+                            <label for="img_{{ contact.logo.auto_id }}">Logo</label>
+                        </div>
+                            <div class="col-sm-2">
+                                <div>
+                                    {% if contact.instance.logo %}
+                                        <img id="img_{{ contact.logo.auto_id }}"
+                                             src="{{ contact.instance.logo.url }}"
+                                             class="d-block ml-auto mr-auto d-inline"
+                                             height="250" width="150">
+                                    {% else %}
+                                        <img id="img_{{ contact.logo.auto_id }}" height="250" width="150"
+                                             class="d-block ml-auto mr-auto d-inline"
+                                             src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %} ">
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                                        type="button"
+                                        onclick="chooseFile('{{ contact.logo.auto_id }}','img_{{ contact.logo.auto_id }}')">
+                                    Добавить
+                                </button>
+                                <div style="height:0px;overflow:hidden">
+                                    {{ contact.logo }}
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                {{ contact.logo.clear }}
+                                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                                        type="button"
+                                        onclick="clearFile('{{ contact.logo.auto_id }}','img_{{ contact.logo.auto_id }}')"
+                                >Удалить
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+        {% endfor %}
+        <div class="col-sm-1 mx-auto" style="height: 250px">
+            <a class="btn d-block position-absolute top-50 start-50 translate-middle"
+               id="add_more_contact" data-toggle="lightbox"
+               data-title="sample 1 - white" data-gallery="gallery">
+                <img class="d-block ml-auto mr-auto d-inline"
+                     src="{% static 'adminLte/dist/img/plus_icon.png' %}">
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+    <div id="empty_form-contact" class="d-none">
+                    <div class="form-group">
+                        <div class="form-check form-switch position-absolute end-0">
+                            {{ contact_formset.empty_form.active }}
+                            <label class="form-check-label"
+                                   for="{{ contact_formset.empty_form.active.id_for_label }}">Active</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ contact_formset.empty_form.name.id_for_label }}" class="form-label">Name</label>
+                        {{ contact_formset.empty_form.name }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ contact_formset.empty_form.address.id_for_label }}">Address</label>
+                        {{ contact_formset.empty_form.address }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ contact_formset.empty_form.coords.id_for_label }}">Coords</label>
+                        {{ contact_formset.empty_form.coords }}
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div>
+                                    <label for="img_{{ contact_formset.empty_form.logo.auto_id }}">Logo</label>
+                                        <img id="img_{{ contact_formset.empty_form.logo.auto_id }}" height="250" width="150"
+                                             class="d-block ml-auto mr-auto d-inline"
+                                             src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %} ">
+                                </div>
+
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                                        type="button"
+                                        onclick="chooseFile('{{ contact_formset.empty_form.logo.auto_id }}',
+                                                'img_{{ contact_formset.empty_form.logo.auto_id }}')">
+                                    Добавить
+                                </button>
+                                <div style="height:0px;overflow:hidden">
+                                    {{ contact_formset.empty_form.logo }}
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                {{ contact_formset.empty_form.logo.clear }}
+                                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                                        type="button"
+                                        onclick="clearFile('{{ contact_formset.empty_form.logo.auto_id }}',
+                                                'img_{{ contact_formset.empty_form.logo.auto_id }}')"
+                                >Удалить
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+    </div>
+    {% for collection_form in contact_collection_form %}
+        {% for hidden in collection_form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+    {% endfor %}
+{#    <div class="contact-delete" hidden>#}
+{#        {% for contact in contact_formset %}#}
+{#            {{ contact.DELETE }}#}
+{#        {% endfor %}</div>#}
+{#    {{ contact_formset.errors }}#}
+{#    {{ contact_collection_form.errors }}#}
+{% endblock %}
+{% block content3 %}
+
+    <div class="col-sm-2">
+        <input type="submit" value="Save" class="btn btn-primary mx-auto">
+    </div>
+    </form>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <!-- InputMask -->
+    <script src="{% static 'adminLte/plugins/moment/moment.min.js' %}"></script>
+    <script src="{% static 'adminLte/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script src="{% static 'pages/js/contacts.js' %}"></script>
+    <script>
+    $('.coords').inputmask("[-]9{1,2}.9{6}, [-]9{1,3}.9{6}", {
+jitMasking:true
+})
+    </script>
+
+{% endblock %}
