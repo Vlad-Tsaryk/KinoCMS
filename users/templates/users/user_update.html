@@ -1,10 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet"
+          href="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+    <form method="post">
+    {% csrf_token %}
+{#    {{ user_form.as_p }}#}
+        <div class="row">
+        <div class="col">
+        <label for="{{ user_form.username.id_for_label }}">Username</label>
+        {{ user_form.username }}
+        <label for="{{ user_form.first_name.id_for_label }}">First name</label>
+        {{ user_form.first_name }}
+        <label for="{{ user_form.last_name.id_for_label }}">Last name</label>
+        {{ user_form.last_name }}
+        <label for="{{ user_form.email.id_for_label }}">Email</label>
+        {{ user_form.email }}
+        <label for="{{ user_form.phone.id_for_label }}">Phone</label>
+        {{ user_form.phone }}
+        <label for="{{ user_form.city.id_for_label }}">City</label>
+        {{ user_form.city }}
+        <label for="{{ user_form.address.id_for_label }}">Address</label>
+        {{ user_form.address }}
+            </div>
+        <div class="col">
+        <label for="{{ user_form.card_number.id_for_label }}">Card number</label>
+        {{ user_form.card_number }}
+            <div class="form-group">
+        <label for="{{ user_form.birth_date.id_for_label }}">Birth date</label>
+        <div class="input-group date" id="reservationdate" data-target-input="nearest" style="width: 36%">
+            {{ user_form.birth_date }}
+            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
+        </div>
+    </div>
+        <label for="{{ user_form.language.id_for_label }}">Language</label>
+        {{ user_form.language }}
+        <label for="{{ user_form.gender.id_for_label }}">Gender</label>
+        {{ user_form.gender }}
+        <label for="{{ user_form.password1.id_for_label }}">Password1</label>
+        {{ user_form.password1 }}
+        <label for="{{ user_form.password2.id_for_label }}">Password2</label>
+        {{ user_form.password2 }}
+        </div>
+            </div>
 
-</body>
-</html>
+{#        Password 1#}
+{#        {{ user_form.password1 }}#}
+{#        Password 2#}
+{#        {{ user_form.password2 }}#}
+    {{ user_form.errors }}
+    <input type="submit" class="btn btn-primary" value="Save">
+    </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+        <!-- InputMask -->
+    <script src="{% static 'adminLte/plugins/moment/moment.min.js' %}"></script>
+    <script src="{% static 'adminLte/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script>
+    $(function () {
+        $('#id_phone').inputmask('+38 (999) 999-99-99')
+    //Date picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+        $('#id_language div').attr('style', 'display: inline-block; margin-right: 20px')
+        $('#id_gender div').attr('style', 'display: inline-block; margin-right: 20px')
+});
+    {#$('#id_phone').inputmask('+38 (999) 999-99-99')#}
+    </script>
+{% endblock %}

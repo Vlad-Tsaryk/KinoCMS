@@ -39,9 +39,7 @@ class CinemaForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}))
     conditions = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                          # 'data-inputmask': '"mask": "(999) 999-9999"'
-                                                          }))
+    phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Cinema

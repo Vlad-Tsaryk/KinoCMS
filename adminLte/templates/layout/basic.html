@@ -28,20 +28,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light mb-3">
+    <ul class="navbar-nav">
+                        <li class="nav-item">
+                          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                        </li>
+                      </ul>
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
                         <!-- Sidebar user panel (optional) -->
             <div class="user-panel d-flex">
                 <div class="image">
-                    <img src="{% static 'adminLte/dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2"
-                         alt="User Image">
+                    <i class="fa-solid fa-user fa-2x"></i>
+
+{#                    <img src="{% static 'adminLte/dist/img/user.png' %}" class=""#}
+{#                         alt="User Image">#}
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">Alexander Pierce</a>
+                    <a {% if request.user.pk %}
+                        href="{% url 'update_user' request.user.pk %}
+                    {% endif %} " class="d-block">{{ request.user}}</a>
                 </div>
             </div>
-            <button type="button" class="btn btn-secondary">Exit</button>
+            <a href="{% url 'logout' %}" class="btn btn-secondary">LogOut</a>
         </ul>
     </nav>
     <!-- /.navbar -->
@@ -75,56 +84,57 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
                     <li class="nav-item">
-                        <a href="#" class="nav-link" id="nav_statistic">
-                            <i class="far fa-circle nav-icon"></i>
+                        <a href="{% url 'statistic' %}" class="nav-link" id="nav_statistic">
+                            <i class="nav-icon fas fa-chart-pie"></i>
                             <p>Статистика</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'banners' %}" class="nav-link" id="nav_banners">
-                            <i class="far fa-circle nav-icon"></i>
+{#                            <i class="nav-icon far fa-image"></i>#}
+                            <i class="nav-icon far fa-solid fa-panorama"></i>
                             <p>Банера/Слайдеры</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'films' %}" class="nav-link" id="nav_films">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="nav-icon fas fa-solid fa-film"></i>
                             <p>Фильмы</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'cinemas' %}" class="nav-link" id="nav_cinemas">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="nav-icon fas fa-solid fa-ticket"></i>
                             <p>Кинотеатры</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'news' %}" class="nav-link" id="nav_news">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="nav-icon fas fa-solid fa-newspaper"></i>
                             <p>Новости</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'promos' %}" class="nav-link" id="nav_promo">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="nav-icon fas fa-solid fa-percent"></i>
                             <p>Акции</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'pages' %}" class="nav-link" id="nav_pages">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="nav-icon fas fa-book"></i>
                             <p>Страницы</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                        <a href="{% url 'users' %}" class="nav-link" id="nav_users">
+                            <i class="nav-icon fas fa-solid fa-user"></i>
                             <p>Пользователи</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="nav-icon fas fa-solid fa-envelope-open-text"></i>
                             <p>Рассылка</p>
                         </a>
                     </li>
@@ -281,7 +291,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- AdminLTE App -->
 <script src="{% static 'adminLte/dist/js/adminlte.min.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
 {% block scripts %}
 {% endblock %}
 </body>

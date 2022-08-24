@@ -27,7 +27,8 @@ urlpatterns = [
     path('cinema/', include('cinema.urls')),
     path('banners/', include('baners.urls')),
     path('pages/', include('pages.urls')),
-    path('user/', include('users.urls'))
+    path('user/', include('users.urls')),
+    path('statistic/', include('adminLte.urls'))
 
 ]
 
