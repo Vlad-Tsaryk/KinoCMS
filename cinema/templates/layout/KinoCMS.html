@@ -1,0 +1,292 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="{% static 'adminLte/plugins/fontawesome-free/css/all.min.css' %}">
+    <title>KinoCMS</title>
+    <link rel="shortcut icon" href="{% static 'adminLte/dist/img/logo.png' %}"/>
+    {% block head %}
+        <style>
+            body {
+            {% if back_banner.is_image %}
+                background-image: url("{{ back_banner.image.url }}");
+                {#background-attachment: fixed;#}
+                {#background-size: 100% 100%;#}
+            {% else %}
+                background-color:{{ back_banner.color }};
+            {% endif %}
+            }
+
+        </style>
+
+    {% endblock %}
+</head>
+<body>
+<ul class="navbar-nav">
+    <div class="row">
+
+        <div class="col"></div>
+        <div class="col-2">
+            <i class="fa-solid fa-user fa-2x"></i>
+            {% if request.user.is_authenticated %}
+
+                <a {% if request.user.pk %}
+                    href="{% url 'update_user' request.user.pk %}"
+                {% endif %}  class="d-inline">{{ request.user }}</a>
+                <a href="{% url 'logout' %}" class="btn btn-secondary">LogOut</a>
+            {% else %}
+                <a class="btn btn-secondary" href="{% url 'login_page' %}">LogIn</a>
+            {% endif %}
+
+
+        </div>
+    </div>
+</ul>
+{% if back_banner %}
+    <img src="{% static 'banners/img/top_banner.png' %}" class="w-100" height="120">
+{% endif %}
+<div class="container mb-5">
+    <div class="row">
+        <div class="col">
+            <a class="fs-4 link-light" href="{% url 'kino_cms' %}"><img src="{% static 'adminLte/dist/img/logo.png' %}"
+                                                                        height="90">
+                <p>KinoCMS</p>
+            </a>
+
+
+        </div>
+        <div class="col">
+            <div class="float-start mt-4">
+                <img src="{% static 'cinema/img/facebook.png' %}" width="48">
+                <img src="{% static 'cinema/img/google-plus.png' %}" width="48">
+                <img src="{% static 'cinema/img/twitter.png' %}" width="48">
+                <img src="{% static 'cinema/img/vk.png' %}" width="48">
+                <img src="{% static 'cinema/img/instagram.png' %}" width="48">
+                <img src="{% static 'cinema/img/plus.png' %}" width="48">
+            </div>
+            <div class="float-end fs-3 text-light">
+                <p>{{ main_page.phone1 }}</p>
+                <p>{{ main_page.phone2 }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-8">
+            <nav class="navbar navbar-expand-lg navbar-light border border-dark">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item ps-4 pe-4">
+                                <a class="nav-link" href="{% url 'movies' %}" id="nav_movies">Афиша</a>
+                            </li>
+                            <li class="nav-item ps-4 pe-4">
+                                <a class="nav-link" href="{% url 'showtimes' %}" id="nav_showtime">Расписание</a>
+                            </li>
+                            <li class="nav-item ps-4 pe-4">
+                                <a class="nav-link" href="{% url 'soon' %}" id="nav_soon">Скоро</a>
+                            </li>
+                            <li class="nav-item ps-4 pe-4">
+                                <a class="nav-link" href="{% url 'cinemas_page' %}" id="nav_cinemas">Кинотеатры</a>
+                            </li>
+                            <li class="nav-item ps-4 pe-4">
+                                <a class="nav-link" href="{% url 'site_promos' %}" id="nav_promos">Акции</a>
+                            </li>
+                            <li class="nav-item dropdown  ps-4 pe-4">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                   aria-expanded="false">О кинотеатре</a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" href="{% url 'site_news' %}" id="nav_news">Новости</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'site_vip' %}">Vip-зал</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'site_advertiser' %}">Реклама</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'site_children_room' %}">Детская комната</a></li>
+                                    <li><a class="dropdown-item" href="#">Кафе</a></li>
+                                    <li><a class="dropdown-item" href="#">Мобильные прил</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'site_contact' %}" id="nav_contact">Контакты</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-1">
+            <select class="form-select">
+                <option>рус</option>
+                <option>укр</option>
+            </select>
+
+        </div>
+    </div>
+</div>
+
+
+{% block content %}
+    <div class="container p-0" id="main_content">
+        {% if banners_collection.active %}
+            <div class="w-100">
+                <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+
+                        {% for banner in banners %}
+                            {% if banner == banners|first %}
+                                <div class="carousel-item active" data-bs-interval="{{ banners_collection.rotation_speed }}">
+                            <img src="{{ banners.first.image.url }}" class="d-block w-100" height="600">
+                            <div class="carousel-caption d-none d-md-block fs-2">
+                                {{ banners.first.text }}
+                            </div>
+                        </div>
+                            {% else %}
+                            <div class="carousel-item" data-bs-interval="{{ banners_collection.rotation_speed }}">
+                                <img src="{{ banner.image.url }}" class="d-block w-100" height="600">
+                                <div class="carousel-caption d-none d-md-block fs-2">
+                                    {{ banner.text }}
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+        <div class="text-lg-center fs-1"><b>Смотрите сегодня</b>, {{ current_day }}</div>
+
+        <div class="row row-cols-4">
+            {% for film in films_today %}
+                <div class="col text-center mt-4">
+                <a class="fs-4 link-dark" href="{% url 'film_card' film.pk %}">
+                    <img class="rounded ml-auto mr-auto" src="{{ film.main_image.url }}" height="300" width="250">
+                <p><b>{{ film.name }}</b></p></a>
+                <b class="fs-4 text-success">C {{ film.get_date }}</b>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-lg-center fs-1"><b>Смотрите скоро</b></div>
+
+        <div class="row row-cols-4">
+            {% for film in films_soon %}
+                <div class="col text-center mt-4">
+                <a class="fs-4 link-dark" href="{% url 'film_card' film.pk %}">
+                    <img class="rounded ml-auto mr-auto" src="{{ film.main_image.url }}" height="300" width="250">
+                <p><b>{{ film.name }}</b></p></a>
+                <b class="fs-4 text-success">C {{ film.get_date }}</b>
+                </div>
+            {% endfor %}
+
+        </div>
+        {% if banners_news_collection.active %}
+            <div class="text-lg-center fs-1"><b>Новости и Акции</b></div>
+            <div class="container p-0" id="news">
+                <div class="w-100">
+                    <div class="w-100">
+                <div id="carouselNews" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                        {% for banner in banners_news %}
+                            {% if banner == banners_news|first %}
+
+                        <div class="carousel-item active" data-bs-interval="{{ banners_news_collection.rotation_speed }}">
+                            <img src="{{ banner.image.url }}" class="d-block w-100" height="600">
+                            <div class="carousel-caption d-none d-md-block fs-2">
+                            </div>
+                        </div>
+                                {% else %}
+                            <div class="carousel-item" data-bs-interval="{{ banners_news_collection.rotation_speed }}">
+                                <img src="{{ banner.image.url }}" class="d-block w-100" height="600">
+                                <div class="carousel-caption d-none d-md-block fs-2">
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselNews"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselNews"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+    <div class="mt-5 mb-5">
+        <center><img src="{% static 'cinema/img/promo.png' %}"></center>
+    </div>
+    <div style=" word-wrap: break-word; margin-bottom: 0px"><p class="mb-0">{{ main_page.seo_text }}</p></div>
+        </div>
+{% endblock %}
+<div class="container p-0" id="info">
+    <hr size="8" style="background-color: black;margin-top: 0px">
+    <div class="row">
+        <div class="col">
+            <b class="fs-4">Мобильные приложения</b><br>
+            <img src="{% static 'cinema/img/google-play-badge.svg' %}" width="160">
+            <img src="{% static 'cinema/img/black.svg' %}" width="160">
+            <p>Разработка сайтов: AVADA-MEDIA</p>
+        </div>
+        <div class="col-3">
+            <p>Афиша</p>
+            <p>Расписание</p>
+            <p>Скоро в прокате</p>
+            <p>Кинотеатры</p>
+            <p>Акции</p>
+        </div>
+        <div class="col-2">
+            <p>О кинотеатре</p>
+            <p>Новости</p>
+            <p>Реклама</p>
+            <p>Кафе-бар</p>
+            <p>Контакты</p>
+        </div>
+        <div class="col-3">
+            <img src="{% static 'cinema/img/facebook.png' %}" width="48">
+            <img src="{% static 'cinema/img/google-plus.png' %}" width="48">
+            <img src="{% static 'cinema/img/twitter.png' %}" width="48">
+            <img src="{% static 'cinema/img/vk.png' %}" width="48">
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<!-- jQuery -->
+<script src="{% static 'adminLte/plugins/jquery/jquery.min.js' %}"></script>
+
+{% block scripts %}
+    <script>
+        $('.navbar-nav').attr('class', 'navbar-nav bg-light')
+        $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-light bg-light border border-dark')
+        $('#main_content').attr('class', 'container bg-light p-0')
+        {#$('#news').attr('class', 'container bg-light p-0')#}
+        $('#info').attr('class', 'container bg-light p-0')
+    </script>
+{% endblock %}
+</body>
+</html>

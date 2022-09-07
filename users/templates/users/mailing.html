@@ -1,0 +1,39 @@
+{% extends "layout/basic.html" %}
+{% load static %}
+{% block content %}
+
+    <div class="card card-primary">
+        <div class="card-header">
+            <h4 class="card-title">Sms</h4>
+        </div>
+        <div class="card-body">
+            </div>
+        </div>
+    <div class="card card-primary">
+        <div class="card-header">
+            <h4 class="card-title">Email</h4>
+        </div>
+        <div class="card-body">
+            <div id="email_form">
+                {{ mailing_formset.management_form }}
+            </div>
+            {{ mailing_formset }}
+            {% for mail in mailing_formset %}
+                {{ mail.template.value}}
+            {% endfor %}
+        <a class="btn btn-secondary" href="{% url 'user_choice' %}">User choice</a>
+
+            </div>
+        <div id="empty-form-mail" class="d-none">
+
+
+            </div>
+        </div>
+
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#nav_mailing').attr('class', 'nav-link active')
+    </script>
+{% endblock %}

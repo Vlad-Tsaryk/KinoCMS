@@ -1,0 +1,42 @@
+{% extends 'layout/KinoCMS.html' %}
+{% load static %}
+{% block head %}
+    <style>
+        body {
+            background-color: #222831;
+            color: white;
+
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="content">
+    <div><img src="{{ cinemas.first.banner_image.url }}" height="600px" width="100%"></div>
+
+    <div class="w-25 float-end">
+    <img src="{% static 'cinema/img/promo_cinemas.png' %}"
+         style="margin-left: 150px;margin-top:82px" width="215"
+         class="img-fluid">
+</div>
+    <div class="container p-0 w-75" style="margin-left: 5%; margin-right: 0px;">
+    <center><b class="fs-1">Наши киноткатры</b></center>
+    <div class="row mt-4">
+        {% for cinema in cinemas %}
+    <div class="col text-center mb-5">
+    <img src="{{ cinema.banner_image.url }}" height="400" width="500">
+        <p class="fs-4">{{ cinema.name }}</p>
+    </div>
+        {% endfor %}
+    </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+            $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+    $('#nav_cinemas').attr('class', 'nav-link active')
+    </script>
+{% endblock %}

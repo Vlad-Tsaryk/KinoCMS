@@ -1,0 +1,42 @@
+{% extends 'layout/KinoCMS.html' %}
+{% load static %}
+{% block head %}
+    <style>
+        body {
+            background-color: #222831;
+            color: white;
+
+        }
+
+    </style>
+{% endblock %}
+{#{% load cinema_tags %}#}
+{% block content %}
+        <iframe class="w-100" height="700"
+                src="{{ film.trailer_url}}">
+        </iframe>
+    <div class="container">
+    <div class="row">
+{#    {% get_obj obj=film_sessions as test %}#}
+    {% for session in film_sessions|dictsort:"date_time" %}
+{#        {% test obj=session  %}#}
+        {{ session.hall.cinema.name }}
+    <div class="col-1">
+    <table class="table border border-light text-center text-light">
+        <tr>
+            <th>{{ session.date_time|date:'d,D' }}</th></tr>
+        <tr><td>{{ session.date_time|date:'F' }}</td></tr>
+    </table>
+{#    <div style="height: 100px; width: 100px;" class="border border-dark">#}
+{#        {{ session.date_time|date:'d,D' }}#}
+{#        <br>{{ session.date_time|date:'F' }}#}
+{#    </div>#}
+    </div>
+    {% endfor %}
+    </div>
+
+
+    </div>
+
+
+{% endblock %}

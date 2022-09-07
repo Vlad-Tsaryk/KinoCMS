@@ -1,0 +1,94 @@
+{% extends 'layout/KinoCMS.html' %}
+{% load static %}
+{% block head %}
+    <style>
+        body {
+            background-color: #222831;
+            color: white;
+
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+
+       <div class="w-100">
+                    <div class="w-100">
+                <div id="carouselNews" class="carousel slide" data-bs-ride="carousel">
+                 <div class="carousel-inner">
+                        {% for banner in banners_news %}
+                            {% if banner == banners_news|first %}
+                        <div class="carousel-item active" data-bs-interval="{{ banners_news_collection.rotation_speed }}">
+                            <img src="{{ banner.image.url }}" class="d-block w-100" height="600">
+                            <div class="carousel-caption d-none d-md-block fs-2">
+                            </div>
+                        </div>
+                                {% else %}
+                            <div class="carousel-item" data-bs-interval="{{ banners_news_collection.rotation_speed }}">
+                                <img src="{{ banner.image.url }}" class="d-block w-100" height="600">
+                                <div class="carousel-caption d-none d-md-block fs-2">
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselNews"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselNews"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+                </div>
+    <div class="row mt-5">
+
+        <div class="col">
+            <div class="container-fluid m-0">
+                <div class="row row-cols-1">
+                    {% for contact in contacts %}
+                        {% if contact.active %}
+                            <div class="row row-cols-2 mt-5">
+                                <div class="col"><b class="fs-2">{{ contact.name }}</b></div>
+                                <div class="col">
+                                    <div class="text-break w-75">
+                                        {% autoescape on %}
+    {{ contact.address }}
+{% endautoescape %}
+
+                                    </div>
+                                </div>
+                                <div class="col"><img src="{{ contact.logo.url }}" height="450" width="600"
+                                                      class="rounded"></div>
+                                <div class="col">{{ contact.coords|safe }}</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="mb-5">
+                <img src="{% static 'cinema/img/promo_cinemas.png' %}"
+                     width="215"
+                     class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+        $('#nav_contact').attr('class', 'dropdown-item active')
+    </script>
+{% endblock %}

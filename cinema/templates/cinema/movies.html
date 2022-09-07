@@ -1,0 +1,38 @@
+{% extends 'layout/KinoCMS.html' %}
+{% block head %}
+    <style>
+        body{
+            background-color: #222831;
+            color: white;
+
+    }
+        #main_content{
+            background-color: #393E46;
+            border-radius: 5px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container p-0 pb-4" id="main_content">
+    <div class="row row-cols-6">
+    {% for film in films_today %}
+            <div class="col text-center mt-4">
+                <b>Сейчас в кино</b>
+
+        <a class="fs-6 link-primary" href="{% url 'film_card' film.pk %}">
+            <img class="ml-auto mr-auto rounded" src="{{ film.main_image.url }}" height="200" >
+
+        <p><b>{{ film.name }}</b></p></a>
+        <a class="badge rounded-pill bg-warning mx-auto fs-6">
+                <i class="fa-solid fa-ticket fa-rotate-by" style="--fa-rotate-angle: -45deg;"></i>  Купить билет</a>
+    </div>
+    {% endfor %}
+    </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+    $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+    $('#nav_movies').attr('class', 'nav-link active')
+    </script>
+{% endblock %}

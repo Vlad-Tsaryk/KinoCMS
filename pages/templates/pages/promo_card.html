@@ -1,0 +1,40 @@
+{% extends 'layout/KinoCMS.html' %}
+{% load static %}
+{% block head %}
+    <style>
+        body{
+            background-color: #222831;
+            color: white;
+
+    }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <div><img src="{{ promos.first.main_image.url }}" height="400px" width="100%"></div>
+    <div class="row mt-5">
+
+    <div class="col"><div class="container-fluid m-0">
+        <b class="fs-1">{{ promo.name }}</b>
+        <div class="row mt-3">
+            <div class="col-4"><img src="{{ promo.main_image.url }}" height="300"  width="450" class="rounded"></div>
+            <div class="col fs-4"><b style="color: #abbac9">{{ promo.description }}</b></div>
+        </div>
+
+
+</div></div>
+    <div class="col-2"><div class="mb-5">
+    <img src="{% static 'cinema/img/promo_cinemas.png' %}"
+          width="215"
+         class="img-fluid">
+</div></div>
+    </div>
+
+
+{% endblock %}
+{% block scripts %}
+    <script>
+    $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+    $('#nav_promos').attr('class', 'nav-link active')
+    </script>
+{% endblock %}

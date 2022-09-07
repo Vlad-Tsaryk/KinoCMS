@@ -1,0 +1,79 @@
+{% extends 'layout/KinoCMS.html' %}
+{% load static %}
+{% block head %}
+    <style>
+        body {
+            background-color: #222831;
+            color: white;
+
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container">
+    <div class="row">
+    <div class="col-7">
+    <b>{{ sessions_today.first.date_time }}</b>
+        <table class="table table-light border border-warning border-5 w-100">
+            <thead>
+            <tr>
+                <th scope="col">Время</th>
+                <th scope="col">Фильм</th>
+                <th scope="col">Зал</th>
+                <th scope="col">Цена в грн.</th>
+                <th scope="col">Бронировать</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{ sessions.first.date_time.dat }}
+            {% for session in sessions_today %}
+
+                <tr>
+                    <td>{{ session.date_time|date:'H:i' }}</td>
+                    <td>{{ session.film.name }}</td>
+                    <td>{{ session.hall.name }}</td>
+                    <td>{{ session.price }}</td>
+                    <td class="text-center"><i class="fa-solid fa-ticket fs-3 text-warning"></i></td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    <b>{{ sessions_tomorrow.first.date_time }}</b>
+    <table class="table table-light border border-warning border-5 w-100">
+            <thead>
+            <tr>
+                <th scope="col">Время</th>
+                <th scope="col">Фильм</th>
+                <th scope="col">Зал</th>
+                <th scope="col">Цена в грн.</th>
+                <th scope="col">Бронировать</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{ sessions.first.date_time.dat }}
+            {% for session in sessions_tomorrow %}
+
+                <tr>
+                    <td>{{ session.date_time|date:'H:i' }}</td>
+                    <td>{{ session.film.name }}</td>
+                    <td>{{ session.hall.name }}</td>
+                    <td>{{ session.price }}</td>
+                    <td class="text-center"><i class="fa-solid fa-ticket fs-3 text-warning"></i></td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col"><img src="{% static 'cinema/img/promo_context.png' %}" height="400"></div>
+    </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+            $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+        $('#nav_showtime').attr('class', 'nav-link active')
+    </script>
+{% endblock %}

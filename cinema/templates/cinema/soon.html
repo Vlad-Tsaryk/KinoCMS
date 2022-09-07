@@ -1,0 +1,38 @@
+{% extends 'layout/KinoCMS.html' %}
+{% block head %}
+    <style>
+        body{
+            background-color: #222831;
+            color: white;
+
+    }
+        #main_content{
+            background-color: #393E46;
+            border-radius: 5px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container p-0 pb-4" id="main_content">
+    <div class="row row-cols-6">
+    {% for film in films_soon %}
+
+            <div class="col text-center mt-4">
+            <b>C {{ film.date|date:"d.m.Y" }}</b>
+{#    <div >#}
+        <a class="fs-6 link-primary"><img class="ml-auto mr-auto rounded" src="{{ film.main_image.url }}" height="200" >
+{#        </div>#}
+        <p><b>{{ film.name }}</b></p></a>
+                <a class="badge rounded-pill bg-warning mx-auto fs-6">
+                <i class="fa-solid fa-ticket fa-rotate-by" style="--fa-rotate-angle: -45deg;"></i>  Купить билет</a>
+    </div>
+    {% endfor %}
+    </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+    $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+    $('#nav_soon').attr('class', 'nav-link active')
+    </script>
+{% endblock %}
