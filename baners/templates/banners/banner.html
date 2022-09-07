@@ -225,7 +225,7 @@
                             {{ hidden }}
                         {% endfor %}
 
-                        <div id="banner_{{ banner_news_formset.prefix }}" class="col-sm-2 d-inline-block mt-4">
+                        <div id="banner_news_{{ banner_news_form.prefix }}" class="col-sm-2 d-inline-block mt-4">
                             <div id="banner_img" class="mx-auto position-relative" style="width: 150px">
                                 {% if banner_news_form.instance.image %}
                                     <img id="img_{{ banner_news_form.image.auto_id }}" src="{{ banner_news_form.instance.image.url }}"

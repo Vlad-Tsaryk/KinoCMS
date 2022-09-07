@@ -1,5 +1,8 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% block head %}
+    <link rel="https://cdn.jsdelivr.net/npm/chartjs-plugin-piechart-outlabels@1.1.2">
+{% endblock %}
 {% block content %}
     <div class="container-fluid">
     <div class="col-5">
@@ -266,7 +269,7 @@
         <div class="col-4">
                 <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3>{{ obj_users.count }}</h3>
 
                 <p>User Registrations</p>
               </div>
@@ -297,46 +300,15 @@
               <!-- /.card-body -->
             </div>
     </div>
+    <canvas style="display: block; box-sizing: border-box; height: 400px; width: 800px;" width="800" height="400" id="visitors-chart"></canvas>
     </div>
-
+{{ num_visits }}
 {% endblock %}
 
 {% block scripts %}
+    <script>$('#nav_statistic').attr('class', 'nav-link active')</script>
     <!-- ChartJS -->
 <script src={% static "adminLte/plugins/chart.js/Chart.min.js"%}></script>
-    <script>
-        var donutData= {
-      labels: [
-          'Chrome',
-          'IE',
-          'FireFox',
-          'Safari',
-          'Opera',
-          'Navigator',
-      ],
-      datasets: [
-        {
-          data: [700,500,400,600,300,100],
-          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-        }
-      ]
-    }
-        //-------------
-    //- PIE CHART -
-    //-------------
-    // Get context with jQuery - using jQuery's .get() method.
-    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-    var pieData        = donutData;
-    var pieOptions     = {
-      maintainAspectRatio : false,
-      responsive : true,
-    }
-    //Create pie or douhnut chart
-    // You can switch between pie and douhnut using the method below.
-    new Chart(pieChartCanvas, {
-      type: 'pie',
-      data: pieData,
-      options: pieOptions
-    })
-    </script>
+{#<script src={% static "adminLte/plugins/chart.js/utils.js"%}></script>#}
+    <script src="{% static 'adminLte/dist/js/statistic.js' %}"></script>
 {% endblock %}

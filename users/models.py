@@ -26,3 +26,7 @@ class Ticket(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     seat = models.SmallIntegerField()
     reservation = models.BooleanField()
+
+
+class Mail_template(models.Model):
+    template = models.FileField(upload_to='Mailing')

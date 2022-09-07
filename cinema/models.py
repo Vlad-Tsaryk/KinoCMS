@@ -3,6 +3,21 @@ import datetime
 from django.db import models
 from gallery_seo.models import SEO, Image_gallery
 
+RU_MONTH_VALUES = [
+    'Января',
+    'Февраля',
+    'Марта',
+    'Апреля',
+    'Мая',
+    'Июня',
+    'Июля',
+    'Августа',
+    'Сентября',
+    'Октября',
+    'Ноября',
+    'Декабря'
+]
+
 
 # Create your models here.
 class Cinema(models.Model):
@@ -35,6 +50,9 @@ class Film(models.Model):
     class Meta:
         ordering = ['name']
 
+    def get_date(self):
+        return str(self.date.day) + " " + RU_MONTH_VALUES[self.date.month - 1]
+
 
 class Hall(models.Model):
     name = models.CharField(max_length=50)
@@ -51,7 +69,10 @@ class Session(models.Model):
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE)
     price = models.SmallIntegerField()
-    time = models.TimeField()
+    date_time = models.DateTimeField()
     type_3D = models.BooleanField()
     type_DBOX = models.BooleanField()
     type_VIP = models.BooleanField()
+
+    class Meta:
+        ordering = ['date_time']

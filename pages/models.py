@@ -45,6 +45,6 @@ class Contact_page(models.Model):
     date = models.DateField(auto_now_add=True)
     name = models.CharField(max_length=50)
     address = models.TextField()
-    coords = models.CharField(max_length=30)
+    coords = models.TextField()
     logo = models.ImageField(upload_to='pages/contact')
     contact_collection = models.ForeignKey(Contact_collection, on_delete=models.PROTECT)

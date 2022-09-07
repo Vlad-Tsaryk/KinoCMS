@@ -3,6 +3,7 @@ from gallery_seo.forms import ImageFormSet, GalleryForm, SeoForm
 from gallery_seo.models import Image
 from .forms import NewsPromoForm, MainPageForm, OtherPageForm, ContactPageForm, ContactCollectionForm, ContactFormSet
 from .models import News_promo, Other_page, Main_page, Contact_page, Contact_collection
+from baners.models import Banner_news, Banner_news_collection
 
 
 # Create your views here.
@@ -25,7 +26,7 @@ def add_news_promo(request, form_type):
     print(form_type)
     if request.method == 'POST':
         news_promo_form = NewsPromoForm(request.POST, request.FILES)
-        seo_form = SeoForm(request.POST)
+        seo_form = SeoForm(request.POST, prefix='seo')
         image_form_set = ImageFormSet(request.POST, request.FILES, queryset=Image.objects.none())
         print(request.POST, request.FILES)
         if all([seo_form.is_valid(), news_promo_form.is_valid(), image_form_set.is_valid()]):
@@ -52,7 +53,7 @@ def add_news_promo(request, form_type):
     else:
         print('not valid')
         news_promo_form = NewsPromoForm(initial={'type': form_type, 'active': True})
-        seo_form = SeoForm()
+        seo_form = SeoForm(prefix='seo')
         image_form_set = ImageFormSet(queryset=Image.objects.none())
     context = {'news_promo_form': news_promo_form, 'images_formset': image_form_set, 'seo_form': seo_form}
     return render(request, 'pages/add_news_promo.html', context)
@@ -64,7 +65,7 @@ def news_promo_update(request, news_promo_id):
     if request.method == 'POST':
         news_promo_form = NewsPromoForm(request.POST, request.FILES or None, instance=obj)
         image_form_set = ImageFormSet(request.POST, request.FILES or None, queryset=gallery_qs)
-        seo_form = SeoForm(request.POST, instance=obj.seo)
+        seo_form = SeoForm(request.POST, instance=obj.seo, prefix='seo')
         print(request.POST, request.FILES)
         if all([news_promo_form.is_valid(), seo_form.is_valid(), image_form_set.is_valid()]):
             seo = seo_form.save(commit=False)
@@ -89,7 +90,7 @@ def news_promo_update(request, news_promo_id):
         print('no valid')
         image_form_set = ImageFormSet(queryset=gallery_qs)
         news_promo_form = NewsPromoForm(instance=obj)
-        seo_form = SeoForm(instance=obj.seo)
+        seo_form = SeoForm(instance=obj.seo, prefix='seo')
 
     context = {'news_promo_form': news_promo_form, 'images_formset': image_form_set, 'seo_form': seo_form}
     return render(request, 'pages/news_promo_update.html', context)
@@ -104,7 +105,7 @@ def promos(request):
 def pages(request):
     obj_main_page = Main_page.objects.get(pk=1)
     obl_contact_page = Contact_collection.objects.get(pk=1)
-    obj_pages = Other_page.objects.all()
+    obj_pages = Other_page.objects.all().order_by('name')
     context = {'pages': obj_pages, 'main_page': obj_main_page, 'contact_page': obl_contact_page}
     return render(request, 'pages/pages.html', context)
 
@@ -112,7 +113,7 @@ def pages(request):
 def add_main_page(request):
     if request.method == 'POST':
         main_page_form = MainPageForm(request.POST)
-        seo_form = SeoForm(request.POST)
+        seo_form = SeoForm(request.POST, prefix='seo')
         print(request.POST, request.FILES)
         if all([seo_form.is_valid(), main_page_form.is_valid()]):
             seo = seo_form.save(commit=False)
@@ -125,7 +126,7 @@ def add_main_page(request):
     else:
         print('not valid')
         main_page_form = MainPageForm(initial={'active': True})
-        seo_form = SeoForm()
+        seo_form = SeoForm(prefix='seo')
     context = {'main_page_form': main_page_form, 'seo_form': seo_form}
     return render(request, 'pages/main_page.html', context)
 
@@ -134,7 +135,7 @@ def update_main_page(request, main_page_id):
     obj_main_page = get_object_or_404(Main_page, id=main_page_id)
     if request.method == 'POST':
         main_page_form = MainPageForm(request.POST, instance=obj_main_page)
-        seo_form = SeoForm(request.POST, instance=obj_main_page.seo)
+        seo_form = SeoForm(request.POST, instance=obj_main_page.seo, prefix='seo')
         if all([seo_form.is_valid(), main_page_form.is_valid()]):
             seo = seo_form.save(commit=False)
             seo.save()
@@ -145,7 +146,7 @@ def update_main_page(request, main_page_id):
     else:
         print('not valid')
         main_page_form = MainPageForm(instance=obj_main_page)
-        seo_form = SeoForm(instance=obj_main_page.seo)
+        seo_form = SeoForm(instance=obj_main_page.seo, prefix='seo')
     context = {'main_page_form': main_page_form, 'seo_form': seo_form}
     return render(request, 'pages/main_page.html', context)
 
@@ -153,7 +154,7 @@ def update_main_page(request, main_page_id):
 def add_page(request):
     if request.method == 'POST':
         other_page_form = OtherPageForm(request.POST, request.FILES)
-        seo_form = SeoForm(request.POST)
+        seo_form = SeoForm(request.POST, prefix='seo')
         image_form_set = ImageFormSet(request.POST, request.FILES, queryset=Image.objects.none())
         print(request.POST, request.FILES)
         if all([seo_form.is_valid(), other_page_form.is_valid(), image_form_set.is_valid()]):
@@ -176,7 +177,7 @@ def add_page(request):
     else:
         print('not valid')
         other_page_form = OtherPageForm()
-        seo_form = SeoForm()
+        seo_form = SeoForm(prefix='seo')
         image_form_set = ImageFormSet(queryset=Image.objects.none())
     context = {'other_page_form': other_page_form, 'images_formset': image_form_set, 'seo_form': seo_form}
     return render(request, 'pages/add_update_page.html', context)
@@ -188,7 +189,7 @@ def update_page(request, page_id):
     if request.method == 'POST':
         other_page_form = OtherPageForm(request.POST, request.FILES or None, instance=obj_page)
         image_form_set = ImageFormSet(request.POST, request.FILES or None, queryset=gallery_qs)
-        seo_form = SeoForm(request.POST, instance=obj_page.seo)
+        seo_form = SeoForm(request.POST, instance=obj_page.seo, prefix='seo')
         print(request.POST, request.FILES)
         if all([other_page_form.is_valid(), seo_form.is_valid(), image_form_set.is_valid()]):
             seo = seo_form.save(commit=False)
@@ -210,7 +211,7 @@ def update_page(request, page_id):
         print('no valid')
         image_form_set = ImageFormSet(queryset=gallery_qs)
         other_page_form = OtherPageForm(instance=obj_page)
-        seo_form = SeoForm(instance=obj_page.seo)
+        seo_form = SeoForm(instance=obj_page.seo, prefix='seo')
 
     context = {'other_page_form': other_page_form, 'images_formset': image_form_set, 'seo_form': seo_form}
     return render(request, 'pages/add_update_page.html', context)
@@ -227,9 +228,9 @@ def contact_page(request):
     contacts_qs = Contact_page.objects.filter(contact_collection_id=1)
     if request.method == 'POST':
         contact_collection_form = ContactCollectionForm(request.POST, instance=obj_collection)
-        seo_form = SeoForm(request.POST, instance=obj_collection.seo)
+        seo_form = SeoForm(request.POST, instance=obj_collection.seo, prefix='seo')
         contact_formset = ContactFormSet(request.POST, request.FILES or None,
-                                         queryset=contacts_qs)
+                                         queryset=contacts_qs, initial={'active': True})
         print(request.POST, request.FILES)
         if all([contact_formset.is_valid(), contact_collection_form.is_valid(), seo_form.is_valid()]):
             contact_collection = contact_collection_form.save(commit=False)
@@ -249,8 +250,72 @@ def contact_page(request):
     else:
         print('not valid')
         contact_collection_form = ContactCollectionForm(instance=obj_collection)
-        seo_form = SeoForm(instance=obj_collection.seo)
-        contact_formset = ContactFormSet(queryset=contacts_qs)
+        seo_form = SeoForm(instance=obj_collection.seo, prefix='seo')
+        contact_formset = ContactFormSet(queryset=contacts_qs, initial={'active': True})
     context = {'contact_collection_form': contact_collection_form,
                'seo_form': seo_form, 'contact_formset': contact_formset}
     return render(request, 'pages/contact_page.html', context)
+
+
+def site_promos(request):
+    obj_promos = News_promo.objects.filter(type='Promo').order_by('date')
+    main_page = Main_page.objects.get(pk=1)
+    banners_news = Banner_news.objects.all()
+    banners_news_collection = Banner_news_collection.objects.get(pk=1)
+    context = {'promos': obj_promos, 'main_page': main_page,
+               'banners_news_collection': banners_news_collection, 'banners_news': banners_news}
+    return render(request, 'pages/site_promos.html', context)
+
+
+def promo_card(request, promo_id):
+    promo = News_promo.objects.get(pk=promo_id)
+    main_page = Main_page.objects.get(pk=1)
+    banners_news = Banner_news.objects.all()
+    banners_news_collection = Banner_news_collection.objects.get(pk=1)
+    context = {'promo': promo, 'main_page': main_page,
+               'banners_news_collection': banners_news_collection, 'banners_news': banners_news}
+    return render(request, 'pages/promo_card.html', context)
+
+
+def site_news(request):
+    obj_news = News_promo.objects.filter(type='News').order_by('date')
+    main_page = Main_page.objects.get(pk=1)
+    banners_news = Banner_news.objects.all()
+    banners_news_collection = Banner_news_collection.objects.get(pk=1)
+    context = {'news_list': obj_news, 'main_page': main_page,
+               'banners_news_collection': banners_news_collection, 'banners_news': banners_news}
+    return render(request, 'pages/site_news.html', context)
+
+
+def site_contact(request):
+    contacts = Contact_page.objects.all()
+    main_page = Main_page.objects.get(pk=1)
+    banners_news = Banner_news.objects.all()
+    banners_news_collection = Banner_news_collection.objects.get(pk=1)
+    context = {'contacts': contacts, 'main_page': main_page,
+               'banners_news_collection': banners_news_collection, 'banners_news': banners_news}
+    return render(request, 'pages/site_contact.html', context)
+
+
+def site_vip(request):
+    vip_page = Other_page.objects.get(pk=2)
+    main_page = Main_page.objects.get(pk=1)
+    gallery = Image.objects.filter(galleryId=vip_page.gallery.pk)
+    context = {'vip_page': vip_page, 'main_page': main_page, 'gallery': gallery}
+    return render(request, 'pages/site_vip.html', context)
+
+
+def site_children_room(request):
+    children_room = Other_page.objects.get(pk=4)
+    main_page = Main_page.objects.get(pk=1)
+    gallery = Image.objects.filter(galleryId=children_room.gallery.pk)
+    context = {'children_room': children_room, 'main_page': main_page, 'gallery': gallery}
+    return render(request, 'pages/site_children_room.html', context)
+
+
+def site_advertiser(request):
+    advertiser_page = Other_page.objects.get(pk=3)
+    main_page = Main_page.objects.get(pk=1)
+    gallery = Image.objects.filter(galleryId=advertiser_page.gallery.pk)
+    context = {'vip_page': advertiser_page, 'main_page': main_page, 'gallery': gallery}
+    return render(request, 'pages/site_advertiser.html', context)

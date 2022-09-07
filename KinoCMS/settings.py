@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'gallery_seo.apps.GallerySeoConfig',
     "debug_toolbar",
     'adminLte.apps.AdminlteConfig',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

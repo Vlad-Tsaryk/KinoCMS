@@ -3,14 +3,17 @@ import datetime
 from django.forms import modelformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .models import Film, Hall, Cinema
+from .models import Film, Hall, Cinema, RU_MONTH_VALUES, Session
 from .forms import FilmForm, CinemaForm, HallFormSet, HallForm
 from gallery_seo.forms import SeoForm, GalleryForm, ImageFormSet
 from gallery_seo.forms import Image
 from django.contrib.auth.decorators import login_required
+from baners.models import Background_banner, Banner, Banner_collection, Banner_news, Banner_news_collection
+from pages.models import Main_page
 
 
 # Create your views here.
+
 
 def index(request):
     return render(request, 'layout/basic.html')
@@ -28,7 +31,7 @@ def films(request):
 @login_required(login_url='login_page')
 def add_film(request):
     if request.method == 'POST':
-        seo_form = SeoForm(request.POST)
+        seo_form = SeoForm(request.POST, prefix='seo')
         film_form = FilmForm(request.POST, request.FILES)
         image_form_set = ImageFormSet(request.POST, request.FILES, queryset=Image.objects.none())
         print(request.POST, request.FILES)
@@ -54,7 +57,7 @@ def add_film(request):
         print('no valid')
         image_form_set = ImageFormSet(queryset=Image.objects.none())
         film_form = FilmForm()
-        seo_form = SeoForm()
+        seo_form = SeoForm(prefix='seo')
     return render(request, 'cinema/film_create.html', {'film_form': film_form, 'seo_form': seo_form,
                                                        'images_formset': image_form_set,
                                                        })
@@ -67,7 +70,7 @@ def film_update(request, film_id):
     if request.method == 'POST':
         film_form = FilmForm(request.POST, request.FILES or None, instance=obj)
         image_form_set = ImageFormSet(request.POST, request.FILES, queryset=gallery_qs)
-        seo_form = SeoForm(request.POST, instance=obj.seo)
+        seo_form = SeoForm(request.POST, instance=obj.seo, prefix='seo')
         print(request.POST, request.FILES)
         if all([film_form.is_valid(), seo_form.is_valid(), image_form_set.is_valid()]):
             seo = seo_form.save(commit=False)
@@ -91,7 +94,7 @@ def film_update(request, film_id):
         print('no valid')
         image_form_set = ImageFormSet(queryset=gallery_qs)
         film_form = FilmForm(instance=obj)
-        seo_form = SeoForm(instance=obj.seo)
+        seo_form = SeoForm(instance=obj.seo, prefix='seo')
     return render(request, 'cinema/film_update.html', {'film_form': film_form, 'seo_form': seo_form,
                                                        'images_formset': image_form_set,
                                                        })
@@ -102,7 +105,7 @@ def add_cinema(request):
     print(request.POST, request.FILES)
     if request.method == 'POST':
         # hall_form_set = HallFormSet(request.POST, queryset=Hall.objects.none())
-        seo_form = SeoForm(request.POST)
+        seo_form = SeoForm(request.POST, prefix='seo')
         cimena_form = CinemaForm(request.POST, request.FILES)
         image_form_set = ImageFormSet(request.POST, request.FILES, queryset=Image.objects.none())
         if all([seo_form.is_valid(), cimena_form.is_valid(), image_form_set.is_valid()]):
@@ -126,7 +129,7 @@ def add_cinema(request):
     else:
         print('not valid')
         print(request.POST, request.FILES)
-        seo_form = SeoForm()
+        seo_form = SeoForm(prefix='seo')
         cimena_form = CinemaForm()
         image_form_set = ImageFormSet(queryset=Image.objects.none())
         # hall_form_set = HallFormSet(queryset=Hall.objects.none())
@@ -150,7 +153,7 @@ def cinema_update(request, cinema_id):
     if request.method == 'POST':
         cinema_form = CinemaForm(request.POST, request.FILES or None, instance=obj)
         image_form_set = ImageFormSet(request.POST, request.FILES or None, queryset=gallery_qs)
-        seo_form = SeoForm(request.POST, instance=obj.seo)
+        seo_form = SeoForm(request.POST, instance=obj.seo, prefix='seo')
         print(request.POST, request.FILES)
         if all([cinema_form.is_valid(), seo_form.is_valid(), image_form_set.is_valid()]):
             seo = seo_form.save(commit=False)
@@ -173,7 +176,7 @@ def cinema_update(request, cinema_id):
         print('no valid')
         image_form_set = ImageFormSet(queryset=gallery_qs)
         cinema_form = CinemaForm(instance=obj)
-        seo_form = SeoForm(instance=obj.seo)
+        seo_form = SeoForm(instance=obj.seo, prefix='seo')
 
     context = {'cinema_form': cinema_form,
                'seo_form': seo_form,
@@ -186,7 +189,7 @@ def cinema_update(request, cinema_id):
 def add_hall(request, cinema_id):
     if request.method == 'POST':
         hall_form = HallForm(request.POST, request.FILES)
-        seo_form = SeoForm(request.POST)
+        seo_form = SeoForm(request.POST, prefix='seo')
         image_form_set = ImageFormSet(request.POST, request.FILES, queryset=Image.objects.none())
         print(request.POST, request.FILES)
         if all([seo_form.is_valid(), hall_form.is_valid(), image_form_set.is_valid()]):
@@ -210,7 +213,7 @@ def add_hall(request, cinema_id):
     else:
         print('not valid')
         hall_form = HallForm()
-        seo_form = SeoForm()
+        seo_form = SeoForm(prefix='seo')
         image_form_set = ImageFormSet(queryset=Image.objects.none())
     context = {'hall_form': hall_form, 'images_formset': image_form_set, 'seo_form': seo_form}
     return render(request, 'cinema/hall_create.html', context)
@@ -223,7 +226,7 @@ def hall_update(request, cinema_id, hall_id):
     if request.method == 'POST':
         hall_form = HallForm(request.POST, request.FILES or None, instance=obj)
         image_form_set = ImageFormSet(request.POST, request.FILES or None, queryset=gallery_qs)
-        seo_form = SeoForm(request.POST, instance=obj.seo)
+        seo_form = SeoForm(request.POST, instance=obj.seo, prefix='seo')
         print(request.POST, request.FILES)
         if all([hall_form.is_valid(), seo_form.is_valid(), image_form_set.is_valid()]):
             seo = seo_form.save(commit=False)
@@ -245,7 +248,7 @@ def hall_update(request, cinema_id, hall_id):
         print('no valid')
         image_form_set = ImageFormSet(queryset=gallery_qs)
         hall_form = HallForm(instance=obj)
-        seo_form = SeoForm(instance=obj.seo)
+        seo_form = SeoForm(instance=obj.seo, prefix='seo')
 
     context = {'hall_form': hall_form,
                'seo_form': seo_form,
@@ -258,3 +261,63 @@ def delete_hall(request, hall_id, cinema_id):
     hall = Hall.objects.get(id=hall_id)
     hall.delete()
     return redirect('cinema_update', cinema_id)
+
+
+def kino_cms(request):
+    today = datetime.datetime.today()
+    main_page = Main_page.objects.get(pk=1)
+    films_today = Film.objects.filter(date__lte=today)
+    films_soon = Film.objects.filter(date__gt=today)
+    back_banner = Background_banner.objects.get(pk=1)
+    banners = Banner.objects.all()
+    banners_collection = Banner_collection.objects.get(pk=1)
+    banners_news = Banner_news.objects.all()
+    banners_news_collection = Banner_news_collection.objects.get(pk=1)
+    print(datetime.date.month)
+    current_day = str(today.day) + " " + RU_MONTH_VALUES[today.month - 1]
+    context = {'films_today': films_today, 'films_soon': films_soon, 'back_banner': back_banner, 'banners': banners,
+               'main_page': main_page, 'current_day': current_day, 'banners_news': banners_news,
+               'banners_collection': banners_collection, 'banners_news_collection': banners_news_collection
+               }
+    return render(request, 'layout/KinoCMS.html', context)
+
+
+def movies(request):
+    films_today = Film.objects.filter(date__lte=datetime.datetime.today())
+    main_page = Main_page.objects.get(pk=1)
+    context = {'films_today': films_today, 'main_page': main_page}
+    return render(request, 'cinema/movies.html', context)
+
+
+def soon(request):
+    films_soon = Film.objects.filter(date__gt=datetime.datetime.today())
+    main_page = Main_page.objects.get(pk=1)
+    context = {'films_soon': films_soon, 'main_page': main_page}
+    return render(request, 'cinema/soon.html', context)
+
+
+def cinemas_page(request):
+    obj_cinemas = Cinema.objects.all()
+    main_page = Main_page.objects.get(pk=1)
+    context = {'cinemas': obj_cinemas, 'main_page': main_page}
+    return render(request, 'cinema/cinemas_site.html', context)
+
+
+def showtimes(request):
+    today = datetime.datetime.today()
+    tomorrow = today + datetime.timedelta(days=1)
+    sessions_today = Session.objects.filter(date_time__day=today.day, date_time__month=today.month,
+                                            date_time__year=today.year)
+    sessions_tomorrow = Session.objects.filter(date_time__day=tomorrow.day, date_time__month=tomorrow.month,
+                                               date_time__year=tomorrow.year)
+    main_page = Main_page.objects.get(pk=1)
+    context = {'sessions_today': sessions_today, 'sessions_tomorrow': sessions_tomorrow, 'main_page': main_page}
+    return render(request, 'cinema/showtimes.html', context)
+
+
+def film_card(request, film_id):
+    obj_films = Film.objects.get(pk=film_id)
+    main_page = Main_page.objects.get(pk=1)
+    film_sessions = Session.objects.filter(film_id=film_id)
+    context = {'film': obj_films, 'main_page': main_page, 'film_sessions': film_sessions}
+    return render(request, 'cinema/film_card.html', context)

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import User
-from .forms import CustomUserChangeForm, CustomUserCreationForm
+from .forms import CustomUserChangeForm, CustomUserCreationForm, MailingFormSet
 
 
 # Create your views here.
@@ -46,7 +46,7 @@ def create_user(request):
         if user_creation_form.is_valid():
             user = user_creation_form.save(commit=False)
             user.save()
-            messages.success(request, 'User' + user.username + 'create successful')
+            messages.success(request, 'User "' + user.username + '" create successful')
             return redirect('login_page')
     else:
         user_creation_form = CustomUserCreationForm()
@@ -64,3 +64,27 @@ def users(request):
     obj_users = User.objects.all()
     context = {'users': obj_users}
     return render(request, 'users/users.html', context)
+
+
+def mailing(request):
+    if request.method == 'POST':
+        mailing_formset = MailingFormSet(request.POST, request.FILES)
+        if mailing_formset.is_valid():
+            mails = mailing_formset.save(commit=False)
+
+            for del_mail in mails.deleted_objects:
+                print(del_mail)
+                del_mail.delete()
+
+            mails.save()
+            return redirect('mailing')
+    else:
+        mailing_formset = MailingFormSet()
+    context = {'mailing_formset': mailing_formset}
+    return render(request, 'users/mailing.html', context)
+
+
+def user_choice(request):
+    obj_users = User.objects.all()
+    context = {'users': obj_users}
+    return render(request, 'users/users_choice.html', context)

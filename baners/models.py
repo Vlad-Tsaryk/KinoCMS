@@ -1,8 +1,16 @@
 from django.db import models
 
-Rotation_Speed_CHOISES = [('5s', '5s'),
-                          ('10s', '10s'),
-                          ('15s', '15s')]
+Rotation_Speed_CHOISES = [('5000', '5s'),
+                          ('10000', '10s'),
+                          ('15000', '15s'),
+                          ('20000', '20s'),
+                          ('30000', '30s'),
+                          ('45000', '45s'),
+                          ('60000', '1m'),
+                          ('120000', '2m'),
+                          ('300000', '5m'),
+                          ]
+
 
 # Create your models here.
 class Background_banner(models.Model):

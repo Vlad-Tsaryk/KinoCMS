@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.forms import modelformset_factory
 from django.utils.safestring import mark_safe
 
-from .models import User
+from .models import User, Mail_template
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -58,3 +59,12 @@ class CustomUserChangeForm(UserChangeForm):
         # fields = '__all__'
         fields = ['username', 'first_name', 'last_name', 'birth_date', 'address', 'card_number',
                   'city', 'gender', 'language', 'phone', 'email', 'username', 'password1', 'password2']
+
+
+class MailingForm(forms.ModelForm):
+    class Meta:
+        model = Mail_template
+        fields = '__all__'
+
+
+MailingFormSet = modelformset_factory(Mail_template, form=MailingForm, extra=0, can_delete=True)

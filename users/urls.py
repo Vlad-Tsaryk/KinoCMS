@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import login_page, update_user, create_user,logout_user, users
+from .views import login_page, update_user, create_user,logout_user, users, mailing, user_choice
 
 urlpatterns = [
     path('login/', login_page, name='login_page'),
@@ -7,6 +7,9 @@ urlpatterns = [
     path('register/', create_user, name='register'),
     path('logout/', logout_user, name='logout'),
     path('users/', users, name='users'),
+    path('mailing/', mailing, name='mailing'),
+    path('mailing/users', user_choice, name='user_choice'),
+
 
 
 ]
