@@ -62,6 +62,7 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class MailingForm(forms.ModelForm):
+    template = forms.FileField(widget=forms.FileInput(attrs={'accept': '.html'}))
     class Meta:
         model = Mail_template
         fields = '__all__'

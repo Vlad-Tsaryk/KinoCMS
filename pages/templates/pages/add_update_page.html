@@ -1,9 +1,7 @@
 {% extends "layout/basic.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
-    <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet"
-          href="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
 {% endblock %}
 {% block content %}
     <section class="content">
@@ -12,6 +10,13 @@
     {% for hidden in other_page_form.hidden_fields %}
         {{ hidden }}
     {% endfor %}
+         <nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-russian-tab" data-bs-toggle="tab" data-bs-target="#nav-russian" type="button" role="tab" aria-controls="nav-russian" aria-selected="true">Русский</button>
+    <button class="nav-link" id="nav-ukrainian-tab" data-bs-toggle="tab" data-bs-target="#nav-ukrainian" type="button" role="tab" aria-controls="nav-ukrainian" aria-selected="false">Українська</button>
+  </div>
+</nav>
+    <div class="tab-content" id="nav-tabContent">
     <div class="form-group">
         <div class="form-check form-switch position-absolute end-0">
             {{ other_page_form.active }}
@@ -19,15 +24,29 @@
                    for="{{ main_page_form.active.id_for_label }}">Active</label>
         </div>
     </div>
+      <div class="tab-pane fade show active" id="nav-russian" role="tabpanel" aria-labelledby="nav-russian-tab">
     <div class="form-group">
-        <label for="name_id" class="form-label">Name</label>
-        {{ other_page_form.name }}
+        <label for="name_id" class="form-label">{% trans 'Название' %}</label>
+        {{ other_page_form.name_ru }}
     </div>
     <div class="form-group">
-        <label for="description_id">Description</label>
-        {{ other_page_form.description }}
+        <label for="description_id">{% trans 'Описание' %}</label>
+        {{ other_page_form.description_ru }}
+    </div>
+      </div>
+    <div class="tab-pane fade" id="nav-ukrainian" role="tabpanel" aria-labelledby="nav-ukrainian-tab">
+          <div class="form-group">
+        <label for="name_id" class="form-label">{% trans 'Название' %}</label>
+        {{ other_page_form.name_uk }}
     </div>
     <div class="form-group">
+        <label for="description_id">{% trans 'Описание' %}</label>
+        {{ other_page_form.description_uk }}
+    </div>
+    </div>
+    </div>
+    <div class="form-group">
+    <label>{% trans 'Главная картинка' %}</label>
         <div class="row">
             <div class="col-sm-2">
                 <div>
@@ -49,7 +68,7 @@
                         type="button"
                         onclick="chooseFile('{{ other_page_form.main_image.auto_id }}',
                                 'img_{{ other_page_form.main_image.auto_id }}')">
-                    Добавить
+                    {% trans 'Загрузить' %}
                 </button>
                 <div style="height:0px;overflow:hidden">
                     {{ other_page_form.main_image }}
@@ -61,7 +80,7 @@
                         type="button"
                         onclick="clearFile('{{ other_page_form.main_image.auto_id }}',
                                 'img_{{ other_page_form.main_image.auto_id }}')"
-                >Удалить
+                >{% trans 'Удалить' %}
                 </button>
             </div>
 
@@ -70,16 +89,13 @@
 {% endblock %}
 {% block content3 %}
     {{ other_page_form.errors }}
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <center>
+    <button type="submit" class="btn btn-primary">{% trans 'Сохранить' %}</button>
+    </center>
     </form>
     </section>
 {% endblock %}
 {% block scripts %}
-    <!-- InputMask -->
-    <script src="{% static 'adminLte/plugins/moment/moment.min.js' %}"></script>
-    <script src="{% static 'adminLte/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
-    <!-- Tempusdominus Bootstrap 4 -->
-    <script src="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
     <script src="{% static 'pages/js/create_page.js' %}"></script>
     <script>
         $('#nav_pages').attr('class', 'nav-link active')

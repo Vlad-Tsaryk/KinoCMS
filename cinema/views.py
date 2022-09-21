@@ -3,6 +3,8 @@ import datetime
 from django.forms import modelformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+
+from KinoCMS.settings import BASE_DIR
 from .models import Film, Hall, Cinema, RU_MONTH_VALUES, Session
 from .forms import FilmForm, CinemaForm, HallFormSet, HallForm
 from gallery_seo.forms import SeoForm, GalleryForm, ImageFormSet
@@ -24,6 +26,7 @@ def films(request):
     date = datetime.date.today()
     films_now = Film.objects.filter(date__lte=date)
     films_soon = Film.objects.filter(date__gt=date).order_by('date')[:5]
+    print(request)
     context = {"films": films_now, 'films_soon': films_soon}
     return render(request, 'cinema/films.html', context)
 
@@ -138,7 +141,7 @@ def add_cinema(request):
     return render(request, 'cinema/cinema_create.html', context)
 
 
-@login_required(login_url='login_page')
+@login_required()
 def cinemas(request):
     cinemas = Cinema.objects.all()
     context = {"cinemas": cinemas}
@@ -185,7 +188,13 @@ def cinema_update(request, cinema_id):
     return render(request, 'cinema/cinema_update.html', context)
 
 
-@login_required(login_url='login_page')
+def delete_cinema(request, cinema_id):
+    obj_cinema = Cinema.objects.get(pk=cinema_id)
+    obj_cinema.delete()
+    return redirect('cinemas')
+
+
+@login_required()
 def add_hall(request, cinema_id):
     if request.method == 'POST':
         hall_form = HallForm(request.POST, request.FILES)

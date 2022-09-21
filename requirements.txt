@@ -1,0 +1,8 @@
+celery==5.2.7
+Django==3.2.15
+django-debug-toolbar==3.5.0
+django-dotenv==1.4.2
+Faker==14.1.1
+
+
+django-modeltranslation~=0.18.4

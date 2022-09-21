@@ -1,5 +1,6 @@
 {% extends "layout/basic.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet"
@@ -15,6 +16,14 @@
     {% for hidden in main_page_form.hidden_fields %}
         {{ hidden }}
     {% endfor %}
+               <nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-russian-tab" data-bs-toggle="tab" data-bs-target="#nav-russian" type="button" role="tab" aria-controls="nav-russian" aria-selected="true">Русский</button>
+    <button class="nav-link" id="nav-ukrainian-tab" data-bs-toggle="tab" data-bs-target="#nav-ukrainian" type="button" role="tab" aria-controls="nav-ukrainian" aria-selected="false">Українська</button>
+  </div>
+</nav>
+    <div class="tab-content" id="nav-tabContent">
+
     <div class="form-group">
         <div class="form-check form-switch position-absolute end-0">
             {{ main_page_form.active }}
@@ -33,14 +42,23 @@
             </div>
         </div>
     </div>
+    <div class="tab-pane fade show active" id="nav-russian" role="tabpanel" aria-labelledby="nav-russian-tab">
     <div class="form-group">
-        <label for="description_id">Seo_text</label>
-        {{ main_page_form.seo_text }}
+        <label for="description_id">Seo текст</label>
+        {{ main_page_form.seo_text_ru }}
+    </div>
+    </div>
+    <div class="tab-pane fade" id="nav-ukrainian" role="tabpanel" aria-labelledby="nav-ukrainian-tab">
+        <div class="form-group">
+        <label for="description_id">Seo текст</label>
+        {{ main_page_form.seo_text_uk }}
+    </div>
+    </div>
     </div>
 {% endblock %}
 {% block content3 %}
     {{ main_page_form.errors }}
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">{% trans 'Сохранить' %}</button>
     </form>
 
 

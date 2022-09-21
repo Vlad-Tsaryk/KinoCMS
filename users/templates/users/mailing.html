@@ -1,39 +1,261 @@
 {% extends "layout/basic.html" %}
 {% load static %}
+{% load i18n %}
+{% block head %}
+
+    <!-- DataTables -->
+  <link rel="stylesheet" href={% static "adminLte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"%}>
+  <link rel="stylesheet" href={% static "adminLte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"%}>
+  <link rel="stylesheet" href={% static "adminLte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css"%}>
+{% endblock %}
 {% block content %}
-
     <div class="card card-primary">
         <div class="card-header">
-            <h4 class="card-title">Sms</h4>
+            <h4 class="card-title">{% trans 'Рассылка' %}</h4>
         </div>
         <div class="card-body">
-            </div>
-        </div>
-    <div class="card card-primary">
-        <div class="card-header">
-            <h4 class="card-title">Email</h4>
-        </div>
-        <div class="card-body">
-            <div id="email_form">
-                {{ mailing_formset.management_form }}
-            </div>
-            {{ mailing_formset }}
-            {% for mail in mailing_formset %}
-                {{ mail.template.value}}
-            {% endfor %}
-        <a class="btn btn-secondary" href="{% url 'user_choice' %}">User choice</a>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div id="form_content">
+                    <div class="row row-cols-4" style="height: 40px;">
+                        <div class="col">{% trans 'Выбрать email кому слать' %}</div>
+                        <div class="col">
+                            <div class="form-check d-inline">
+                                <input class="form-check-input" type="checkbox" id="all_users"
+                                       name="all_users" checked>
+                                <label class="form-check-label" for="users">
+                                    {% trans 'Все пользователи' %}
+                                </label>
+                            </div>
+                        </div>
 
-            </div>
-        <div id="empty-form-mail" class="d-none">
+                        <div class="col">
+                            <div class="form-check d-inline">
+                                <input class="form-check-input" type="checkbox" name="user_choice" id="user_choice">
+                                <label class="form-check-label" for="users">
+                                    {% trans 'Выборочно' %}
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div class="col" id="user_choice_btn" style="display: none">
+                            <a class="btn btn-secondary d-block rounded-pill"
+                               onclick="user_choice_show()">{% trans 'Выбор пользователей' %}</a></div>
+                    </div>
 
 
-            </div>
+                    <div class="row mt-3 mb-4">
+                        <div class="col">
+                            <p>{% trans 'Загрузить HTML-письмо' %}
+                                <button type="button" class="btn btn-secondary rounded rounded-pill" id="upload">
+                                    {% trans 'Загрузить' %}
+                                </button>
+                            </p>
+                            <p class="d-inline mb-3 mr-3">{% trans 'Загруженный шаблон' %}:</p>
+                            <div id="upload_template" class="text-primary d-inline"></div>
+                            <p class="mb-4"></p>
+                            <p class="d-inline mb-3 mr-3">{% trans 'Шаблон используемый в текущей рассылке' %}:</p>
+                            <div id="selected_template" class="text-primary d-inline"></div>
+                        </div>
+                        <div class="col">
+                            <div class="container border border-dark h-100" style="border-radius: 1.3rem">
+
+                                <div id="email_form">
+                                    {{ mailing_formset.management_form }}
+                                    {% for mail in mailing_formset %}
+                                        {% for hidden in mail.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                        <div class="form-check d-block" id="{{ mail.prefix }}">
+                                            <input class="form-check-input" type="checkbox" name="template"
+                                                   id="{{ mail.prefix }}">
+                                            <label id="{{ mail.prefix }}">{{ mail.template.value|cut:'Mailing/' }}</label>
+                                            <input type="button" value="{% trans 'Удалить' %}"
+                                                   class="btn btn-danger rounded rounded-pill"
+                                                   onclick="delete_template('{{ mail.prefix }}')">
+                                        </div>
+                                        <div hidden>{{ mail.DELETE }}</div>
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="empty-form-mail" class="d-none">
+                        <input class="form-check-input" type="checkbox" name="template"
+                               id="{{ mailing_formset.empty_form.prefix }}">
+                        <label id="{{ mailing_formset.empty_form.prefix }}"></label>
+                        <input type="button" value="{% trans 'Удалить' %}" class="btn btn-danger rounded rounded-pill"
+                               onclick="delete_template('{{ mailing_formset.empty_form.prefix }}')">
+                        <div hidden>
+                            {{ mailing_formset.empty_form.template }}
+                            {{ mailing_formset.empty_form.DELETE }}
+                        </div>
+
+
+                    </div>
+{#                    {{ mailing_formset.errors }}#}
+                </div>
+                <div id="user_choice_form" class="d-none">
+                    <table id="users" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            {#                    <th>0</th>#}
+                            <th></th>
+                            <th>ID</th>
+                    <th>{% trans 'Дата создания' %}</th>
+                    <th>Email</th>
+                    <th>{% trans 'Телефон' %}</th>
+                    <th>{% trans 'ФИО' %}</th>
+                    <th>Username</th>
+                    <th>{% trans 'Город' %}</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td><input type="checkbox" name="users_email" id="user_{{ user.pk }}"></td>
+                                {#                        <td>0</td>#}
+                                <td><a href="{% url 'update_user' user.id %}">{{ user.id }}</a></td>
+                                <td>{{ user.date_joined }}</td>
+                                <td id="email_user_{{ user.pk }}">{{ user.email }}</td>
+                                <td>{{ user.phone }}</td>
+                                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.city }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <center><input type="submit" class="btn btn-secondary rounded rounded-pill" value="{% trans 'Выполнить рассылку' %}">
+                </center>
+            </form>
         </div>
+
+    </div>
 
 
 {% endblock %}
 {% block scripts %}
+        <!-- DataTables  & Plugins -->
+    <script src={% static "adminLte/plugins/datatables/jquery.dataTables.min.js" %}></script>
+    <script src={% static "adminLte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" %}></script>
+    <script src={% static "adminLte/plugins/datatables-responsive/js/dataTables.responsive.min.js" %}></script>
+    <script src={% static "adminLte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}></script>
+    <script src={% static "adminLte/plugins/datatables-buttons/js/dataTables.buttons.min.js" %}></script>
+    <script src={% static "adminLte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js" %}></script>
+    <script src={% static "adminLte/plugins/jszip/jszip.min.js" %}></script>
+    <script src={% static "adminLte/plugins/pdfmake/pdfmake.min.js" %}></script>
+    <script src={% static "adminLte/plugins/pdfmake/vfs_fonts.js" %}></script>
+    <script src={% static "adminLte/plugins/datatables-buttons/js/buttons.html5.min.js" %}></script>
+    <script src={% static "adminLte/plugins/datatables-buttons/js/buttons.print.min.js" %}></script>
+    <script src={% static "adminLte/plugins/datatables-buttons/js/buttons.colVis.min.js" %}></script>
     <script>
         $('#nav_mailing').attr('class', 'nav-link active')
     </script>
+    <script>
+
+        function delete_template(form) {
+            $('#id_' + form + '-DELETE').prop('checked', true)
+            $('div[id = ' + form + ']').remove()
+        }
+
+        $('#user_choice').change(function (event) {
+            $('#all_users').prop("checked", false);
+            $('#user_choice_btn').show()
+        });
+        $('#all_users').change(function (event) {
+            $('#user_choice').prop("checked", false);
+            $('#user_choice_btn').hide()
+        });
+        email_check()
+        $('#email_form input[name=template]').first().click()
+
+        function email_check() {
+            $('#email_form input[name=template]').change(function (event) {
+                if (event.target.checked) {
+                    $('#selected_template').text($('label[id = ' + event.target.id + ']').text())
+                    $('#email_form input[name=template]').prop('checked', false)
+                    let value = ($('#id_' + event.target.id + '-id').val())
+                    $('input[id=' + event.target.id + ']').prop('checked', true).attr('value', value)
+                } else {
+                    $('#selected_template').text('')
+                }
+            });
+        }
+
+        const addMoreBtn = document.getElementById('upload')
+        addMoreBtn.addEventListener('click', add_new_template)
+        const totalNewForms = $('#email_form #id_form-TOTAL_FORMS')
+        let currentFormCount = 0;
+
+        function add_new_template(event) {
+            if (event) {
+                event.preventDefault()
+            }
+            const formCopyTarget = $('#email_form')
+
+            if ($('#email_form .form-check').length > 0) {
+                currentFormCount = $('#email_form .form-check').length;
+            }
+            console.log(currentFormCount)
+            const copyEmptyFormEl = document.getElementById('empty-form-mail').cloneNode(true)
+            copyEmptyFormEl.setAttribute('class', 'form-check d-none')
+            copyEmptyFormEl.setAttribute('id', `form-${currentFormCount}`)
+            const regex = new RegExp('__prefix__', 'g')
+            copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
+            totalNewForms.attr('value', currentFormCount + 1)
+            formCopyTarget.append(copyEmptyFormEl)
+            email_check()
+        }
+
+        addMoreBtn.addEventListener('click', upload_template)
+
+        function upload_template(event) {
+            $('#id_form-' + currentFormCount + '-template').click().change(function (event) {
+                $('#upload_template').text(event.target.files[0].name)
+                $('#form-' + currentFormCount).attr('class', 'form-check d-block')
+                console.log()
+                $('label[id = form-' + currentFormCount + ']').text(event.target.files[0].name)
+            })
+        }
+
+
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#users').DataTable({
+                'select': {
+                    'style': 'multi'
+                },
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                'order': [[1, 'asc']]
+            });
+
+        });
+        $('#users :checkbox').change(function (event) {
+            let value = ($('#email_' + event.target.id).text())
+            $('#' + event.target.id).attr('value', value)
+
+        });
+
+        function user_choice_show(event) {
+            $('#form_content').hide()
+            $('#user_choice_form').attr('class', '')
+        }
+    </script>
+
 {% endblock %}

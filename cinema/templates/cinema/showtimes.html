@@ -69,6 +69,17 @@
     </div>
     <div class="col"><img src="{% static 'cinema/img/promo_context.png' %}" height="400"></div>
     </div>
+    <form method="GET">
+    <select id="session-selected">
+        {% for session in sessions_today %}
+            <option value="{{ session.id }}">
+            {{ session.name }}
+            </option>
+        {% endfor %}
+    </select>
+    <input type="button" value="Update" id="selection-button" method="GET">
+</form>
+
     </div>
 {% endblock %}
 {% block scripts %}
@@ -76,4 +87,23 @@
             $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
         $('#nav_showtime').attr('class', 'nav-link active')
     </script>
+        <script>
+        $( "#selection-button" ).click(function(event) {
+        var airlineSelected = $('#session-selected').find(":selected").val();
+        $.ajax({
+     url: "{% url 'showtimes' %}",
+     method: 'GET',
+     data : {
+             filter_category: parseInt(airlineSelected)
+     },
+     success: function(data){
+         console.log(data)
+     },
+     error: function(xhr, errmsg, err){
+         console.log("error")
+         console.log(error_data)
+     }
+
+});
+        } </script>
 {% endblock %}

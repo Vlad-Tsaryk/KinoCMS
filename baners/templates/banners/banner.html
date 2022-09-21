@@ -1,5 +1,6 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <style>
         #banner-form-list {
@@ -7,6 +8,7 @@
             overflow-x: auto;
             white-space: nowrap;
         }
+
         #banner-news-form-list {
             display: block;
             overflow-x: auto;
@@ -18,9 +20,9 @@
 {% block content %}
     <section class="content">
         <div class="card card-warning ">
-<div class="card-header">
-                <h3 class="card-title">Banners</h3>
-</div>
+            <div class="card-header">
+                <h3 class="card-title">{% trans 'Баннеры' %}</h3>
+            </div>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
@@ -29,7 +31,6 @@
                     <label class="form-check-label"
                            for="{{ banner_collection_form.active.id_for_label }}">Active</label>
                 </div>
-
 
 
                 <div class="row mx-auto" id="banner-form-list">
@@ -59,8 +60,9 @@
                             </div>
                             <div class="input-bnt">
                                 <button class="btn btn-secondary ml-auto mr-auto d-block" type="button"
-                                        onclick="chooseFileBanners('{{ form.image.auto_id }}','img_{{ form.image.auto_id }}')">
-                                    Добавить
+                                        onclick="chooseFileBanners('{{ form.image.auto_id }}',
+                                                'img_{{ form.image.auto_id }}')">
+                                    {% trans 'Добавить' %}
                                 </button>
                                 <div style="height:0px;overflow:hidden">
                                     {{ form.image }}
@@ -70,7 +72,7 @@
                             <label for='{{ formset.empty_form.url.label_for_id }}'>Url</label>
                             {{ form.url }}
 
-                            <label for='{{ formset.empty_form.text.label_for_id }}'>Text</label>
+                            <label for='{{ formset.empty_form.text.label_for_id }}'>Текст</label>
                             {{ form.text }}
                             {{ form.errors }}
                         </div>
@@ -103,8 +105,9 @@
                     </div>
                     <div class="input-bnt">
                         <button class="btn btn-secondary ml-auto mr-auto d-block" type="button"
-                                onclick="chooseFileBanners('{{ formset.empty_form.image.auto_id }}','img_{{ formset.empty_form.image.auto_id }}')">
-                            Добавить
+                                onclick="chooseFileBanners('{{ formset.empty_form.image.auto_id }}',
+                                        'img_{{ formset.empty_form.image.auto_id }}')">
+                            {% trans 'Добавить' %}
                         </button>
                         <div style="height:0px;overflow:hidden">
                             {{ formset.empty_form.image }}
@@ -121,37 +124,40 @@
                         {{ hidden }}
                     {% endfor %}
                 {% endfor %}
-             <div class="banner-delete" hidden>
-            {% for form in formset %}
-            {{ form.DELETE }}
-        {% endfor %}</div>
-            <input type="hidden" name="form_type" value="banners_form">
-            <div class="row mb-1 mt-1">
-                <div class="col-sm-2">
-                    <div class="ml-4">
-                        <label for="{{ banner_collection_form.rotation_speed.id_for_label}}">Rotation speed</label>
-                {{ banner_collection_form.rotation_speed }}
+                <div class="banner-delete" hidden>
+                    {% for form in formset %}
+                        {{ form.DELETE }}
+                    {% endfor %}</div>
+                <input type="hidden" name="form_type" value="banners_form">
+                <div class="row mb-3 mt-5">
+                    <div class="col-sm-3">
+                        <div class="ml-4">
+                            <label for="{{ banner_collection_form.rotation_speed.id_for_label }}">
+                                {% trans 'Скорость вращения' %}</label>
+                            {{ banner_collection_form.rotation_speed }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <center>
+                        <input type="submit" value="{% trans 'Сохранить' %}" class="btn btn-primary mx-auto">
+                            </center>
+                    </div>
                 </div>
-           </div>
-                <div class="col-sm-2">
-                <input type="submit" value="Save" class="btn btn-primary mx-auto">
-                </div>
-            </div>
             </form>
         </div>
 
         <div class="card card-warning ">
             <div class="card-header">
-                <h3 class="card-title">Background Banner</h3>
+                <h3 class="card-title">{% trans 'Сквозной баннер на заднем фоне' %}</h3>
             </div>
-
+            <div class="card-body">
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="row" >
+                <div class="row">
                     <div class="col-2 d-block">
-                        <div class="mt-auto mx-auto">
-                          {{ background_banner_form.is_image }}
-                            </div>
+                        <div class="position-absolute top-50 start-0 translate-middle-y">
+                            {{ background_banner_form.is_image }}
+                        </div>
                     </div>
                     <div id="background_img" class="col">
                         <div class="row" id="background_banner">
@@ -172,11 +178,12 @@
 
                             </div>
                             <div class="col-sm-2">
-                                <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
+                                <button class="btn btn-secondary d-block position-absolute
+                                top-50 start-50 translate-middle"
                                         type="button"
                                         onclick="chooseFileBackBanner('{{ background_banner_form.image.auto_id }}',
                                                 'img_{{ background_banner_form.image.auto_id }}')">
-                                    Добавить
+                                    {% trans 'Добавить' %}
                                 </button>
                                 <div style="height:0px;overflow:hidden">
                                     {{ background_banner_form.image }}
@@ -188,7 +195,7 @@
                                         type="button"
                                         onclick="clearFile('{{ background_banner_form.image.auto_id }}',
                                                 'img_{{ background_banner_form.image.auto_id }}')"
-                                >Удалить
+                                >{% trans 'Удалить' %}
                                 </button>
                             </div>
                             {#                    {{ background_banner_form.image }}#}
@@ -202,13 +209,16 @@
                     {#                {{ background_banner_form }}#}
                 </div>
                 <input type="hidden" name="form_type" value="back_banner_form">
-                <input type="submit" value="Save" class="btn btn-primary ml-2">
+            <center>
+                <input type="submit" value="{% trans 'Сохранить' %}" class="btn btn-primary mt-5">
+                </center>
             </form>
+            </div>
 
         </div>
-    <div class="card card-warning ">
+        <div class="card card-warning ">
             <div class="card-header">
-                <h3 class="card-title">Banners_News</h3>
+                <h3 class="card-title">{% trans 'Новости и Акции' %}</h3>
             </div>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -228,7 +238,8 @@
                         <div id="banner_news_{{ banner_news_form.prefix }}" class="col-sm-2 d-inline-block mt-4">
                             <div id="banner_img" class="mx-auto position-relative" style="width: 150px">
                                 {% if banner_news_form.instance.image %}
-                                    <img id="img_{{ banner_news_form.image.auto_id }}" src="{{ banner_news_form.instance.image.url }}"
+                                    <img id="img_{{ banner_news_form.image.auto_id }}"
+                                         src="{{ banner_news_form.instance.image.url }}"
                                          class="d-block ml-auto mr-auto"
                                          height="250" width="150">
                                 {% else %}
@@ -247,7 +258,7 @@
                                 <button class="btn btn-secondary ml-auto mr-auto d-block" type="button"
                                         onclick="chooseFileBannersNews('{{ banner_news_form.image.auto_id }}',
                                                 'img_{{ banner_news_form.image.auto_id }}')">
-                                    Добавить
+                                    {% trans 'Добавить' %}
                                 </button>
                                 <div style="height:0px;overflow:hidden">
                                     {{ banner_news_form.image }}
@@ -289,7 +300,7 @@
                         <button class="btn btn-secondary ml-auto mr-auto d-block" type="button"
                                 onclick="chooseFileBannersNews('{{ banner_news_formset.empty_form.image.auto_id }}',
                                         'img_{{ banner_news_formset.empty_form.image.auto_id }}')">
-                            Добавить
+                            {% trans 'Добавить' %}
                         </button>
                         <div style="height:0px;overflow:hidden">
                             {{ banner_news_formset.empty_form.image }}
@@ -304,22 +315,25 @@
                         {{ hidden }}
                     {% endfor %}
                 {% endfor %}
-            <div class="banner-news-delete" hidden>
-            {% for form in banner_news_formset %}
-            {{ form.DELETE }}
-        {% endfor %}</div>
+                <div class="banner-news-delete" hidden>
+                    {% for form in banner_news_formset %}
+                        {{ form.DELETE }}
+                    {% endfor %}</div>
                 <input type="hidden" name="form_type" value="banners_news_form">
-            <div class="row mb-1 mt-1">
-                <div class="col-sm-2">
-                    <div class="ml-4">
-                        <label for="{{ banner_news_collection_form.rotation_speed.id_for_label}}">Rotation speed</label>
-                {{ banner_news_collection_form.rotation_speed }}
+                <div class="row mb-3 mt-5">
+                    <div class="col-sm-3">
+                        <div class="ml-4">
+                            <label for="{{ banner_news_collection_form.rotation_speed.id_for_label }}">
+                                {% trans 'Скорость вращения' %}</label>
+                            {{ banner_news_collection_form.rotation_speed }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <center>
+                        <input type="submit" value="{% trans 'Сохранить' %}" class="btn btn-primary mx-auto">
+                            </center>
+                    </div>
                 </div>
-           </div>
-                <div class="col-sm-2">
-                <input type="submit" value="Save" class="btn btn-primary mx-auto">
-                </div>
-            </div>
             </form>
         </div>
 

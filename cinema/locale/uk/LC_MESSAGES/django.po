@@ -1,0 +1,156 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-21 10:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+
+#: cinema/templates/cinema/cinema_create.html:31
+#: cinema/templates/cinema/cinema_create.html:45
+#: cinema/templates/cinema/cinema_update.html:30
+#: cinema/templates/cinema/cinema_update.html:44
+#: cinema/templates/cinema/cinema_update.html:137
+#: cinema/templates/cinema/film_create.html:25
+#: cinema/templates/cinema/film_create.html:35
+#: cinema/templates/cinema/film_update.html:25
+#: cinema/templates/cinema/film_update.html:34
+#: cinema/templates/cinema/hall_create.html:27
+#: cinema/templates/cinema/hall_create.html:37
+#: cinema/templates/cinema/hall_update.html:28
+#: cinema/templates/cinema/hall_update.html:38
+msgid "Название"
+msgstr "Назва"
+
+#: cinema/templates/cinema/cinema_create.html:35
+#: cinema/templates/cinema/cinema_create.html:49
+#: cinema/templates/cinema/cinema_update.html:34
+#: cinema/templates/cinema/cinema_update.html:48
+#: cinema/templates/cinema/film_create.html:29
+#: cinema/templates/cinema/film_create.html:39
+#: cinema/templates/cinema/film_update.html:29
+#: cinema/templates/cinema/film_update.html:38
+#: cinema/templates/cinema/hall_create.html:31
+#: cinema/templates/cinema/hall_create.html:41
+#: cinema/templates/cinema/hall_update.html:32
+#: cinema/templates/cinema/hall_update.html:42
+msgid "Описание"
+msgstr "Опис"
+
+#: cinema/templates/cinema/cinema_create.html:39
+#: cinema/templates/cinema/cinema_create.html:53
+#: cinema/templates/cinema/cinema_update.html:38
+#: cinema/templates/cinema/cinema_update.html:52
+msgid "Условия"
+msgstr "Умови"
+
+#: cinema/templates/cinema/cinema_create.html:92
+#: cinema/templates/cinema/cinema_create.html:125
+#: cinema/templates/cinema/cinema_update.html:80
+#: cinema/templates/cinema/cinema_update.html:112
+#: cinema/templates/cinema/film_create.html:75
+#: cinema/templates/cinema/film_update.html:74
+#: cinema/templates/cinema/hall_create.html:61
+#: cinema/templates/cinema/hall_create.html:93
+#: cinema/templates/cinema/hall_update.html:62
+#: cinema/templates/cinema/hall_update.html:94
+msgid "Загрузить"
+msgstr "Завантажити"
+
+#: cinema/templates/cinema/cinema_create.html:103
+#: cinema/templates/cinema/cinema_create.html:136
+#: cinema/templates/cinema/cinema_update.html:91
+#: cinema/templates/cinema/cinema_update.html:123
+#: cinema/templates/cinema/film_create.html:86
+#: cinema/templates/cinema/film_update.html:85
+#: cinema/templates/cinema/hall_create.html:72
+#: cinema/templates/cinema/hall_create.html:104
+#: cinema/templates/cinema/hall_update.html:73
+#: cinema/templates/cinema/hall_update.html:105
+msgid "Удалить"
+msgstr "Видалити"
+
+#: cinema/templates/cinema/cinema_create.html:111
+#: cinema/templates/cinema/cinema_update.html:98
+#: cinema/templates/cinema/hall_create.html:79
+#: cinema/templates/cinema/hall_update.html:80
+msgid "Фото верхнего баннера"
+msgstr "Фото верхнього банера"
+
+#: cinema/templates/cinema/cinema_create.html:167
+#: cinema/templates/cinema/cinema_update.html:171
+#: cinema/templates/cinema/film_create.html:121
+#: cinema/templates/cinema/film_update.html:125
+#: cinema/templates/cinema/hall_create.html:113
+#: cinema/templates/cinema/hall_update.html:114
+msgid "Сохранить"
+msgstr "Зберегти"
+
+#: cinema/templates/cinema/cinema_update.html:66
+msgid "Логотип"
+msgstr "Логотип"
+
+#: cinema/templates/cinema/cinema_update.html:132
+msgid "Залы"
+msgstr "Зали"
+
+#: cinema/templates/cinema/cinema_update.html:138
+msgid "Дата создания"
+msgstr "Дата створення"
+
+#: cinema/templates/cinema/cinema_update.html:152
+#, fuzzy
+#| msgid "Удалить"
+msgid "Удалить зал?"
+msgstr "Видалити зал?"
+
+#: cinema/templates/cinema/cinema_update.html:161
+msgid "Создать зал"
+msgstr "Створити зал"
+
+#: cinema/templates/cinema/cinemas.html:8
+msgid "Кинотеатры"
+msgstr "Кінотеатри"
+
+#: cinema/templates/cinema/cinemas.html:28
+#, fuzzy
+#| msgid "Удалить"
+msgid "Удалить кинотеатр?"
+msgstr "Видалити зал?"
+
+#: cinema/templates/cinema/film_create.html:57
+msgid "Главная картинка"
+msgstr "Головне зображення"
+
+#: cinema/templates/cinema/film_create.html:95
+#: cinema/templates/cinema/film_update.html:96
+msgid "Ссылка на трейлер"
+msgstr "Посилання на трейлер"
+
+#: cinema/templates/cinema/film_create.html:101
+#: cinema/templates/cinema/film_update.html:102
+msgid "Тип кино"
+msgstr "Тип кіно"
+
+#: cinema/templates/cinema/films.html:7
+msgid "Фильмы"
+msgstr "Фільми"
+
+#: cinema/templates/cinema/films.html:32
+msgid "Скоро"
+msgstr "Скоро"

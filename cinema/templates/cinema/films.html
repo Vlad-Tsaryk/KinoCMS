@@ -1,10 +1,10 @@
 {% extends "layout/basic.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
-
     <div class="card card-secondary">
         <div class="card-header">
-            <h4 class="card-title">Films</h4>
+            <h4 class="card-title">{% trans 'Фильмы' %}</h4>
         </div>
         <div class="card-body">
             <div class="row">
@@ -29,7 +29,7 @@
 
     <div class="card card-secondary">
     <div class="card-header">
-            <h4 class="card-title">Soon</h4>
+            <h4 class="card-title">{% trans 'Скоро' %}</h4>
         </div>
     <div class="card-body">
             <div class="row">

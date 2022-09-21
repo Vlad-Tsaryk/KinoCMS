@@ -1,26 +1,36 @@
 {% extends "layout/basic.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 
     <div class="card card-secondary">
         <div class="card-header">
-            <h4 class="card-title">Cinemas</h4>
+            <h4 class="card-title">{% trans 'Кинотеатры' %}</h4>
         </div>
         <div class="card-body">
-            <div class="row">
+            <div class="row mt-3">
                 {% for cinema in cinemas %}
                     <div class="col-sm-2">
-                        <a href="{% url 'cinema_update' cinema.pk %}" data-toggle="lightbox"
+                    <div class="position-relative mx-auto" style="width: 150px">
+                        <a class="d-block" href="{% url 'cinema_update' cinema.pk %}" data-toggle="lightbox"
                            data-title="sample 1 - white" data-gallery="gallery" style="text-align: center"
                            id="{{ cinema.name }}">
                             {% if cinema.logo %}
                                 <img src="{{ cinema.logo.url }}" height="250" width="150"
-                                     class="d-block ml-auto mr-auto d-inline">
+                                     class="d-block ml-auto mr-auto">
                             {% else %}
                                 <img src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %}" height="250" width="150"
                                      class="d-block ml-auto mr-auto d-inline">
                             {% endif %}
+                        <a class="btn position-absolute top-0 start-100 translate-middle"
+                                   id="delete_img" data-toggle="lightbox"
+                                   data-title="sample 1 - white" data-gallery="gallery"
+                                    onclick="return confirm('{% trans 'Удалить кинотеатр?' %}');"
+                                   href="{% url 'delete_cinema' cinema.pk %}">
+                                    <img src="{% static 'adminLte/dist/img/remove.png' %}" width="32">
+                                </a>
                         </a>
+                    </div>
                         <label class="d-block ml-auto mr-auto text-center"
                                for="{{ cinema.name }}">{{ cinema.name }}</label>
                     </div>

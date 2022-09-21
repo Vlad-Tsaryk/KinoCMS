@@ -1,29 +1,30 @@
 {% extends "layout/basic.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 
     <div class="card card-secondary">
         <div class="card-header">
-            <h4 class="card-title">Promos</h4>
+            <h4 class="card-title">{% trans 'Страницы' %}</h4>
         </div>
         <div class="card-body">
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Date Create</th>
-                    <th>Status</th>
+                    <th>{% trans 'Название' %}</th>
+                    <th>{% trans 'Дата создания' %}</th>
+                    <th>Статус</th>
 
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>Main_page</td>
+                    <td>{% trans 'Главная страница' %}</td>
                     <td>{{ main_page.date }}</td>
                     <td>{% if main_page.active %}
-                        ON
+                        {% trans 'Вкл' %}
                     {% else %}
-                        OFF
+                        {% trans 'Выкл' %}
                     {% endif %}</td>
 
                     <th class="border-0" width="48px"><a
@@ -38,9 +39,9 @@
                         <td>{{ page.name }}</td>
                         <td>{{ page.date }}</td>
                         <td>{% if page.active %}
-                            ON
+                            {% trans 'Вкл' %}
                         {% else %}
-                            OFF
+                            {% trans 'Выкл' %}
                         {% endif %}</td>
 
                         <th class="border-0" width="48px"><a
@@ -51,12 +52,12 @@
                     </tr>
                 {% endfor %}
                 <tr>
-                    <td>Contact page</td>
+                    <td>{% trans 'Контакты' %}</td>
                     <td>{{ contact_page.date }}</td>
                     <td>{% if contact_page.active %}
-                        ON
+                        {% trans 'Вкл' %}
                     {% else %}
-                        OFF
+                        {% trans 'Выкл' %}
                     {% endif %}</td>
 
                     <th class="border-0" width="48px"><a
@@ -70,9 +71,9 @@
                         <td>{{ page.name }}</td>
                         <td>{{ page.date }}</td>
                         <td>{% if page.active %}
-                            ON
+                            {% trans 'Вкл' %}
                         {% else %}
-                            OFF
+                            {% trans 'Выкл' %}
                         {% endif %}</td>
 
                         <th class="border-0" width="48px"><a
@@ -80,8 +81,9 @@
                         ><img height="48px"
                               src="{% static 'cinema/img/pencil.png' %}"></a>
                         </th>
-                        <td class="border-0" width="48px"><a onclick="return confirm('Are you sure?');"
-                                                             href="{% url 'delete_page' page.pk %}"
+                        <td class="border-0" width="48px"><a
+                                onclick="return confirm('{% trans 'Удалить страницу?' %}');"
+                                href="{% url 'delete_page' page.pk %}"
                         ><img height="48px"
                               src="{% static 'cinema/img/trash-can.png' %}"></a>
                         </td>
@@ -90,7 +92,9 @@
 
                 </tbody>
             </table>
-            <a href="{% url 'add_page' %}" class="btn btn-secondary">Add page</a>
+            <center>
+                <a href="{% url 'add_page' %}" class="btn btn-secondary mt-3">{% trans 'Добавить страницу' %}</a>
+            </center>
         </div>
     </div>
 

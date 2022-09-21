@@ -1,9 +1,15 @@
+import codecs
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib import messages
-from .models import User
+from django.template.loader import render_to_string
+
+from .models import User, Mail_template
 from .forms import CustomUserChangeForm, CustomUserCreationForm, MailingFormSet
+from .tasks import send_mail_task
+from django.utils import translation
 
 
 # Create your views here.
@@ -13,9 +19,19 @@ def login_page(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+        print(request.POST)
+        # print(request.GET.get('next'))
+
         if user is not None:
             login(request, user)
-            return redirect('films')
+            print(user.language)
+            translation.activate(user.language)
+            request.LANGUAGE_CODE = user.language
+            if request.GET.get('next'):
+                print('next found')
+                return redirect('/' + user.language + request.GET.get('next')[3:])
+            else:
+                return redirect('statistic')
         else:
             messages.info(request, 'Username OR Password is incorrect')
     context = {}
@@ -30,6 +46,8 @@ def update_user(request, user_id):
         if user_change_form.is_valid():
             user = user_change_form.save(commit=False)
             user.save()
+            translation.activate(user.language)
+            request.LANGUAGE_CODE = user.language
             return redirect('users')
     else:
         user_change_form = CustomUserChangeForm(instance=obj_user)
@@ -67,24 +85,68 @@ def users(request):
 
 
 def mailing(request):
+    obj_users = User.objects.all()
     if request.method == 'POST':
         mailing_formset = MailingFormSet(request.POST, request.FILES)
+        print(request.POST)
         if mailing_formset.is_valid():
             mails = mailing_formset.save(commit=False)
-
-            for del_mail in mails.deleted_objects:
+            for del_mail in mailing_formset.deleted_objects:
                 print(del_mail)
                 del_mail.delete()
 
-            mails.save()
+            for mail in mails:
+                mail.save()
+            mail_test = Mail_template.objects.get(pk=request.POST.get('template'))
+            with open(mail_test.template.path, 'r') as f:
+                html_message = f.read()
+            emails_list = []
+            if request.POST.get('all_users'):
+                emails_list = []
+                for user in obj_users:
+                    emails_list.append(user.email)
+                print(emails_list)
+
+                send_mail_task(msg_title='KinoCMS', html_message=html_message, emails_list=emails_list)
+            if request.POST.get('user_choice'):
+                emails_list = request.POST.getlist('users_email')
+                if emails_list:
+                    print('sending.....')
+                    print(emails_list)
+                    send_mail_task(msg_title='KinoCMS', html_message=html_message, emails_list=emails_list)
+
             return redirect('mailing')
+        else:
+            print('not valid')
     else:
         mailing_formset = MailingFormSet()
-    context = {'mailing_formset': mailing_formset}
+    context = {'mailing_formset': mailing_formset, 'users': obj_users}
     return render(request, 'users/mailing.html', context)
 
 
 def user_choice(request):
     obj_users = User.objects.all()
+
+    # if request.method == 'POST':
+    #     print(request.POST)
+    #     email_list = request.POST.getlist('select_all')
+    #     if email_list:
+    #         send_mail_task(msg_title='KinoCMS', html_message=html_message, emails_list=request.POST.getlist('select_all'))
+
+    # for i in request.POST['select_all']:
+    #     print(i)
+
     context = {'users': obj_users}
     return render(request, 'users/users_choice.html', context)
+
+
+def test_mail(request):
+    # template = Mail_template.objects.get(pk=1)
+    # print(template.template.name)
+    # print(template.template.path)
+    # print(template.template.url)
+    # print(template.template)
+    # html_template = render_to_string(template.template.file)
+    emails_list = ['cefag80776@esmoud.com']
+    send_mail_task(msg_title='KinoCMS', msg_template='hello', emails_list=emails_list)
+    return HttpResponse('Sending...')

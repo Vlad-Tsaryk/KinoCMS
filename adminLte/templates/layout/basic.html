@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -9,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>KinoCMS</title>
-    <link rel="shortcut icon" href="{% static 'adminLte/dist/img/logo.png' %}" />
+    <link rel="shortcut icon" href="{% static 'adminLte/dist/img/logo.png' %}"/>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -19,7 +20,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Theme style -->
     <link rel="stylesheet" href="{% static 'adminLte/dist/css/adminlte.min.css' %}">
     <link rel="stylesheet" href="{% static 'adminLte/dist/css/basic.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     {% block head %}
     {% endblock %}
 </head>
@@ -28,29 +30,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light mb-3">
-    <ul class="navbar-nav">
-                        <li class="nav-item">
-                          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                        </li>
-                      </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+        </ul>
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
-                        <!-- Sidebar user panel (optional) -->
+            <!-- Sidebar user panel (optional) -->
             <div class="user-panel d-flex">
                 <div class="image">
                     <i class="fa-solid fa-user fa-2x"></i>
 
-{#                    <img src="{% static 'adminLte/dist/img/user.png' %}" class=""#}
-{#                         alt="User Image">#}
+                    {#                    <img src="{% static 'adminLte/dist/img/user.png' %}" class=""#}
+                    {#                         alt="User Image">#}
                 </div>
                 <div class="info">
-                    <a {% if request.user.pk %}
-                        href="{% url 'update_user' request.user.pk %}
-                    {% endif %} " class="d-block">{{ request.user}}</a>
-                </div>
+                    {% if request.user.is_authenticated %}
+
+                        <a {% if request.user.pk %}
+                            href="{% url 'update_user' request.user.pk %}"
+                        {% endif %}  class="d-inline">{{ request.user }}</a>
+                        </div>
+                        <a href="{% url 'logout' %}" class="btn btn-secondary">LogOut</a>
+                    {% else %}
+                        {{ request.user }}
+                        </div>
+                        <a class="btn btn-secondary" href="{% url 'login_page' %}">LogIn</a>
+                    {% endif %}
+
             </div>
-            <a href="{% url 'logout' %}" class="btn btn-secondary">LogOut</a>
         </ul>
     </nav>
     <!-- /.navbar -->
@@ -58,7 +68,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="index3.html" class="brand-link">
+        <a href="{% url 'statistic' %}" class="brand-link">
             <img src="{% static 'adminLte/dist/img/logo.png' %}" alt="KinoCMS Logo"
                  class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">Kino CMS</span>
@@ -86,56 +96,56 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <li class="nav-item">
                         <a href="{% url 'statistic' %}" class="nav-link" id="nav_statistic">
                             <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>Статистика</p>
+                            <p>{% trans 'Статистика' %}</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'banners' %}" class="nav-link" id="nav_banners">
-{#                            <i class="nav-icon far fa-image"></i>#}
+                            {#                            <i class="nav-icon far fa-image"></i>#}
                             <i class="nav-icon far fa-solid fa-panorama"></i>
-                            <p>Банера/Слайдеры</p>
+                            <p>{% trans 'Банера/Слайдеры' %}</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'films' %}" class="nav-link" id="nav_films">
                             <i class="nav-icon fas fa-solid fa-film"></i>
-                            <p>Фильмы</p>
+                            <p>{% trans 'Фильмы' %}</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'cinemas' %}" class="nav-link" id="nav_cinemas">
                             <i class="nav-icon fas fa-solid fa-ticket"></i>
-                            <p>Кинотеатры</p>
+                            <p>{% trans 'Кинотеатры' %}</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'news' %}" class="nav-link" id="nav_news">
+                        <a href="{% url 'news' %}" class="nav-link" id="nav_News">
                             <i class="nav-icon fas fa-solid fa-newspaper"></i>
-                            <p>Новости</p>
+                            <p>{% trans 'Новости' %}</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'promos' %}" class="nav-link" id="nav_promo">
+                        <a href="{% url 'promos' %}" class="nav-link" id="nav_Promo">
                             <i class="nav-icon fas fa-solid fa-percent"></i>
-                            <p>Акции</p>
+                            <p>{% trans 'Акции' %}</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'pages' %}" class="nav-link" id="nav_pages">
                             <i class="nav-icon fas fa-book"></i>
-                            <p>Страницы</p>
+                            <p>{% trans 'Страницы' %}</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'users' %}" class="nav-link" id="nav_users">
                             <i class="nav-icon fas fa-solid fa-user"></i>
-                            <p>Пользователи</p>
+                            <p>{% trans 'Пользователи' %}</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'mailing' %}" class="nav-link" id="nav_mailing">
                             <i class="nav-icon fas fa-solid fa-envelope-open-text"></i>
-                            <p>Рассылка</p>
+                            <p>{% trans 'Рассылка' %}</p>
                         </a>
                     </li>
 
@@ -155,85 +165,86 @@ scratch. This page gets rid of all links and provides the needed markup only.
         {% block gallery %}
             {% if images_formset %}
                 <div class="form-group">
-                {{ images_formset.management_form }}
-                <label for="gallery_id" class="form-label">Gallery</label>
-                <div class="row" id="gallery_list">
-                    {% for image in images_formset  %}
-                        {% for hidden in image.hidden_fields %}
-                            {{ hidden }}
+                    {{ images_formset.management_form }}
+                    <label for="gallery_id" class="form-label">{% trans 'Галерея' %}</label>
+                    <div class="row" id="gallery_list">
+                        {% for image in images_formset %}
+                            {% for hidden in image.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                            <div class="col-sm-2 d-inline-block" id="gallery_{{ image.prefix }}">
+                                <div id="gallery_img" class="mx-auto position-relative" style="width: 150px">
+                                    <img id="img_{{ image.image.auto_id }}" height="250" width="150"
+                                         class="d-block ml-auto mr-auto d-inline"
+                                         src="{{ image.instance.image.url }}">
+                                    <a class="btn position-absolute top-0 start-100 translate-middle"
+                                       id="delete_img" data-toggle="lightbox"
+                                       data-title="sample 1 - white" data-gallery="gallery"
+                                       onclick="delete_gallery_image('{{ image.prefix }}')">
+                                        <img src="{% static 'adminLte/dist/img/remove.png' %}" width="32">
+                                    </a>
+
+                                </div>
+                                <div class="btn_add_gallery_image">
+                                    <button class="btn btn-secondary ml-auto mr-auto d-block"
+                                            type="button"
+                                            onclick="chooseFile('{{ image.image.auto_id }}','img_{{ image.image.auto_id }}')">
+                                        {% trans 'Добавить' %}
+                                    </button>
+                                    <div style="height:0px;overflow:hidden">
+                                        {{ image.image }}
+                                        {#                                {{ image.DELETE }}#}
+
+                                    </div>
+                                </div>
+                            </div>
+
                         {% endfor %}
-                        <div class="col-sm-2 d-inline-block" id="gallery_{{ image.prefix}}">
-                        <div id="gallery_img" class="mx-auto position-relative" style="width: 150px">
-                        <img id="img_{{ image.image.auto_id }}" height="250" width="150"
-                             class="d-block ml-auto mr-auto d-inline"
-                             src="{{ image.instance.image.url }}">
-                            <a class="btn position-absolute top-0 start-100 translate-middle"
-                               id="delete_img" data-toggle="lightbox"
-                                data-title="sample 1 - white" data-gallery="gallery"
-                               onclick="delete_gallery_image('{{image.prefix}}')">
-                                <img src="{% static 'adminLte/dist/img/remove.png' %}" width="32">
+                        <div class="col-sm-1 d-inline-block" style="height: 250px">
+                            <a class="btn d-block position-absolute top-50 start-50 translate-middle"
+                               id="add_more" data-toggle="lightbox"
+                               data-title="sample 1 - white" data-gallery="gallery">
+                                <img class="d-block ml-auto mr-auto d-inline"
+                                     src="{% static 'adminLte/dist/img/plus_icon.png' %}">
                             </a>
 
-                            </div>
-                        <div class="btn_add_gallery_image">
-                            <button class="btn btn-secondary ml-auto mr-auto d-block"
-                                    type="button"
-                                    onclick="chooseFile('{{ image.image.auto_id  }}','img_{{ image.image.auto_id }}')">
-                                Добавить
-                            </button>
-                            <div style="height:0px;overflow:hidden">
-                                {{ image.image }}
-{#                                {{ image.DELETE }}#}
 
-                            </div>
                         </div>
-                        </div>
-
-                    {% endfor %}
-                                    <div class="col-sm-1 d-inline-block" style="height: 250px">
-                        <a class="btn d-block position-absolute top-50 start-50 translate-middle"
-                           id="add_more" data-toggle="lightbox"
-                           data-title="sample 1 - white" data-gallery="gallery">
-                            <img class="d-block ml-auto mr-auto d-inline" src="{% static 'adminLte/dist/img/plus_icon.png' %}">
-                        </a>
-
 
                     </div>
-
+                    {#                <input type="button" value="Add More" id="add_more" class="btn btn-secondary">#}
                 </div>
-{#                <input type="button" value="Add More" id="add_more" class="btn btn-secondary">#}
-            </div>
                 <div id="empty-form-gallery" class="d-none">
-                        <div id="gallery_img" class="mx-auto position-relative" style="width: 150px">
+                    <div id="gallery_img" class="mx-auto position-relative" style="width: 150px">
                         <img id="img_{{ images_formset.empty_form.image.auto_id }}" height="250" width="150"
                              class="d-block ml-auto mr-auto d-inline"
                              src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %} ">
-                        <a  class="btn position-absolute top-0 start-100 translate-middle"
-                               id="delete_img" data-toggle="lightbox"
-                                data-title="sample 1 - white" data-gallery="gallery"
-                               onclick="delete_gallery_image('{{ images_formset.empty_form.prefix}}')">
-                                <img src="{% static 'adminLte/dist/img/remove.png' %}" width="32">
-                            </a>
-{#                            {{ images_formset.empty_form}}#}
-                            </div>
-                        <div class="btn_add_gallery_image">
-                            <button class="btn btn-secondary ml-auto mr-auto d-block"
-                                    type="button"
-                                    onclick="chooseFile('{{ images_formset.empty_form.image.auto_id }}','img_{{ images_formset.empty_form.image.auto_id }}')">
-                                Добавить
-                            </button>
-                            <div style="height:0px;overflow:hidden">
-                                {{ images_formset.empty_form.image }}
-{#                                {{ images_formset.empty_form.DELETE }}#}
+                        <a class="btn position-absolute top-0 start-100 translate-middle"
+                           id="delete_img" data-toggle="lightbox"
+                           data-title="sample 1 - white" data-gallery="gallery"
+                           onclick="delete_gallery_image('{{ images_formset.empty_form.prefix }}')">
+                            <img src="{% static 'adminLte/dist/img/remove.png' %}" width="32">
+                        </a>
+                        {#                            {{ images_formset.empty_form}}#}
+                    </div>
+                    <div class="btn_add_gallery_image">
+                        <button class="btn btn-secondary ml-auto mr-auto d-block"
+                                type="button"
+                                onclick="chooseFile('{{ images_formset.empty_form.image.auto_id }}','img_{{ images_formset.empty_form.image.auto_id }}')">
+                            {% trans 'Добавить' %}
+                        </button>
+                        <div style="height:0px;overflow:hidden">
+                            {{ images_formset.empty_form.image }}
+                            {#                                {{ images_formset.empty_form.DELETE }}#}
 
-                            </div>
                         </div>
+                    </div>
 
-            </div>
-        <div class="img-delete" hidden>
-            {% for image in images_formset %}
-            {{ image.DELETE }}
-        {% endfor %}</div>
+                </div>
+                <div class="img-delete" hidden>
+                    {% for image in images_formset %}
+                        {{ image.DELETE }}
+                    {% endfor %}</div>
             {% endif %}
         {% endblock %}
         {% block content2 %}
@@ -242,15 +253,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
         {% block seo %}
             {% if seo_form %}
                 <label>SEO</label>
-            {#            <legend class="col-form-label col-sm-2">SEO</legend>#}
-            <div class="container">
-                {#                {{ seo_form.seo }}#}
-                {% for hidden in seo_form.hidden_fields %}
-                    {{ hidden }}
-                {% endfor %}
-                {{ seo_form.as_p }}
-                {{ seo_form.errors }}
-            </div>
+                {#            <legend class="col-form-label col-sm-2">SEO</legend>#}
+                <div class="container">
+                    {#                {{ seo_form.seo }}#}
+                    {% for hidden in seo_form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    {{ seo_form.as_p }}
+                    {{ seo_form.errors }}
+                </div>
             {% endif %}
         {% endblock %}
         {% block content3 %}
@@ -270,15 +281,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </aside>
     <!-- /.control-sidebar -->
 
-{#    <!-- Main Footer -->#}
-{#    <footer class="main-footer">#}
-{#        <!-- To the right -->#}
-{#        <div class="float-right d-none d-sm-inline">#}
-{#            Anything you want#}
-{#        </div>#}
-{#        <!-- Default to the left -->#}
-{#        <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.#}
-{#    </footer>#}
+    {#    <!-- Main Footer -->#}
+    {#    <footer class="main-footer">#}
+    {#        <!-- To the right -->#}
+    {#        <div class="float-right d-none d-sm-inline">#}
+    {#            Anything you want#}
+    {#        </div>#}
+    {#        <!-- Default to the left -->#}
+    {#        <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.#}
+    {#    </footer>#}
 </div>
 <!-- ./wrapper -->
 
@@ -290,7 +301,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{% static 'adminLte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'adminLte/dist/js/adminlte.min.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 {% block scripts %}
 {% endblock %}
 </body>

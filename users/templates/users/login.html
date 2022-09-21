@@ -1,11 +1,12 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
     <link rel="shortcut icon" href="{% static 'adminLte/dist/img/logo.png' %}" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Log in (v2)</title>
+  <title>KinoCMS</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -21,12 +22,12 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>Kino</b>CMS<img class="mb-auto mt-auto" height="40px"
+      <a href="{% url 'kino_cms' %}" class="h1"><b>Kino</b>CMS<img class="mb-auto mt-auto" height="40px"
                                                                 src="{% static 'adminLte/dist/img/logo.png' %}">
           </a>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg">{% trans 'Войдите чтобы начать' %}</p>
 
       <form  method="post">
           {% csrf_token %}
@@ -57,7 +58,7 @@
 {#          </div>#}
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button type="submit" class="btn btn-primary btn-block">{% trans 'Войти' %}</button>
           </div>
           <!-- /.col -->
         </div>
@@ -76,11 +77,8 @@
             <p>{{ message }}</p>
         {% endfor %}
 
-      <p class="mb-1">
-        <a href="forgot-password.html">I forgot my password</a>
-      </p>
       <p class="mb-0">
-        <a href="{% url 'register' %}" class="text-center">Register a new membership</a>
+        <a href="{% url 'register' %}" class="text-center">{% trans 'Зарегистрировать нового пользователя' %}</a>
       </p>
     </div>
     <!-- /.card-body -->

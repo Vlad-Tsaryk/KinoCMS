@@ -37,9 +37,6 @@ function add_new_contact(event) {
     totalNewForms.attr('value', currentFormCount + 1)
 
     formCopyTarget.before(copyEmptyFormEl)
-        $('#id_form-'+currentFormCount+'-coords').inputmask("[-]9{1,2}.9{6}, [-]9{1,3}.9{6}", {
-    jitMasking:true
-    })
 }
 
 function delete_banner(form_id) {

@@ -1,18 +1,19 @@
 {% extends "layout/basic.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 
     <div class="card card-secondary">
         <div class="card-header">
-            <h4 class="card-title">Promos</h4>
+            <h4 class="card-title">{% trans 'Акции' %}</h4>
         </div>
         <div class="card-body">
             <table  class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Date Create</th>
-                    <th>Status</th>
+                    <th>{% trans 'Название' %}</th>
+                    <th>{% trans 'Дата создания' %}</th>
+                    <th>Статус</th>
 
                 </tr>
                 </thead>
@@ -22,9 +23,9 @@
                         <td>{{ item.name }}</td>
                         <td>{{ item.date }}</td>
                         <td>{% if item.active %}
-                            ON
+                            {% trans 'Вкл' %}
                             {% else %}
-                            OFF
+                            {% trans 'Выкл' %}
                         {% endif %}</td>
 
                         <th class="border-0" width="48px"><a
@@ -32,7 +33,7 @@
                         ><img height="48px"
                                                                    src="{% static 'cinema/img/pencil.png' %}"></a>
                         </th>
-                        <td class="border-0" width="48px"><a onclick="return confirm('Are you sure?');"
+                        <td class="border-0" width="48px"><a onclick="return confirm('{% trans 'Удалить акцию?' %}');"
                                href="{% url 'delete_news_promo' item.pk  %}"
                         ><img height="48px"
                                                                    src="{% static 'cinema/img/trash-can.png' %}"></a>
@@ -41,7 +42,9 @@
                 {% endfor %}
                 </tbody>
             </table>
-        <a href="{% url 'add_news_promo' 'Promo'%}" class="btn btn-secondary">Add promo</a>
+        <center>
+        <a href="{% url 'add_news_promo' 'Promo'%}" class="btn btn-secondary mt-3">{% trans 'Добавить акцию' %}</a>
+        </center>
             </div>
         </div>
 
@@ -49,6 +52,6 @@
 {% endblock %}
 {% block scripts %}
     <script>
-        $('#nav_promo').attr('class', 'nav-link active')
+        $('#nav_Promo').attr('class', 'nav-link active')
     </script>
 {% endblock %}

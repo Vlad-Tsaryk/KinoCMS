@@ -1,5 +1,6 @@
 {% extends "layout/basic.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet"
@@ -16,24 +17,51 @@
             {% for hidden in cinema_form.hidden_fields %}
                 {{ hidden }}
             {% endfor %}
+     <nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-russian-tab" data-bs-toggle="tab" data-bs-target="#nav-russian"
+            type="button" role="tab" aria-controls="nav-russian" aria-selected="true">Русский</button>
+    <button class="nav-link" id="nav-ukrainian-tab" data-bs-toggle="tab" data-bs-target="#nav-ukrainian"
+            type="button" role="tab" aria-controls="nav-ukrainian" aria-selected="false">Українська</button>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-russian" role="tabpanel" aria-labelledby="nav-russian-tab">
             <div class="form-group">
-                <label for="name_id" class="form-label">Name</label>
-                {{ cinema_form.name }}
+                <label for="name_id" class="form-label">{% trans 'Название' %}</label>
+                {{ cinema_form.name_ru }}
             </div>
             <div class="form-group">
-                <label for="description_id">Description</label>
-                {{ cinema_form.description }}
+                <label for="description_id">{% trans 'Описание' %}</label>
+                {{ cinema_form.description_ru }}
             </div>
             <div class="form-group">
-                <label for="description_id">Conditions</label>
-                {{ cinema_form.conditions }}
+                <label for="description_id">{% trans 'Условия' %}</label>
+                {{ cinema_form.conditions_ru }}
             </div>
+  </div>
+    <div class="tab-pane fade" id="nav-ukrainian" role="tabpanel" aria-labelledby="nav-ukrainian-tab">
+    <div class="form-group">
+                <label for="name_id" class="form-label">{% trans 'Название' %}</label>
+                {{ cinema_form.name_uk }}
+            </div>
+            <div class="form-group">
+                <label for="description_id">{% trans 'Описание' %}</label>
+                {{ cinema_form.description_uk }}
+            </div>
+            <div class="form-group">
+                <label for="description_id">{% trans 'Условия' %}</label>
+                {{ cinema_form.conditions_uk }}
+            </div>
+
+    </div>
+</div>
         <div class="form-group">
                 <label for="description_id">Email</label>
                 {{ cinema_form.email}}
             </div>
         <div class="form-group">
-                <label for="description_id">Phone</label>
+                <label for="description_id">Телефон</label>
                 {{ cinema_form.phone }}
             </div>
 
@@ -47,7 +75,7 @@
 {#                </div>#}
 {#            </div>#}
             <div class="form-group">
-                <label for="{{ cinema_form.logo.id_for_label }}" class="form-label">Logo</label>
+                <label for="{{ cinema_form.logo.id_for_label }}" class="form-label">Логотип</label>
                 <div class="row">
                     <div class="col-sm-2">
                         <div>
@@ -61,7 +89,7 @@
                         <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
                                 type="button"
                                 onclick="chooseFile('{{ cinema_form.logo.auto_id }}','img_{{ cinema_form.logo.auto_id }}')">
-                            Добавить
+                            {% trans 'Загрузить' %}
                         </button>
                         <div style="height:0px;overflow:hidden">
                             {{ cinema_form.logo }}
@@ -72,14 +100,15 @@
                         <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
                                 type="button"
                                 onclick="clearFile('{{ cinema_form.logo.auto_id }}','img_{{ cinema_form.logo.auto_id }}')"
-                        >Удалить
+                        >{% trans 'Удалить' %}
                         </button>
                     </div>
 
                 </div>
             </div>
         <div class="form-group">
-            <label for="{{ cinema_form.banner_image.id_for_label }}" class="form-label">Banner image</label>
+            <label for="{{ cinema_form.banner_image.id_for_label }}" class="form-label">
+                {% trans 'Фото верхнего баннера' %}</label>
                 <div class="row">
                     <div class="col-sm-2">
                         <div>
@@ -93,7 +122,7 @@
                         <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
                                 type="button"
                                 onclick="chooseFile('{{ cinema_form.banner_image.auto_id }}','img_{{ cinema_form.banner_image.auto_id }}')">
-                            Добавить
+                            {% trans 'Загрузить' %}
                         </button>
                         <div style="height:0px;overflow:hidden">
                             {{ cinema_form.banner_image }}
@@ -104,7 +133,7 @@
                         <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
                                 type="button"
                                 onclick="clearFile('{{ cinema_form.banner_image.auto_id }}','img_{{ cinema_form.banner_image.auto_id }}')"
-                        >Удалить
+                        >{% trans 'Удалить' %}
                         </button>
                     </div>
 
@@ -135,7 +164,8 @@
 {#        {% endblock %}#}
         {% block content3 %}
         {{ cinema_form.errors }}
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">{% trans 'Сохранить' %}</button>
+
         </form>
 
 

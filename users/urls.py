@@ -1,14 +1,12 @@
 from django.urls import path
-from .views import login_page, update_user, create_user,logout_user, users, mailing, user_choice
+from .views import update_user, users, mailing, user_choice, test_mail
 
 urlpatterns = [
-    path('login/', login_page, name='login_page'),
     path('update/<int:user_id>', update_user, name='update_user'),
-    path('register/', create_user, name='register'),
-    path('logout/', logout_user, name='logout'),
     path('users/', users, name='users'),
     path('mailing/', mailing, name='mailing'),
     path('mailing/users', user_choice, name='user_choice'),
+    path('test/', test_mail, name='test_mail'),
 
 
 

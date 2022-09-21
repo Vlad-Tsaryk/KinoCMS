@@ -1,5 +1,6 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet"
@@ -9,29 +10,30 @@
     <div class="container-fluid">
     <form method="post">
     {% csrf_token %}
+{#        <input name="language" value="{{ request.user.language }}" hidden>#}
 {#    {{ user_form.as_p }}#}
         <div class="row">
         <div class="col">
         <label for="{{ user_form.username.id_for_label }}">Username</label>
         {{ user_form.username }}
-        <label for="{{ user_form.first_name.id_for_label }}">First name</label>
+        <label for="{{ user_form.first_name.id_for_label }}">{% trans 'Имя'%}</label>
         {{ user_form.first_name }}
-        <label for="{{ user_form.last_name.id_for_label }}">Last name</label>
+        <label for="{{ user_form.last_name.id_for_label }}">{% trans 'Фамилия'%}</label>
         {{ user_form.last_name }}
         <label for="{{ user_form.email.id_for_label }}">Email</label>
         {{ user_form.email }}
-        <label for="{{ user_form.phone.id_for_label }}">Phone</label>
+        <label for="{{ user_form.phone.id_for_label }}">{% trans 'Телефон'%}</label>
         {{ user_form.phone }}
-        <label for="{{ user_form.city.id_for_label }}">City</label>
+        <label for="{{ user_form.city.id_for_label }}">{% trans 'Город'%}</label>
         {{ user_form.city }}
-        <label for="{{ user_form.address.id_for_label }}">Address</label>
+        <label for="{{ user_form.address.id_for_label }}">{% trans 'Адрес'  %}</label>
         {{ user_form.address }}
             </div>
         <div class="col">
-        <label for="{{ user_form.card_number.id_for_label }}">Card number</label>
+        <label for="{{ user_form.card_number.id_for_label }}">{% trans 'Номер карты'%}</label>
         {{ user_form.card_number }}
             <div class="form-group">
-        <label for="{{ user_form.birth_date.id_for_label }}">Birth date</label>
+        <label for="{{ user_form.birth_date.id_for_label }}">{% trans 'Дата рождения'%}</label>
         <div class="input-group date" id="reservationdate" data-target-input="nearest" style="width: 36%">
             {{ user_form.birth_date }}
             <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
@@ -39,9 +41,9 @@
             </div>
         </div>
     </div>
-        <label for="{{ user_form.language.id_for_label }}">Language</label>
+        <label for="{{ user_form.language.id_for_label }}">{% trans 'Язык'%}</label>
         {{ user_form.language }}
-        <label for="{{ user_form.gender.id_for_label }}">Gender</label>
+        <label for="{{ user_form.gender.id_for_label }}">{% trans 'Пол'%}</label>
         {{ user_form.gender }}
         <label for="{{ user_form.password1.id_for_label }}">Password1</label>
         {{ user_form.password1 }}
@@ -55,7 +57,7 @@
 {#        Password 2#}
 {#        {{ user_form.password2 }}#}
     {{ user_form.errors }}
-    <input type="submit" class="btn btn-primary" value="Save">
+    <input type="submit" class="btn btn-primary" value="{% trans 'Сохранить'%}">
     </form>
     </div>
 {% endblock %}

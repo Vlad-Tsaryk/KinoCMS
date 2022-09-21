@@ -13,14 +13,6 @@ function chooseFile(input, img) {
     })
 
 }
-
-$(function () {
-    //Date picker
-    $('#reservationdate').datetimepicker({
-        format: 'L'
-    });
-});
-
 function clearFile(input, img) {
 
     $("#" + img).attr("src", '/static/default-placeholder-150x250.png ');

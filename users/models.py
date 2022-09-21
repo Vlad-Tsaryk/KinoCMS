@@ -1,3 +1,4 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from cinema.models import Session
 from django.contrib.auth.models import AbstractUser
@@ -5,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class User(AbstractUser):
-    CHOISES_language = [('Ukrainian', 'Українська'), ('Russian', 'Русский')]
+    CHOISES_language = [('uk', 'Українська'), ('ru', 'Русский')]
     CHOISES_gender = [('Male', 'Male'), ('Female', 'Female')]
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -29,4 +30,7 @@ class Ticket(models.Model):
 
 
 class Mail_template(models.Model):
-    template = models.FileField(upload_to='Mailing')
+    template = models.FileField(upload_to='Mailing', validators=[FileExtensionValidator(['html'])])
+    date_added = models.DateTimeField(auto_now=True)
+    class Meta:
+        ordering = ['-date_added']

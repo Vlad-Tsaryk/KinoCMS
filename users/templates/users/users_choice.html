@@ -1,6 +1,8 @@
 {% extends "layout/basic.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
+
     <!-- DataTables -->
   <link rel="stylesheet" href={% static "adminLte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"%}>
   <link rel="stylesheet" href={% static "adminLte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"%}>
@@ -9,21 +11,23 @@
 {% block content %}
 <div class="card card-secondary">
         <div class="card-header">
-            <h4 class="card-title">Users</h4>
+            <h4 class="card-title">{% trans 'Пользователи' %}</h4>
         </div>
         <div class="card-body">
-            <table  id="example2" class="table table-bordered table-hover">
+        <form method="post">
+        {% csrf_token %}
+            <table  id="users" class="table table-bordered table-hover">
                 <thead>
                 <tr>
 {#                    <th>0</th>#}
                     <th><input type="checkbox" name="select_all" value="1" id="example-select-all"></th>
                     <th>ID</th>
-                    <th>Date Create</th>
+                    <th>{% trans 'Дата создания' %}</th>
                     <th>Email</th>
-                    <th>Phone</th>
-                    <th>Full name</th>
+                    <th>{% trans 'Телефон' %}</th>
+                    <th>{% trans 'ФИО' %}</th>
                     <th>Username</th>
-                    <th>City</th>
+                    <th>{% trans 'Город' %}</th>
 
 
                 </tr>
@@ -31,11 +35,11 @@
                 <tbody>
                 {% for user in users %}
                     <tr>
-                        <td><input type="checkbox" name="select_all" id="example-select-all"></td>
+                        <td><input type="checkbox" name="select_all" id="user_{{ user.pk }}"></td>
 {#                        <td>0</td>#}
                         <td><a href="{% url 'update_user' user.id %}">{{ user.id }}</a> </td>
                         <td>{{ user.date_joined }}</td>
-                        <td>{{ user.email }}</td>
+                        <td id="email_user_{{ user.pk }}">{{ user.email }}</td>
                         <td>{{ user.phone }}</td>
                         <td>{{ user.first_name }} {{ user.last_name }}</td>
                         <td>{{ user.username }}</td>
@@ -44,6 +48,9 @@
                 {% endfor %}
                 </tbody>
             </table>
+        <input type="submit" class="btn btn-primary">{% trans 'Отправить' %}</input>
+        </form>
+
             </div>
         </div>
 
@@ -68,7 +75,7 @@
 <script src={%static "adminLte/plugins/datatables-buttons/js/buttons.colVis.min.js"%}></script>
     <script>
         $(document).ready(function () {
-        var table = $('#example2').DataTable({
+        var table = $('#users').DataTable({
                       'select': {
                          'style': 'multi'
                       },
@@ -83,6 +90,10 @@
                     });
 
         });
+    $('#users :checkbox').change(function (event) {
+                    let value = ($('#email_' + event.target.id).text())
+                    $('#' + event.target.id).attr('value', value)
 
+            });
     </script>
 {% endblock %}

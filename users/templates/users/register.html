@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Registration Page (v2)</title>
+  <title>KinoCMS</title>
     <link rel="shortcut icon" href="{% static 'adminLte/dist/img/logo.png' %}" />
 
   <!-- Google Font: Source Sans Pro -->
@@ -20,10 +21,12 @@
 <div class="register-box">
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>Admin</b>LTE</a>
+      <a href="{% url 'kino_cms' %}" class="h1"><b>Kino</b>CMS<img class="mb-auto mt-auto" height="40px"
+                                                                src="{% static 'adminLte/dist/img/logo.png' %}">
+          </a>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">Register a new membership</p>
+      <p class="login-box-msg">{% trans 'Регистрация нового пользователя'%}</p>
 
       <form method="post">
           {% csrf_token %}
@@ -74,7 +77,7 @@
 {#          </div>#}
           <!-- /.col -->
           <div class="col">
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            <button type="submit" class="btn btn-primary btn-block">{% trans 'Зарегистрировать' %}</button>
           </div>
           <!-- /.col -->
         </div>
@@ -92,7 +95,7 @@
 {#        </a>#}
 {#      </div>#}
 
-      <a href="{% url 'login_page' %}" class="text-center">I already have a membership</a>
+      <a href="{% url 'login_page' %}" class="text-center">{% trans 'У меня уже есть аккаунт' %}</a>
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->

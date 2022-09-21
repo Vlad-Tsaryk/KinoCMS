@@ -1,5 +1,6 @@
 {% extends "layout/basic.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <!-- DataTables -->
   <link rel="stylesheet" href={% static "adminLte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"%}>
@@ -10,19 +11,19 @@
 
     <div class="card card-secondary">
         <div class="card-header">
-            <h4 class="card-title">Users</h4>
+            <h4 class="card-title">{% trans 'Пользователи' %}</h4>
         </div>
         <div class="card-body">
             <table  id="example2" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Date Create</th>
+                    <th>{% trans 'Дата создания' %}</th>
                     <th>Email</th>
-                    <th>Phone</th>
-                    <th>Full name</th>
+                    <th>{% trans 'Телефон' %}</th>
+                    <th>{% trans 'ФИО' %}</th>
                     <th>Username</th>
-                    <th>City</th>
+                    <th>{% trans 'Город' %}</th>
 
 
                 </tr>
