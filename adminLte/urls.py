@@ -3,8 +3,9 @@ from django.urls import path, include
 from .views import statistic
 
 urlpatterns = [
+
     path('', statistic, name='statistic'),
-    path('cinema/', include('cinema.urls')),
+    path('', include('cinema.urls')),
     path('banners/', include('baners.urls')),
     path('pages/', include('pages.urls')),
     path('user/', include('users.urls')),

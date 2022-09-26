@@ -12,98 +12,216 @@
 {% endblock %}
 {% block content %}
     <div class="container">
-    <div class="row">
-    <div class="col-7">
-    <b>{{ sessions_today.first.date_time }}</b>
-        <table class="table table-light border border-warning border-5 w-100">
-            <thead>
-            <tr>
-                <th scope="col">Время</th>
-                <th scope="col">Фильм</th>
-                <th scope="col">Зал</th>
-                <th scope="col">Цена в грн.</th>
-                <th scope="col">Бронировать</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{ sessions.first.date_time.dat }}
-            {% for session in sessions_today %}
-
-                <tr>
-                    <td>{{ session.date_time|date:'H:i' }}</td>
-                    <td>{{ session.film.name }}</td>
-                    <td>{{ session.hall.name }}</td>
-                    <td>{{ session.price }}</td>
-                    <td class="text-center"><i class="fa-solid fa-ticket fs-3 text-warning"></i></td>
-
-                </tr>
+    <div class="row mb-4">
+    <div class="col-3"></div>
+    <div class="col-2">
+        <select class="form-select">
+            <option onclick="sort_by()" >Кинотеатр</option>
+            {% for name in cinemas_names %}
+                <option value="{{ name }}" onclick="sort_by('{{ name }}','cinema')">{{ name }}</option>
             {% endfor %}
-            </tbody>
-        </table>
-    <b>{{ sessions_tomorrow.first.date_time }}</b>
-    <table class="table table-light border border-warning border-5 w-100">
-            <thead>
-            <tr>
-                <th scope="col">Время</th>
-                <th scope="col">Фильм</th>
-                <th scope="col">Зал</th>
-                <th scope="col">Цена в грн.</th>
-                <th scope="col">Бронировать</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{ sessions.first.date_time.dat }}
-            {% for session in sessions_tomorrow %}
-
-                <tr>
-                    <td>{{ session.date_time|date:'H:i' }}</td>
-                    <td>{{ session.film.name }}</td>
-                    <td>{{ session.hall.name }}</td>
-                    <td>{{ session.price }}</td>
-                    <td class="text-center"><i class="fa-solid fa-ticket fs-3 text-warning"></i></td>
-
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        </select>
     </div>
-    <div class="col"><img src="{% static 'cinema/img/promo_context.png' %}" height="400"></div>
+    <div class="col-2">
+        <select id="film_sort" class="form-select">
+            <option id="film_header" onclick="sort_by()">Фильмы</option>
+
+        </select>
     </div>
-    <form method="GET">
-    <select id="session-selected">
-        {% for session in sessions_today %}
-            <option value="{{ session.id }}">
-            {{ session.name }}
-            </option>
-        {% endfor %}
-    </select>
-    <input type="button" value="Update" id="selection-button" method="GET">
-</form>
+        <div class="col-2">
+        <select class="form-select">
+            <option onclick="">Сегодня</option>
+            <option>Завтра</option>
+            <option>Неделя</option>
+            <option>Месяц</option>
+        </select>
+        </div>
+    <div class="col-2">
+        <select id="hall_sort" class="form-select">
+            <option id="hall_header">Зал</option>
+        </select>
+    </div>
+    </div>
+        <div class="row">
+            <div class="col-8">
+                <table class="d-none">
+                    <tbody>
+                    {{ sessions.first.date_time.dat }}
+                    <tr class="d-none" id="empty-session">
+
+                        <td id="date" style="text-align: center;"></td>
+                        <td id="time" style="text-align: center;"></td>
+                        <td id="film" style="text-align: center;"></td>
+                        <td id="hall" style="text-align: center;"></td>
+                        <td id="price" style="text-align: center;"></td>
+                        <td class="text-center"><i class="fa-solid fa-ticket fs-3 text-warning"></i></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+                <b>{{ sessions_tomorrow.first.date_time }}</b>
+                <table class="table table-light border border-warning border-5 w-100 center">
+                    <thead>
+                    <tr>
+                        <th scope="col" style="text-align: center;">Дата</th>
+                        <th scope="col" style="text-align: center;">Время</th>
+                        <th scope="col" style="text-align: center;">Фильм</th>
+                        <th scope="col" style="text-align: center;">Зал</th>
+                        <th scope="col" style="text-align: center;">Цена в грн.</th>
+                        <th scope="col" style="text-align: center;">Бронировать</th>
+
+                    </tr>
+                    </thead>
+                    <tbody id="sessions_list">
+                    </tbody>
+                </table>
+            </div>
+            <div class="col"><img src="{% static 'cinema/img/promo_context.png' %}" height="400"></div>
+        </div>
+        <form method="GET">
+            <select id="session-selected">
+                {% for session in sessions_today %}
+                    <option value="{{ session.id }}">
+                        {{ session.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <input type="button" value="Update" id="selection-button" onclick="update()">
+        </form>
+
 
     </div>
 {% endblock %}
 {% block scripts %}
     <script>
-            $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+        $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
         $('#nav_showtime').attr('class', 'nav-link active')
     </script>
-        <script>
-        $( "#selection-button" ).click(function(event) {
-        var airlineSelected = $('#session-selected').find(":selected").val();
-        $.ajax({
-     url: "{% url 'showtimes' %}",
-     method: 'GET',
-     data : {
-             filter_category: parseInt(airlineSelected)
-     },
-     success: function(data){
-         console.log(data)
-     },
-     error: function(xhr, errmsg, err){
-         console.log("error")
-         console.log(error_data)
-     }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        let res_data
+        let sorted_by_cinemas
+        let sorted_by_films
+        let sorted_data
+        let sorted_by_halls
+        let sort_list = {'film': 'film__name', 'hall': 'hall__name', 'cinema': 'hall__cinema__name'}
+        $(document).ready(async function () {
+                // создаем AJAX-вызов
+                let response = await fetch('{% url 'showtimes' %}', {
+                    method: "GET",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                    }
+                })
 
-});
-        } </script>
+                res_data = await response.json()
+                sorted_by_cinemas = res_data.sessions
+                sorted_data = res_data.sessions
+                add_to_table(sorted_by_cinemas)
+            }
+        )
+
+        function update() {
+            console.log(res_data)
+            res_data.sessions.forEach(function (item) {
+                console.log(item);
+            })
+        }
+
+
+        function sort_by_cinemas(cinema_name) {
+            $('#sessions_list tr').remove()
+            $('#film_sort option').not('#film_header').remove()
+            if (cinema_name) {
+                data_by_cinemas = res_data.sessions.filter(function (item) {
+                    return item.hall__cinema__name === cinema_name
+
+                })
+                add_to_table(data_by_cinemas)
+            } else {
+                data_by_cinemas = res_data.sessions
+
+                add_to_table(data_by_cinemas)
+
+            }
+
+        }
+
+        console.log(new Date().getDate(), new Date().getMonth(), new Date().getFullYear())
+
+        function add_to_table(data, target) {
+            let first_date = data[0].date_time__date
+            data.forEach(function (item) {
+
+                if (true) {
+                    let clone = $('#empty-session').clone().attr('class', '').removeAttr('id')
+                    clone.find('#date').text($.datetimepicker({format:'dd M yy',item.date_time__date))
+                    clone.find('#time').text(item.date_time__time)
+                    clone.find('#film').text(item.film__name)
+                    clone.find('#hall').text(item.hall__name)
+                    clone.find('#price').text(item.price)
+                    clone.appendTo('#sessions_list')
+                    set_films_options(item)
+                    set_halls_options(item)
+                }
+            })
+
+        }
+
+        function set_films_options(data) {
+            if ($('#film_sort option[value="' + data.film__name + '"]').length === 0) {
+                $('#film_sort').append(`<option value="${data.film__name}" onclick="sort_by('${data.film__name}', 'film')">${data.film__name}</option>`)
+
+            }
+        }
+
+        function sort_by(elem_name, elem_option) {
+            $('#sessions_list tr').remove()
+
+            if (elem_name) {
+                let option_sort = sort_list[elem_option]
+                if (elem_option === 'cinema') {
+                    $('#film_sort option').not('#film_header').remove()
+                    sorted_by_cinemas = res_data.sessions.filter(function (item) {
+                    return item[option_sort] === elem_name
+                })
+                    add_to_table(sorted_by_cinemas)
+                }
+                if (elem_option === 'film') {
+                    $('#hall_sort option').not('#hall_header').remove()
+                    sorted_by_films = sorted_by_cinemas.filter(function (item) {
+                    return item[option_sort] === elem_name
+                })
+                    add_to_table(sorted_by_films)
+                }
+                if (elem_option === 'hall') {
+                    {#$('#film_sort option').not('#film_header').remove()#}
+                    let sorted_by = sorted_by_cinemas
+                    if (sorted_by_films)
+                    {
+                       sorted_by = sorted_by_films
+                    }
+                        sorted_by_halls = sorted_by.filter(function (item) {
+                    return item[option_sort] === elem_name
+                })
+
+                    add_to_table(sorted_by_halls)
+                }
+
+
+            } else {
+                add_to_table(res_data.sessions)
+
+            }
+
+        }
+
+        function set_halls_options(data) {
+            if ($('#hall_sort option[value="' + data.hall__name + '"]').length === 0) {
+                $('#hall_sort').append(`<option value="${data.hall__name}" onclick="sort_by('${data.hall__name}','hall')">${data.hall__name}</option>`)
+
+            }
+        }
+
+    </script>
 {% endblock %}

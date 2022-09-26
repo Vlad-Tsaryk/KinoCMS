@@ -2,7 +2,7 @@ import datetime
 
 from django.forms import modelformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from KinoCMS.settings import BASE_DIR
 from .models import Film, Hall, Cinema, RU_MONTH_VALUES, Session
@@ -15,12 +15,6 @@ from pages.models import Main_page
 
 
 # Create your views here.
-
-
-def index(request):
-    return render(request, 'layout/basic.html')
-
-
 @login_required(login_url='login_page')
 def films(request):
     date = datetime.date.today()
@@ -313,14 +307,22 @@ def cinemas_page(request):
 
 
 def showtimes(request):
-    today = datetime.datetime.today()
-    tomorrow = today + datetime.timedelta(days=1)
-    sessions_today = Session.objects.filter(date_time__day=today.day, date_time__month=today.month,
-                                            date_time__year=today.year)
-    sessions_tomorrow = Session.objects.filter(date_time__day=tomorrow.day, date_time__month=tomorrow.month,
-                                               date_time__year=tomorrow.year)
+    sessions = Session.objects.all().values('film__name', 'hall__cinema__name', 'hall__name', 'price', 'date_time__time', 'date_time')
+    sessions_list = list(sessions)
+    cinemas_names = []
+    films_names = []
+    print(sessions)
+    for s in sessions:
+        print(s['date_time'].strftime("%b"))
+        if s['hall__cinema__name'] not in cinemas_names:
+            cinemas_names.append(s['hall__cinema__name'])
+        if s['film__name'] not in films_names:
+            films_names.append(s['film__name'])
     main_page = Main_page.objects.get(pk=1)
-    context = {'sessions_today': sessions_today, 'sessions_tomorrow': sessions_tomorrow, 'main_page': main_page}
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'sessions': sessions_list})
+
+    context = {'main_page': main_page, 'cinemas_names': cinemas_names, 'films_names': films_names}
     return render(request, 'cinema/showtimes.html', context)
 
 

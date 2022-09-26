@@ -1,12 +1,11 @@
 from django.urls import path
-from .views import index, films, add_film, film_update, add_cinema, cinemas, cinema_update, add_hall, delete_hall,\
+from .views import films, add_film, film_update, add_cinema, cinemas, cinema_update, add_hall, delete_hall,\
     hall_update, delete_cinema
 
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('', index),
     path('films/', films, name='films'),
     path('films/addfilm/', add_film, name='add_film'),
     path('films/edit/<int:film_id>/', film_update, name='film_update'),
