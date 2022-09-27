@@ -307,17 +307,19 @@ def cinemas_page(request):
 
 
 def showtimes(request):
-    sessions = Session.objects.all().values('film__name', 'hall__cinema__name', 'hall__name', 'price', 'date_time__time', 'date_time')
-    sessions_list = list(sessions)
+    sessions = Session.objects.all().values('film__name', 'hall__cinema__name', 'hall__name', 'price',
+                                            'date_time__time', 'date_time')
+    today = datetime.datetime.today()
     cinemas_names = []
     films_names = []
     print(sessions)
     for s in sessions:
-        print(s['date_time'].strftime("%b"))
+        s['date_time'] = s['date_time'].strftime("%d.%m.%Y")
         if s['hall__cinema__name'] not in cinemas_names:
             cinemas_names.append(s['hall__cinema__name'])
         if s['film__name'] not in films_names:
             films_names.append(s['film__name'])
+    sessions_list = list(sessions)
     main_page = Main_page.objects.get(pk=1)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse({'sessions': sessions_list})

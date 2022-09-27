@@ -14,6 +14,15 @@
     <div class="container">
     <div class="row mb-4">
     <div class="col-3"></div>
+            <div class="col-2">
+        <select class="form-select">
+            <option onclick="sort_by_date()">Дата</option>
+            <option onclick="sort_by_date('today')">Сегодня</option>
+            <option onclick="sort_by_date('tomorrow')">Завтра</option>
+            <option onclick="sort_by_date('week')">Неделя</option>
+            <option onclick="sort_by_date('month')">Месяц</option>
+        </select>
+        </div>
     <div class="col-2">
         <select class="form-select">
             <option onclick="sort_by()" >Кинотеатр</option>
@@ -28,17 +37,9 @@
 
         </select>
     </div>
-        <div class="col-2">
-        <select class="form-select">
-            <option onclick="">Сегодня</option>
-            <option>Завтра</option>
-            <option>Неделя</option>
-            <option>Месяц</option>
-        </select>
-        </div>
     <div class="col-2">
         <select id="hall_sort" class="form-select">
-            <option id="hall_header">Зал</option>
+            <option id="hall_header" onclick="sort_by(undefined,'hall')">Зал</option>
         </select>
     </div>
     </div>
@@ -101,6 +102,7 @@
     <script>
         let res_data
         let sorted_by_cinemas
+        let sorted_by_date
         let sorted_by_films
         let sorted_data
         let sorted_by_halls
@@ -117,7 +119,8 @@
                 res_data = await response.json()
                 sorted_by_cinemas = res_data.sessions
                 sorted_data = res_data.sessions
-                add_to_table(sorted_by_cinemas)
+                sorted_by_date = res_data.sessions
+                add_to_table(sorted_by_date)
             }
         )
 
@@ -129,33 +132,13 @@
         }
 
 
-        function sort_by_cinemas(cinema_name) {
-            $('#sessions_list tr').remove()
-            $('#film_sort option').not('#film_header').remove()
-            if (cinema_name) {
-                data_by_cinemas = res_data.sessions.filter(function (item) {
-                    return item.hall__cinema__name === cinema_name
-
-                })
-                add_to_table(data_by_cinemas)
-            } else {
-                data_by_cinemas = res_data.sessions
-
-                add_to_table(data_by_cinemas)
-
-            }
-
-        }
-
         console.log(new Date().getDate(), new Date().getMonth(), new Date().getFullYear())
 
         function add_to_table(data, target) {
-            let first_date = data[0].date_time__date
+            $('#sessions_list tr').remove()
             data.forEach(function (item) {
-
-                if (true) {
                     let clone = $('#empty-session').clone().attr('class', '').removeAttr('id')
-                    clone.find('#date').text($.datetimepicker({format:'dd M yy',item.date_time__date))
+                    clone.find('#date').text(item.date_time)
                     clone.find('#time').text(item.date_time__time)
                     clone.find('#film').text(item.film__name)
                     clone.find('#hall').text(item.hall__name)
@@ -163,9 +146,8 @@
                     clone.appendTo('#sessions_list')
                     set_films_options(item)
                     set_halls_options(item)
-                }
-            })
 
+            })
         }
 
         function set_films_options(data) {
@@ -176,13 +158,12 @@
         }
 
         function sort_by(elem_name, elem_option) {
-            $('#sessions_list tr').remove()
 
-            if (elem_name) {
+            if (elem_option) {
                 let option_sort = sort_list[elem_option]
                 if (elem_option === 'cinema') {
                     $('#film_sort option').not('#film_header').remove()
-                    sorted_by_cinemas = res_data.sessions.filter(function (item) {
+                    sorted_by_cinemas = sorted_by_date.filter(function (item) {
                     return item[option_sort] === elem_name
                 })
                     add_to_table(sorted_by_cinemas)
@@ -201,19 +182,78 @@
                     {
                        sorted_by = sorted_by_films
                     }
+                    if (elem_name){
                         sorted_by_halls = sorted_by.filter(function (item) {
                     return item[option_sort] === elem_name
-                })
+                    })}
+                    else {
+                        sorted_by_halls = sorted_by
+                    }
 
                     add_to_table(sorted_by_halls)
                 }
 
 
             } else {
-                add_to_table(res_data.sessions)
+                console.log(sorted_by_cinemas)
+                add_to_table(sorted_by_date)
 
             }
 
+        }
+        Date.prototype.today = function () {
+    return ((this.getDate() < 10)?"0":"") + this.getDate() +"."+(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) +"."+ this.getFullYear();
+}
+    Date.prototype.tomorrow = function () {
+        return ((this.getDate() < 10) ? "0" : "") + (this.getDate()+1) + "." + (((this.getMonth() + 1) < 10) ? "0" : "") + (this.getMonth() + 1) + "." + this.getFullYear();
+    }
+    Date.prototype.next_week = function () {
+        return (((this.getDate()+7) < 10) ? "0" : "") + (this.getDate() + 7) + "." + (((this.getMonth() + 1) < 10) ? "0" : "") + (this.getMonth() + 1) + "." + this.getFullYear();
+    }
+    Date.prototype.next_month = function () {
+    return ((this.getDate() < 10)?"0":"") + this.getDate() +"."+(((this.getMonth()+2) < 10)?"0":"") + (this.getMonth()+2) +"."+ this.getFullYear();
+}
+        Date.prototype.timeNow = function () {
+     return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+}
+console.log('today'+new Date().today())
+console.log('tomorrow'+new Date().tomorrow())
+console.log('next_week'+new Date().next_week())
+console.log('next_month'+new Date().next_month())
+        function sort_by_date(date_option) {
+            let today = new Date().today()
+            if (date_option) {
+
+                if (date_option === 'today') {
+                    sorted_by_date = res_data.sessions.filter(function (item) {
+                        let time = new Date().timeNow()
+                        return item['date_time'] === today && item['date_time__time'] > time
+                    })
+                }
+                if (date_option === 'tomorrow') {
+                    sorted_by_date = res_data.sessions.filter(function (item) {
+                        let tomorrow = new Date().tomorrow()
+                        return item['date_time'] === tomorrow
+                    })
+
+                }
+                if (date_option === 'week') {
+                    sorted_by_date = res_data.sessions.filter(function (item) {
+                        let week = new Date().next_week()
+                        return item['date_time'] >= today && item['date_time'] < week
+                    })
+                }
+                if (date_option === 'month') {
+                    sorted_by_date = res_data.sessions.filter(function (item) {
+                        let next_month = new Date().next_month()
+                        return item['date_time'] >= today && item['date_time'] <= next_month
+                    })
+                }
+            }
+            else {
+                sorted_by_date = res_data.sessions
+            }
+            add_to_table(sorted_by_date)
         }
 
         function set_halls_options(data) {
