@@ -1,4 +1,5 @@
 {% extends 'layout/KinoCMS.html' %}
+{% load i18n %}
 {% block head %}
     <style>
         body{
@@ -17,14 +18,14 @@
     <div class="row row-cols-6">
     {% for film in films_today %}
             <div class="col text-center mt-4">
-                <b>Сейчас в кино</b>
+                <b>{% trans 'Сейчас в кино' %}</b>
 
         <a class="fs-6 link-primary" href="{% url 'film_card' film.pk %}">
             <img class="ml-auto mr-auto rounded" src="{{ film.main_image.url }}" height="200" >
 
         <p><b>{{ film.name }}</b></p></a>
         <a class="badge rounded-pill bg-warning mx-auto fs-6">
-                <i class="fa-solid fa-ticket fa-rotate-by" style="--fa-rotate-angle: -45deg;"></i>  Купить билет</a>
+                <i class="fa-solid fa-ticket fa-rotate-by" style="--fa-rotate-angle: -45deg;"></i> {% trans 'Купить билет' %} </a>
     </div>
     {% endfor %}
     </div>

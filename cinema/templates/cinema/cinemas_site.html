@@ -1,5 +1,6 @@
 {% extends 'layout/KinoCMS.html' %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <style>
         body {
@@ -20,7 +21,7 @@
          class="img-fluid">
 </div>
     <div class="container p-0 w-75" style="margin-left: 5%; margin-right: 0px;">
-    <center><b class="fs-1">Наши киноткатры</b></center>
+    <center><b class="fs-1">{% trans 'Наши кинотеатры' %}</b></center>
     <div class="row mt-4">
         {% for cinema in cinemas %}
     <div class="col text-center mb-5">

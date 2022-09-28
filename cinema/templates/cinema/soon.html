@@ -1,4 +1,5 @@
 {% extends 'layout/KinoCMS.html' %}
+{% load i18n %}
 {% block head %}
     <style>
         body{
@@ -24,7 +25,7 @@
 {#        </div>#}
         <p><b>{{ film.name }}</b></p></a>
                 <a class="badge rounded-pill bg-warning mx-auto fs-6">
-                <i class="fa-solid fa-ticket fa-rotate-by" style="--fa-rotate-angle: -45deg;"></i>  Купить билет</a>
+                <i class="fa-solid fa-ticket fa-rotate-by" style="--fa-rotate-angle: -45deg;"></i>  {% trans 'Купить билет' %}</a>
     </div>
     {% endfor %}
     </div>

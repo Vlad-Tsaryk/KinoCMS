@@ -1,5 +1,6 @@
 {% extends 'layout/KinoCMS.html' %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <style>
         body {
@@ -14,7 +15,7 @@
     <img src="{% static 'pages/img/Child.png' %}" class="w-100">
 
     <div class="row mt-5">
-        <div class="col-10"><center class="fs-1">Детская комната</center></div>
+        <div class="col-10"><center class="fs-1">{% trans 'Детская комната' %}</center></div>
         <div class="col-2"></div>
         <div class="col">
 
@@ -76,7 +77,7 @@
                                 posuere euismod tempus nec, mollis dignissim diam.
                 {% if gallery.count > 0 %}
 <div class="container mb-4">
-<center class="fs-1">Фотогалерея</center>
+<center class="fs-1">{% trans 'Фотогалерея' %}</center>
                 <div id="carouselExampleCaptions" class="carousel slide rounded" data-bs-ride="carousel">
   <div class="carousel-indicators">
       {% for image in gallery %}

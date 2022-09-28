@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-21 10:53+0000\n"
+"POT-Creation-Date: 2022-09-28 18:23+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,10 +65,8 @@ msgstr "Умови"
 #: cinema/templates/cinema/cinema_update.html:112
 #: cinema/templates/cinema/film_create.html:75
 #: cinema/templates/cinema/film_update.html:74
-#: cinema/templates/cinema/hall_create.html:61
-#: cinema/templates/cinema/hall_create.html:93
-#: cinema/templates/cinema/hall_update.html:62
-#: cinema/templates/cinema/hall_update.html:94
+#: cinema/templates/cinema/hall_create.html:65
+#: cinema/templates/cinema/hall_update.html:67
 msgid "Загрузить"
 msgstr "Завантажити"
 
@@ -78,17 +76,15 @@ msgstr "Завантажити"
 #: cinema/templates/cinema/cinema_update.html:123
 #: cinema/templates/cinema/film_create.html:86
 #: cinema/templates/cinema/film_update.html:85
-#: cinema/templates/cinema/hall_create.html:72
-#: cinema/templates/cinema/hall_create.html:104
-#: cinema/templates/cinema/hall_update.html:73
-#: cinema/templates/cinema/hall_update.html:105
+#: cinema/templates/cinema/hall_create.html:76
+#: cinema/templates/cinema/hall_update.html:78
 msgid "Удалить"
 msgstr "Видалити"
 
 #: cinema/templates/cinema/cinema_create.html:111
 #: cinema/templates/cinema/cinema_update.html:98
-#: cinema/templates/cinema/hall_create.html:79
-#: cinema/templates/cinema/hall_update.html:80
+#: cinema/templates/cinema/hall_create.html:51
+#: cinema/templates/cinema/hall_update.html:53
 msgid "Фото верхнего баннера"
 msgstr "Фото верхнього банера"
 
@@ -96,8 +92,8 @@ msgstr "Фото верхнього банера"
 #: cinema/templates/cinema/cinema_update.html:171
 #: cinema/templates/cinema/film_create.html:121
 #: cinema/templates/cinema/film_update.html:125
-#: cinema/templates/cinema/hall_create.html:113
-#: cinema/templates/cinema/hall_update.html:114
+#: cinema/templates/cinema/hall_create.html:85
+#: cinema/templates/cinema/hall_update.html:87
 msgid "Сохранить"
 msgstr "Зберегти"
 
@@ -124,6 +120,8 @@ msgid "Создать зал"
 msgstr "Створити зал"
 
 #: cinema/templates/cinema/cinemas.html:8
+#: cinema/templates/layout/KinoCMS.html:97
+#: cinema/templates/layout/KinoCMS.html:258
 msgid "Кинотеатры"
 msgstr "Кінотеатри"
 
@@ -132,6 +130,12 @@ msgstr "Кінотеатри"
 #| msgid "Удалить"
 msgid "Удалить кинотеатр?"
 msgstr "Видалити зал?"
+
+#: cinema/templates/cinema/cinemas_site.html:24
+#, fuzzy
+#| msgid "Кинотеатры"
+msgid "Наши кинотеатры"
+msgstr "Кінотеатри"
 
 #: cinema/templates/cinema/film_create.html:57
 msgid "Главная картинка"
@@ -148,9 +152,209 @@ msgid "Тип кино"
 msgstr "Тип кіно"
 
 #: cinema/templates/cinema/films.html:7
+#: cinema/templates/cinema/showtimes.html:37
 msgid "Фильмы"
 msgstr "Фільми"
 
 #: cinema/templates/cinema/films.html:32
+#: cinema/templates/layout/KinoCMS.html:94
 msgid "Скоро"
 msgstr "Скоро"
+
+#: cinema/templates/cinema/movies.html:21
+msgid "Сейчас в кино"
+msgstr "Зараз в кіно"
+
+#: cinema/templates/cinema/movies.html:28 cinema/templates/cinema/soon.html:28
+msgid "Купить билет"
+msgstr "Придбати квиток"
+
+#: cinema/templates/cinema/seat_reservation.html:75
+msgid "зал"
+msgstr "зал"
+
+#: cinema/templates/cinema/seat_reservation.html:80
+msgid "Цена билета грн"
+msgstr "Ціна квитка грн"
+
+#: cinema/templates/cinema/seat_reservation.html:82
+msgid "Забронировано"
+msgstr "Заброньовано"
+
+#: cinema/templates/cinema/seat_reservation.html:85
+msgid "Ваш заказ"
+msgstr "Ваше замовлення"
+
+#: cinema/templates/cinema/seat_reservation.html:87
+msgid "Билетов"
+msgstr "Квитків"
+
+#: cinema/templates/cinema/seat_reservation.html:88
+msgid "Цена"
+msgstr "Ціна"
+
+#: cinema/templates/cinema/seat_reservation.html:101
+msgid "ЭКРАН"
+msgstr "ЕКРАН"
+
+#: cinema/templates/cinema/seat_reservation.html:110
+#: cinema/templates/cinema/seat_reservation.html:247
+msgid "Забронировать"
+msgstr "Забронювати"
+
+#: cinema/templates/cinema/seat_reservation.html:111
+msgid "Купить"
+msgstr "Купити"
+
+#: cinema/templates/cinema/seat_reservation.html:245
+msgid "Подтверждение"
+msgstr "Підтвердження"
+
+#: cinema/templates/cinema/seat_reservation.html:245
+msgid "места"
+msgstr "місця"
+
+#: cinema/templates/cinema/seat_reservation.html:248
+msgid "Места успешно забронированы"
+msgstr "Місця успішно заброньовані"
+
+#: cinema/templates/cinema/seat_reservation.html:251
+msgid "Места успешно куплены"
+msgstr "Місця успішно куплені"
+
+#: cinema/templates/cinema/seat_reservation.html:257
+msgid "Подтвердить"
+msgstr ""
+
+#: cinema/templates/cinema/seat_reservation.html:257
+msgid "Отмена"
+msgstr "Скасування"
+
+#: cinema/templates/cinema/showtimes.html:20
+#: cinema/templates/cinema/showtimes.html:68
+msgid "Дата"
+msgstr "Дата"
+
+#: cinema/templates/cinema/showtimes.html:21
+msgid "Сегодня"
+msgstr "Сьогодні"
+
+#: cinema/templates/cinema/showtimes.html:22
+msgid "Завтра"
+msgstr "Завтра"
+
+#: cinema/templates/cinema/showtimes.html:23
+msgid "Неделя"
+msgstr "Неділя"
+
+#: cinema/templates/cinema/showtimes.html:24
+msgid "Месяц"
+msgstr "Місяць"
+
+#: cinema/templates/cinema/showtimes.html:29
+msgid "Кинотеатр"
+msgstr "Кінотеатр"
+
+#: cinema/templates/cinema/showtimes.html:43
+#: cinema/templates/cinema/showtimes.html:71
+msgid "Зал"
+msgstr "Зал"
+
+#: cinema/templates/cinema/showtimes.html:69
+msgid "Время"
+msgstr "Час"
+
+#: cinema/templates/cinema/showtimes.html:70
+msgid "Фильм"
+msgstr "Фільм"
+
+#: cinema/templates/cinema/showtimes.html:72
+msgid "Цена в грн"
+msgstr "Ціна в грн"
+
+#: cinema/templates/cinema/showtimes.html:73
+msgid "Бронировать"
+msgstr "Бронювати"
+
+#: cinema/templates/layout/KinoCMS.html:88
+#: cinema/templates/layout/KinoCMS.html:255
+msgid "Афиша"
+msgstr "Афіша"
+
+#: cinema/templates/layout/KinoCMS.html:91
+#: cinema/templates/layout/KinoCMS.html:256
+msgid "Расписание"
+msgstr "Розклад"
+
+#: cinema/templates/layout/KinoCMS.html:100
+#: cinema/templates/layout/KinoCMS.html:259
+msgid "Акции"
+msgstr "Акції"
+
+#: cinema/templates/layout/KinoCMS.html:104
+#: cinema/templates/layout/KinoCMS.html:262
+msgid "О кинотеатре"
+msgstr "Про кінотеатр"
+
+#: cinema/templates/layout/KinoCMS.html:106
+#: cinema/templates/layout/KinoCMS.html:263
+msgid "Новости"
+msgstr "Новини"
+
+#: cinema/templates/layout/KinoCMS.html:107
+msgid "Vip-зал"
+msgstr "Vip-зал"
+
+#: cinema/templates/layout/KinoCMS.html:108
+#: cinema/templates/layout/KinoCMS.html:264
+msgid "Реклама"
+msgstr "Реклама"
+
+#: cinema/templates/layout/KinoCMS.html:109
+msgid "Детская комната"
+msgstr "Дитяча кімната"
+
+#: cinema/templates/layout/KinoCMS.html:110
+msgid "Кафе"
+msgstr "Кафе"
+
+#: cinema/templates/layout/KinoCMS.html:111
+msgid "Мобильные прил"
+msgstr "Мобільні дод"
+
+#: cinema/templates/layout/KinoCMS.html:112
+#: cinema/templates/layout/KinoCMS.html:266
+msgid "Контакты"
+msgstr "Контакти"
+
+#: cinema/templates/layout/KinoCMS.html:171
+msgid "Смотрите сегодня"
+msgstr "Дивіться сьогодні"
+
+#: cinema/templates/layout/KinoCMS.html:183
+msgid "Смотрите скоро"
+msgstr "Дивіться скоро"
+
+#: cinema/templates/layout/KinoCMS.html:191
+msgid "C"
+msgstr "З"
+
+#: cinema/templates/layout/KinoCMS.html:197
+msgid "Новости и Акции"
+msgstr "Новини та Акції"
+
+#: cinema/templates/layout/KinoCMS.html:249
+msgid "Мобильные приложения"
+msgstr "Мобільні додатки"
+
+#: cinema/templates/layout/KinoCMS.html:252
+msgid "Разработка сайтов"
+msgstr "Розробка сайтів"
+
+#: cinema/templates/layout/KinoCMS.html:257
+msgid "Скоро в прокате"
+msgstr "Скоро в прокаті"
+
+#: cinema/templates/layout/KinoCMS.html:265
+msgid "Кафе-бар"
+msgstr "Кафе-бар"

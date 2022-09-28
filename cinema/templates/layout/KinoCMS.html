@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,38 +78,38 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-3"></div>
+        <div class="col-2"></div>
         <div class="col-8">
             <nav class="navbar navbar-expand-lg navbar-light border border-dark">
                 <div class="container-fluid">
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul class="navbar-nav">
                             <li class="nav-item ps-4 pe-4">
-                                <a class="nav-link" href="{% url 'movies' %}" id="nav_movies">Афиша</a>
+                                <a class="nav-link" href="{% url 'movies' %}" id="nav_movies">{% trans 'Афиша' %}</a>
                             </li>
                             <li class="nav-item ps-4 pe-4">
-                                <a class="nav-link" href="{% url 'showtimes' %}" id="nav_showtime">Расписание</a>
+                                <a class="nav-link" href="{% url 'showtimes' %}" id="nav_showtime">{% trans 'Расписание' %}</a>
                             </li>
                             <li class="nav-item ps-4 pe-4">
-                                <a class="nav-link" href="{% url 'soon' %}" id="nav_soon">Скоро</a>
+                                <a class="nav-link" href="{% url 'soon' %}" id="nav_soon">{% trans 'Скоро' %}</a>
                             </li>
                             <li class="nav-item ps-4 pe-4">
-                                <a class="nav-link" href="{% url 'cinemas_page' %}" id="nav_cinemas">Кинотеатры</a>
+                                <a class="nav-link" href="{% url 'cinemas_page' %}" id="nav_cinemas">{% trans 'Кинотеатры' %}</a>
                             </li>
                             <li class="nav-item ps-4 pe-4">
-                                <a class="nav-link" href="{% url 'site_promos' %}" id="nav_promos">Акции</a>
+                                <a class="nav-link" href="{% url 'site_promos' %}" id="nav_promos">{% trans 'Акции' %}</a>
                             </li>
                             <li class="nav-item dropdown  ps-4 pe-4">
                                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                                   aria-expanded="false">О кинотеатре</a>
+                                   aria-expanded="false">{% trans 'О кинотеатре' %}</a>
                                 <ul class="dropdown-menu dropdown-menu-dark">
-                                    <li><a class="dropdown-item" href="{% url 'site_news' %}" id="nav_news">Новости</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'site_vip' %}">Vip-зал</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'site_advertiser' %}">Реклама</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'site_children_room' %}">Детская комната</a></li>
-                                    <li><a class="dropdown-item" href="#">Кафе</a></li>
-                                    <li><a class="dropdown-item" href="#">Мобильные прил</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'site_contact' %}" id="nav_contact">Контакты</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'site_news' %}" id="nav_news">{% trans 'Новости' %}</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'site_vip' %}">{% trans 'Vip-зал' %}</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'site_advertiser' %}">{% trans 'Реклама' %}</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'site_children_room' %}">{% trans 'Детская комната' %}</a></li>
+                                    <li><a class="dropdown-item" href="#">{% trans 'Кафе' %}</a></li>
+                                    <li><a class="dropdown-item" href="#">{% trans 'Мобильные прил' %}</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'site_contact' %}" id="nav_contact">{% trans 'Контакты' %}</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -116,11 +117,22 @@
                 </div>
             </nav>
         </div>
-        <div class="col-1">
-            <select class="form-select">
-                <option>рус</option>
-                <option>укр</option>
-            </select>
+        <div class="col-2">
+
+<form action="{% url 'set_language' %}" method="post">
+    {% csrf_token %}
+    <select name="language" id="language" class="form-select light">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                {{ language.name_local }} ({{ language.code }})
+            </option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Switch" hidden id="change_language">
+</form>
 
         </div>
     </div>
@@ -167,7 +179,7 @@
                 </div>
             </div>
         {% endif %}
-        <div class="text-lg-center fs-1"><b>Смотрите сегодня</b>, {{ current_day }}</div>
+        <div class="text-lg-center fs-1"><b>{% trans 'Смотрите сегодня' %}</b>, {{ current_day }}</div>
 
         <div class="row row-cols-4">
             {% for film in films_today %}
@@ -175,11 +187,11 @@
                 <a class="fs-4 link-dark" href="{% url 'film_card' film.pk %}">
                     <img class="rounded ml-auto mr-auto" src="{{ film.main_image.url }}" height="300" width="250">
                 <p><b>{{ film.name }}</b></p></a>
-                <b class="fs-4 text-success">C {{ film.get_date }}</b>
+                <a class="btn btn-success" href="{% url 'film_card' film.pk %}">{% trans 'Купить билет' %}</a>
                 </div>
             {% endfor %}
         </div>
-        <div class="text-lg-center fs-1"><b>Смотрите скоро</b></div>
+        <div class="text-lg-center fs-1" ><b>{% trans 'Смотрите скоро' %}</b></div>
 
         <div class="row row-cols-4">
             {% for film in films_soon %}
@@ -187,13 +199,13 @@
                 <a class="fs-4 link-dark" href="{% url 'film_card' film.pk %}">
                     <img class="rounded ml-auto mr-auto" src="{{ film.main_image.url }}" height="300" width="250">
                 <p><b>{{ film.name }}</b></p></a>
-                <b class="fs-4 text-success">C {{ film.get_date }}</b>
+                <b class="fs-4 text-success">{% trans 'C' %} {{ film.get_date }}</b>
                 </div>
             {% endfor %}
 
         </div>
         {% if banners_news_collection.active %}
-            <div class="text-lg-center fs-1"><b>Новости и Акции</b></div>
+            <div class="text-lg-center fs-1"><b>{% trans 'Новости и Акции' %}</b></div>
             <div class="container p-0" id="news">
                 <div class="w-100">
                     <div class="w-100">
@@ -245,24 +257,24 @@
     <hr size="8" style="background-color: black;margin-top: 0px">
     <div class="row">
         <div class="col">
-            <b class="fs-4">Мобильные приложения</b><br>
+            <b class="fs-4">{% trans 'Мобильные приложения' %}</b><br>
             <img src="{% static 'cinema/img/google-play-badge.svg' %}" width="160">
             <img src="{% static 'cinema/img/black.svg' %}" width="160">
-            <p>Разработка сайтов: AVADA-MEDIA</p>
+            <p>{% trans 'Разработка сайтов' %}: AVADA-MEDIA</p>
         </div>
         <div class="col-3">
-            <p>Афиша</p>
-            <p>Расписание</p>
-            <p>Скоро в прокате</p>
-            <p>Кинотеатры</p>
-            <p>Акции</p>
+            <p>{% trans 'Афиша' %}</p>
+            <p>{% trans 'Расписание' %}</p>
+            <p>{% trans 'Скоро в прокате' %}</p>
+            <p>{% trans 'Кинотеатры' %}</p>
+            <p>{% trans 'Акции' %}</p>
         </div>
         <div class="col-2">
-            <p>О кинотеатре</p>
-            <p>Новости</p>
-            <p>Реклама</p>
-            <p>Кафе-бар</p>
-            <p>Контакты</p>
+            <p>{% trans 'О кинотеатре' %}</p>
+            <p>{% trans 'Новости' %}</p>
+            <p>{% trans 'Реклама' %}</p>
+            <p>{% trans 'Кафе-бар' %}</p>
+            <p>{% trans 'Контакты' %}</p>
         </div>
         <div class="col-3">
             <img src="{% static 'cinema/img/facebook.png' %}" width="48">
@@ -279,6 +291,12 @@
 <!-- jQuery -->
 <script src="{% static 'adminLte/plugins/jquery/jquery.min.js' %}"></script>
 
+<script>
+    $('#language').change(function () {
+        $('#change_language').click()
+
+    })
+</script>
 {% block scripts %}
     <script>
         $('.navbar-nav').attr('class', 'navbar-nav bg-light')
