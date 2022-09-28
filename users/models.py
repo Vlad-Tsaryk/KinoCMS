@@ -25,7 +25,7 @@ class User(AbstractUser):
 class Ticket(models.Model):
     session = models.ForeignKey(Session, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    seat = models.SmallIntegerField()
+    seat = models.CharField(max_length=5)
     reservation = models.BooleanField()
 
 

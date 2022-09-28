@@ -34,6 +34,7 @@ class HallForm(forms.ModelForm):
     name_ru = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'name_id', 'width': '30%'}))
     description_uk = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}))
     description_ru = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}))
+    scheme = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}))
 
     class Meta:
         model = Hall

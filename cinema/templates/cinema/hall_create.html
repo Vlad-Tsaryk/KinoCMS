@@ -45,35 +45,7 @@
     </div>
     <div class="form-group">
                 <label for="{{ hall_form.scheme.id_for_label }}" class="form-label">Схема</label>
-                <div class="row">
-                    <div class="col-sm-2">
-                        <div>
-                                <img id="img_{{ hall_form.scheme.auto_id }}" height="250" width="150"
-                                     class="d-block ml-auto mr-auto d-inline"
-                                     src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %} ">
-                        </div>
-
-                    </div>
-                    <div class="col-sm-2">
-                        <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
-                                type="button"
-                                onclick="chooseFile('{{ hall_form.scheme.auto_id }}','img_{{ hall_form.scheme.auto_id }}')">
-                            {% trans 'Загрузить' %}
-                        </button>
-                        <div style="height:0px;overflow:hidden">
-                            {{ hall_form.scheme }}
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        {{ hall_form.scheme.clear }}
-                        <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
-                                type="button"
-                                onclick="clearFile('{{ hall_form.scheme.auto_id }}','img_{{ hall_form.scheme.auto_id }}')"
-                        >{% trans 'Удалить' %}
-                        </button>
-                    </div>
-
-                </div>
+                {{ hall_form.scheme }}
             </div>
         <div class="form-group">
             <label for="{{ hall_form.banner_image.id_for_label }}" class="form-label">{% trans 'Фото верхнего баннера' %}</label>

@@ -1,5 +1,6 @@
 {% extends 'layout/KinoCMS.html' %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <style>
         body {
@@ -16,16 +17,16 @@
     <div class="col-3"></div>
             <div class="col-2">
         <select class="form-select">
-            <option onclick="sort_by_date()">Дата</option>
-            <option onclick="sort_by_date('today')">Сегодня</option>
-            <option onclick="sort_by_date('tomorrow')">Завтра</option>
-            <option onclick="sort_by_date('week')">Неделя</option>
-            <option onclick="sort_by_date('month')">Месяц</option>
+            <option onclick="sort_by_date()">{% trans 'Дата' %}</option>
+            <option onclick="sort_by_date('today')">{% trans 'Сегодня' %}</option>
+            <option onclick="sort_by_date('tomorrow')">{% trans 'Завтра' %}</option>
+            <option onclick="sort_by_date('week')">{% trans 'Неделя' %}</option>
+            <option onclick="sort_by_date('month')">{% trans 'Месяц' %}</option>
         </select>
         </div>
     <div class="col-2">
         <select class="form-select">
-            <option onclick="sort_by()" >Кинотеатр</option>
+            <option onclick="sort_by()" >{% trans 'Кинотеатр' %}</option>
             {% for name in cinemas_names %}
                 <option value="{{ name }}" onclick="sort_by('{{ name }}','cinema')">{{ name }}</option>
             {% endfor %}
@@ -33,13 +34,13 @@
     </div>
     <div class="col-2">
         <select id="film_sort" class="form-select">
-            <option id="film_header" onclick="sort_by()">Фильмы</option>
+            <option id="film_header" onclick="sort_by()">{% trans 'Фильмы' %}</option>
 
         </select>
     </div>
     <div class="col-2">
         <select id="hall_sort" class="form-select">
-            <option id="hall_header" onclick="sort_by(undefined,'hall')">Зал</option>
+            <option id="hall_header" onclick="sort_by(undefined,'hall')">{% trans 'Зал' %}</option>
         </select>
     </div>
     </div>
@@ -55,7 +56,7 @@
                         <td id="film" style="text-align: center;"></td>
                         <td id="hall" style="text-align: center;"></td>
                         <td id="price" style="text-align: center;"></td>
-                        <td class="text-center"><i class="fa-solid fa-ticket fs-3 text-warning"></i></td>
+                        <td class="text-center"><a id="reservation"><i class="fa-solid fa-ticket fs-3 text-warning"></i></a></td>
 
                     </tr>
                     </tbody>
@@ -64,12 +65,12 @@
                 <table class="table table-light border border-warning border-5 w-100 center">
                     <thead>
                     <tr>
-                        <th scope="col" style="text-align: center;">Дата</th>
-                        <th scope="col" style="text-align: center;">Время</th>
-                        <th scope="col" style="text-align: center;">Фильм</th>
-                        <th scope="col" style="text-align: center;">Зал</th>
-                        <th scope="col" style="text-align: center;">Цена в грн.</th>
-                        <th scope="col" style="text-align: center;">Бронировать</th>
+                        <th scope="col" style="text-align: center;">{% trans 'Дата' %}</th>
+                        <th scope="col" style="text-align: center;">{% trans 'Время' %}</th>
+                        <th scope="col" style="text-align: center;">{% trans 'Фильм' %}</th>
+                        <th scope="col" style="text-align: center;">{% trans 'Зал' %}</th>
+                        <th scope="col" style="text-align: center;">{% trans 'Цена в грн' %}.</th>
+                        <th scope="col" style="text-align: center;">{% trans 'Бронировать' %}</th>
 
                     </tr>
                     </thead>
@@ -79,19 +80,10 @@
             </div>
             <div class="col"><img src="{% static 'cinema/img/promo_context.png' %}" height="400"></div>
         </div>
-        <form method="GET">
-            <select id="session-selected">
-                {% for session in sessions_today %}
-                    <option value="{{ session.id }}">
-                        {{ session.name }}
-                    </option>
-                {% endfor %}
-            </select>
-            <input type="button" value="Update" id="selection-button" onclick="update()">
-        </form>
 
 
     </div>
+
 {% endblock %}
 {% block scripts %}
     <script>
@@ -143,6 +135,10 @@
                     clone.find('#film').text(item.film__name)
                     clone.find('#hall').text(item.hall__name)
                     clone.find('#price').text(item.price)
+                    let link = "{% url 'reservation' session_id=12345 %}".replace(/12345/, item.pk)
+                    clone.find('#reservation').attr('href', link)
+                    let pk = parseInt(item.pk)
+                    console.log()
                     clone.appendTo('#sessions_list')
                     set_films_options(item)
                     set_halls_options(item)
@@ -226,8 +222,7 @@ console.log('next_month'+new Date().next_month())
 
                 if (date_option === 'today') {
                     sorted_by_date = res_data.sessions.filter(function (item) {
-                        let time = new Date().timeNow()
-                        return item['date_time'] === today && item['date_time__time'] > time
+                        return item['date_time'] === today
                     })
                 }
                 if (date_option === 'tomorrow') {

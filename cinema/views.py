@@ -1,5 +1,5 @@
 import datetime
-
+import json
 from django.forms import modelformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
@@ -12,6 +12,7 @@ from gallery_seo.forms import Image
 from django.contrib.auth.decorators import login_required
 from baners.models import Background_banner, Banner, Banner_collection, Banner_news, Banner_news_collection
 from pages.models import Main_page
+from users.models import Ticket
 
 
 # Create your views here.
@@ -146,7 +147,7 @@ def cinemas(request):
 def cinema_update(request, cinema_id):
     obj = get_object_or_404(Cinema, id=cinema_id)
     gallery_qs = Image.objects.filter(galleryId=obj.gallery.pk)
-    halls = Hall.objects.filter(cinema_id=cinema_id)
+    halls = Hall.objects.filter(cinema_id=cinema_id).order_by('name')
     if request.method == 'POST':
         cinema_form = CinemaForm(request.POST, request.FILES or None, instance=obj)
         image_form_set = ImageFormSet(request.POST, request.FILES or None, queryset=gallery_qs)
@@ -307,9 +308,11 @@ def cinemas_page(request):
 
 
 def showtimes(request):
-    sessions = Session.objects.all().values('film__name', 'hall__cinema__name', 'hall__name', 'price',
-                                            'date_time__time', 'date_time')
     today = datetime.datetime.today()
+    print(today)
+    sessions = Session.objects.filter(date_time__gt=today).values('pk','film__name', 'hall__cinema__name', 'hall__name', 'price',
+                                            'date_time__time', 'date_time')
+
     cinemas_names = []
     films_names = []
     print(sessions)
@@ -322,7 +325,8 @@ def showtimes(request):
     sessions_list = list(sessions)
     main_page = Main_page.objects.get(pk=1)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return JsonResponse({'sessions': sessions_list})
+        if request.method == 'GET':
+            return JsonResponse({'sessions': sessions_list})
 
     context = {'main_page': main_page, 'cinemas_names': cinemas_names, 'films_names': films_names}
     return render(request, 'cinema/showtimes.html', context)
@@ -332,5 +336,40 @@ def film_card(request, film_id):
     obj_films = Film.objects.get(pk=film_id)
     main_page = Main_page.objects.get(pk=1)
     film_sessions = Session.objects.filter(film_id=film_id)
-    context = {'film': obj_films, 'main_page': main_page, 'film_sessions': film_sessions}
+    cinema_list = []
+    session_dates = []
+    for s in film_sessions:
+        if s.hall.cinema.name not in cinema_list:
+            cinema_list.append(s.hall.cinema.name)
+        if s.date_time.date() not in session_dates:
+            session_dates.append(s.date_time.date())
+    context = {'film': obj_films, 'main_page': main_page, 'cinema_list': cinema_list, 'session_dates': session_dates}
     return render(request, 'cinema/film_card.html', context)
+
+
+def seat_reservation(request, session_id):
+    obj_session = Session.objects.get(pk=session_id)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        sold_out = []
+        if request.method == 'POST':
+            data = json.load(request)
+            seats = data.get('seats')
+            reservation = data.get('reserved')
+            print(reservation)
+            for seat in seats:
+                ticket = Ticket(session_id=session_id, user_id=request.user.pk, seat=seat, reservation=reservation)
+                ticket.save()
+            tickets = Ticket.objects.filter(session=obj_session).values('seat')
+            for ticket in tickets:
+                sold_out.append(ticket['seat'])
+            return JsonResponse({'sold_out': sold_out})
+        if request.method == 'GET':
+            tickets = Ticket.objects.filter(session=obj_session).values('seat')
+            for ticket in tickets:
+                sold_out.append(ticket['seat'])
+            return JsonResponse({'sold_out': sold_out})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+
+
+    context = {'session': obj_session}
+    return render(request, 'cinema/seat_reservation.html', context)

@@ -18,21 +18,26 @@
     <div class="container">
     <div class="row">
 {#    {% get_obj obj=film_sessions as test %}#}
-    {% for session in film_sessions|dictsort:"date_time" %}
-{#        {% test obj=session  %}#}
-        {{ session.hall.cinema.name }}
+    <select>
+        {% for cinema in cinema_list %}
+        <option>{{ cinema }}</option>
+        {% endfor %}
+    </select>
+    {% for date in session_dates %}
     <div class="col-1">
     <table class="table border border-light text-center text-light">
         <tr>
-            <th>{{ session.date_time|date:'d,D' }}</th></tr>
-        <tr><td>{{ session.date_time|date:'F' }}</td></tr>
+            <th>{{ date|date:'d,D' }}</th></tr>
+        <tr><td>{{ date|date:'F' }}</td></tr>
     </table>
+
 {#    <div style="height: 100px; width: 100px;" class="border border-dark">#}
 {#        {{ session.date_time|date:'d,D' }}#}
 {#        <br>{{ session.date_time|date:'F' }}#}
 {#    </div>#}
     </div>
     {% endfor %}
+
     </div>
 
 
