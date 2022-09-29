@@ -16,7 +16,7 @@ from users.models import Ticket
 
 
 # Create your views here.
-@login_required(login_url='login_page')
+@login_required()
 def films(request):
     date = datetime.date.today()
     films_now = Film.objects.filter(date__lte=date)
@@ -26,7 +26,7 @@ def films(request):
     return render(request, 'cinema/films.html', context)
 
 
-@login_required(login_url='login_page')
+@login_required()
 def add_film(request):
     if request.method == 'POST':
         seo_form = SeoForm(request.POST, prefix='seo')
@@ -61,7 +61,7 @@ def add_film(request):
                                                        })
 
 
-@login_required(login_url='login_page')
+@login_required()
 def film_update(request, film_id):
     obj = get_object_or_404(Film, id=film_id)
     gallery_qs = Image.objects.filter(galleryId=obj.gallery.pk)
@@ -98,7 +98,7 @@ def film_update(request, film_id):
                                                        })
 
 
-@login_required(login_url='login_page')
+@login_required()
 def add_cinema(request):
     print(request.POST, request.FILES)
     if request.method == 'POST':
@@ -143,7 +143,7 @@ def cinemas(request):
     return render(request, 'cinema/cinemas.html', context)
 
 
-@login_required(login_url='login_page')
+@login_required()
 def cinema_update(request, cinema_id):
     obj = get_object_or_404(Cinema, id=cinema_id)
     gallery_qs = Image.objects.filter(galleryId=obj.gallery.pk)
@@ -183,6 +183,7 @@ def cinema_update(request, cinema_id):
     return render(request, 'cinema/cinema_update.html', context)
 
 
+@login_required()
 def delete_cinema(request, cinema_id):
     obj_cinema = Cinema.objects.get(pk=cinema_id)
     obj_cinema.delete()
@@ -223,7 +224,7 @@ def add_hall(request, cinema_id):
     return render(request, 'cinema/hall_create.html', context)
 
 
-@login_required(login_url='login_page')
+@login_required()
 def hall_update(request, cinema_id, hall_id):
     obj = get_object_or_404(Hall, id=hall_id)
     gallery_qs = Image.objects.filter(galleryId=obj.gallery.pk)
@@ -260,7 +261,7 @@ def hall_update(request, cinema_id, hall_id):
     return render(request, 'cinema/hall_update.html', context)
 
 
-@login_required(login_url='login_page')
+@login_required()
 def delete_hall(request, hall_id, cinema_id):
     hall = Hall.objects.get(id=hall_id)
     hall.delete()
@@ -310,8 +311,9 @@ def cinemas_page(request):
 def showtimes(request):
     today = datetime.datetime.today()
     print(today)
-    sessions = Session.objects.filter(date_time__gt=today).values('pk','film__name', 'hall__cinema__name', 'hall__name', 'price',
-                                            'date_time__time', 'date_time')
+    sessions = Session.objects.filter(date_time__gt=today).values('pk', 'film__name', 'hall__cinema__name',
+                                                                  'hall__name', 'price',
+                                                                  'date_time__time', 'date_time')
 
     cinemas_names = []
     films_names = []
@@ -347,6 +349,7 @@ def film_card(request, film_id):
     return render(request, 'cinema/film_card.html', context)
 
 
+@login_required()
 def seat_reservation(request, session_id):
     obj_session = Session.objects.get(pk=session_id)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -370,6 +373,9 @@ def seat_reservation(request, session_id):
             return JsonResponse({'sold_out': sold_out})
         return JsonResponse({'status': 'Invalid request'}, status=400)
 
-
     context = {'session': obj_session}
     return render(request, 'cinema/seat_reservation.html', context)
+
+
+def cinema_card(request, cinema_id):
+    pass

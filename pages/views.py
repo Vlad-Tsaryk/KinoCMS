@@ -4,15 +4,18 @@ from gallery_seo.models import Image
 from .forms import NewsPromoForm, MainPageForm, OtherPageForm, ContactPageForm, ContactCollectionForm, ContactFormSet
 from .models import News_promo, Other_page, Main_page, Contact_page, Contact_collection
 from baners.models import Banner_news, Banner_news_collection
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required()
 def news(request):
     news = News_promo.objects.filter(type='News')
     context = {'news': news}
     return render(request, 'pages/news.html', context)
 
 
+@login_required()
 def delete_news_promo(request, news_promo_id):
     news_promo = News_promo.objects.get(id=news_promo_id)
     if news_promo.type == 'News':
@@ -22,6 +25,7 @@ def delete_news_promo(request, news_promo_id):
     return redirect('promos')
 
 
+@login_required()
 def add_news_promo(request, form_type):
     print(form_type)
     if request.method == 'POST':
@@ -59,6 +63,7 @@ def add_news_promo(request, form_type):
     return render(request, 'pages/add_news_promo.html', context)
 
 
+@login_required()
 def news_promo_update(request, news_promo_id):
     obj = get_object_or_404(News_promo, id=news_promo_id)
     gallery_qs = Image.objects.filter(galleryId=obj.gallery.pk)
@@ -96,12 +101,14 @@ def news_promo_update(request, news_promo_id):
     return render(request, 'pages/news_promo_update.html', context)
 
 
+@login_required()
 def promos(request):
     obj_promos = News_promo.objects.filter(type='Promo')
     context = {'promos': obj_promos}
     return render(request, 'pages/promos.html', context)
 
 
+@login_required()
 def pages(request):
     obj_main_page = Main_page.objects.get(pk=1)
     obl_contact_page = Contact_collection.objects.get(pk=1)
@@ -110,6 +117,7 @@ def pages(request):
     return render(request, 'pages/pages.html', context)
 
 
+@login_required()
 def add_main_page(request):
     if request.method == 'POST':
         main_page_form = MainPageForm(request.POST)
@@ -131,6 +139,7 @@ def add_main_page(request):
     return render(request, 'pages/main_page.html', context)
 
 
+@login_required()
 def update_main_page(request, main_page_id):
     obj_main_page = get_object_or_404(Main_page, id=main_page_id)
     if request.method == 'POST':
@@ -151,6 +160,7 @@ def update_main_page(request, main_page_id):
     return render(request, 'pages/main_page.html', context)
 
 
+@login_required()
 def add_page(request):
     if request.method == 'POST':
         other_page_form = OtherPageForm(request.POST, request.FILES)
@@ -183,6 +193,7 @@ def add_page(request):
     return render(request, 'pages/add_update_page.html', context)
 
 
+@login_required()
 def update_page(request, page_id):
     obj_page = get_object_or_404(Other_page, id=page_id)
     gallery_qs = Image.objects.filter(galleryId=obj_page.gallery.pk)
@@ -217,12 +228,14 @@ def update_page(request, page_id):
     return render(request, 'pages/add_update_page.html', context)
 
 
+@login_required()
 def delete_page(request, page_id):
     del_page = Other_page.objects.get(id=page_id)
     del_page.delete()
     return redirect('pages')
 
 
+@login_required()
 def contact_page(request):
     obj_collection = get_object_or_404(Contact_collection, id=1)
     contacts_qs = Contact_page.objects.filter(contact_collection_id=1)

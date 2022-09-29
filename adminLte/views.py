@@ -3,11 +3,12 @@ from django.shortcuts import render
 from users.models import User
 from cinema.models import Session
 import datetime
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required()
 def statistic(request):
-
     obj_users = User.objects.all()
     today = datetime.date.today()
     last_month = today.replace(month=today.month - 1)
