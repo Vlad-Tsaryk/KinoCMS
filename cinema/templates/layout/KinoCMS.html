@@ -78,7 +78,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-2"></div>
+        <div class="col-2 d-table">
+            {% if user.is_superuser %}
+                <a class="btn btn-primary d-table-cell align-middle fs-5" href="{% url 'statistic' %}">AdminLte</a>
+            {% endif %}
+        </div>
         <div class="col-8">
             <nav class="navbar navbar-expand-lg navbar-light border border-dark">
                 <div class="container-fluid">

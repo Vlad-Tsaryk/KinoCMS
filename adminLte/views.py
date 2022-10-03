@@ -3,11 +3,12 @@ from django.shortcuts import render
 from users.models import User
 from cinema.models import Session
 import datetime
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 # Create your views here.
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def statistic(request):
     obj_users = User.objects.all()
     today = datetime.date.today()

@@ -9,7 +9,7 @@ from .models import Film, Hall, Cinema, RU_MONTH_VALUES, Session
 from .forms import FilmForm, CinemaForm, HallFormSet, HallForm
 from gallery_seo.forms import SeoForm, GalleryForm, ImageFormSet
 from gallery_seo.forms import Image
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from baners.models import Background_banner, Banner, Banner_collection, Banner_news, Banner_news_collection
 from pages.models import Main_page
 from users.models import Ticket
@@ -18,6 +18,7 @@ import locale
 
 # Create your views here.
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def films(request):
     date = datetime.date.today()
     films_now = Film.objects.filter(date__lte=date)
@@ -28,6 +29,7 @@ def films(request):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def add_film(request):
     if request.method == 'POST':
         seo_form = SeoForm(request.POST, prefix='seo')
@@ -63,6 +65,7 @@ def add_film(request):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def film_update(request, film_id):
     obj = get_object_or_404(Film, id=film_id)
     gallery_qs = Image.objects.filter(galleryId=obj.gallery.pk)
@@ -100,6 +103,7 @@ def film_update(request, film_id):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def add_cinema(request):
     print(request.POST, request.FILES)
     if request.method == 'POST':
@@ -138,6 +142,7 @@ def add_cinema(request):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def cinemas(request):
     cinemas = Cinema.objects.all()
     context = {"cinemas": cinemas}
@@ -145,6 +150,7 @@ def cinemas(request):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def cinema_update(request, cinema_id):
     obj = get_object_or_404(Cinema, id=cinema_id)
     gallery_qs = Image.objects.filter(galleryId=obj.gallery.pk)
@@ -185,6 +191,7 @@ def cinema_update(request, cinema_id):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def delete_cinema(request, cinema_id):
     obj_cinema = Cinema.objects.get(pk=cinema_id)
     obj_cinema.delete()
@@ -192,6 +199,7 @@ def delete_cinema(request, cinema_id):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def add_hall(request, cinema_id):
     if request.method == 'POST':
         hall_form = HallForm(request.POST, request.FILES)
@@ -226,6 +234,7 @@ def add_hall(request, cinema_id):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def hall_update(request, cinema_id, hall_id):
     obj = get_object_or_404(Hall, id=hall_id)
     gallery_qs = Image.objects.filter(galleryId=obj.gallery.pk)
@@ -263,6 +272,7 @@ def hall_update(request, cinema_id, hall_id):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def delete_hall(request, hall_id, cinema_id):
     hall = Hall.objects.get(id=hall_id)
     hall.delete()
@@ -402,7 +412,14 @@ def seat_reservation(request, session_id):
 
 
 def cinema_card(request, cinema_id):
-    pass
+    obj_cinema = Cinema.objects.get(pk=cinema_id)
+    cinema_gallery = Image.objects.filter(galleryId=obj_cinema.gallery.pk)
+    cinema_halls = Hall.objects.filter(cinema=obj_cinema).order_by('name')
+    context = {'cinema': obj_cinema,
+               'gallery': cinema_gallery,
+               'halls': cinema_halls
+               }
+    return render(request, 'cinema/cinema_card.html', context)
 
 
 def hall_card(request, hall_id):

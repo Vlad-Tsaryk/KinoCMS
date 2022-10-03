@@ -4,11 +4,12 @@ from gallery_seo.models import Image
 from .forms import NewsPromoForm, MainPageForm, OtherPageForm, ContactPageForm, ContactCollectionForm, ContactFormSet
 from .models import News_promo, Other_page, Main_page, Contact_page, Contact_collection
 from baners.models import Banner_news, Banner_news_collection
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 # Create your views here.
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def news(request):
     news = News_promo.objects.filter(type='News')
     context = {'news': news}
@@ -16,6 +17,7 @@ def news(request):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def delete_news_promo(request, news_promo_id):
     news_promo = News_promo.objects.get(id=news_promo_id)
     if news_promo.type == 'News':
@@ -26,6 +28,7 @@ def delete_news_promo(request, news_promo_id):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def add_news_promo(request, form_type):
     print(form_type)
     if request.method == 'POST':
@@ -64,6 +67,7 @@ def add_news_promo(request, form_type):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def news_promo_update(request, news_promo_id):
     obj = get_object_or_404(News_promo, id=news_promo_id)
     gallery_qs = Image.objects.filter(galleryId=obj.gallery.pk)
@@ -102,6 +106,7 @@ def news_promo_update(request, news_promo_id):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def promos(request):
     obj_promos = News_promo.objects.filter(type='Promo')
     context = {'promos': obj_promos}
@@ -109,6 +114,7 @@ def promos(request):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def pages(request):
     obj_main_page = Main_page.objects.get(pk=1)
     obl_contact_page = Contact_collection.objects.get(pk=1)
@@ -118,6 +124,7 @@ def pages(request):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def add_main_page(request):
     if request.method == 'POST':
         main_page_form = MainPageForm(request.POST)
@@ -140,6 +147,7 @@ def add_main_page(request):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def update_main_page(request, main_page_id):
     obj_main_page = get_object_or_404(Main_page, id=main_page_id)
     if request.method == 'POST':
@@ -161,6 +169,7 @@ def update_main_page(request, main_page_id):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def add_page(request):
     if request.method == 'POST':
         other_page_form = OtherPageForm(request.POST, request.FILES)
@@ -194,6 +203,7 @@ def add_page(request):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def update_page(request, page_id):
     obj_page = get_object_or_404(Other_page, id=page_id)
     gallery_qs = Image.objects.filter(galleryId=obj_page.gallery.pk)
@@ -229,6 +239,7 @@ def update_page(request, page_id):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def delete_page(request, page_id):
     del_page = Other_page.objects.get(id=page_id)
     del_page.delete()
@@ -236,6 +247,7 @@ def delete_page(request, page_id):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def contact_page(request):
     obj_collection = get_object_or_404(Contact_collection, id=1)
     contacts_qs = Contact_page.objects.filter(contact_collection_id=1)
@@ -280,15 +292,11 @@ def site_promos(request):
     return render(request, 'pages/site_promos.html', context)
 
 
-def promo_card(request, promo_id):
-    promo = News_promo.objects.get(pk=promo_id)
+def news_promo_card(request, news_promo_id):
+    news_promo = News_promo.objects.get(pk=news_promo_id)
     main_page = Main_page.objects.get(pk=1)
-    banners_news = Banner_news.objects.all()
-    banners_news_collection = Banner_news_collection.objects.get(pk=1)
-    context = {'promo': promo, 'main_page': main_page,
-               'banners_news_collection': banners_news_collection, 'banners_news': banners_news}
+    context = {'news_promo': news_promo, 'main_page': main_page}
     return render(request, 'pages/promo_card.html', context)
-
 
 def site_news(request):
     obj_news = News_promo.objects.filter(type='News').order_by('date')

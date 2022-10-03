@@ -11,14 +11,14 @@
     </style>
 {% endblock %}
 {% block content %}
-    <div><img src="{{ promos.first.main_image.url }}" height="400px" width="100%"></div>
+    <div><img src="{{ news_promo.main_image.url }}" height="400px" width="100%"></div>
     <div class="row mt-5">
 
     <div class="col"><div class="container-fluid m-0">
-        <b class="fs-1">{{ promo.name }}</b>
+        <b class="fs-1">{{ news_promo.name }}</b>
         <div class="row mt-3">
-            <div class="col-4"><img src="{{ promo.main_image.url }}" height="300"  width="450" class="rounded"></div>
-            <div class="col fs-4"><b style="color: #abbac9">{{ promo.description }}</b></div>
+            <div class="col-4"><img src="{{ news_promo.main_image.url }}" height="300"  width="450" class="rounded"></div>
+            <div class="col fs-4"><b style="color: #abbac9">{{ news_promo.description }}</b></div>
         </div>
 
 

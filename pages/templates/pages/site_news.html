@@ -55,9 +55,10 @@
         {% for news  in news_list %}
         {% if news.active %}
             <div class="col">
+            <a href="{% url 'news_promo_card' news.pk %}" class="fs-4 d-block text-light" style="text-align: center">
             <img src="{{ news.main_image.url }}" height="300"  width="450" class="rounded">
-            <br><a href="#" class="fs-4">{{ news.name }}</a>
-            <br><div class="border border-2 rounded-pill border-dark d-inline-block p-1"
+            <br>{{ news.name }}</a>
+            <div class="border border-2 rounded-pill border-dark d-inline-block p-1"
                      style="background-color: #1c1b1b; font-size: smaller"><b>{{ news.date|date:'d.m.Y' }}</b> </div>
             <p style="color: #abbac9"><b>{{ news.description }}</b></p>
             </div>

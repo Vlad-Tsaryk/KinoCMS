@@ -1,9 +1,16 @@
-# syntax=docker/dockerfile:1
-FROM python:3.10
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-WORKDIR /code
-COPY requirements.txt /code/
-RUN pip3 install -r requirements.txt
-COPY . /code/
+# Pull base image
+FROM python:3.8-slim-buster
+# set work directory
+WORKDIR /app
 
+# set environment variables
+ENV PIP_DISABLE_PIP_VERSION_CHECK 1
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# install dependencies
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+# copy project
+COPY . .

@@ -1,0 +1,133 @@
+{% extends 'layout/KinoCMS.html' %}
+{% load static %}
+{% load i18n %}
+{% block head %}
+    <style>
+        body {
+            background-color: #222831;
+            color: white;
+
+        }
+        table{
+            cursor: pointer;
+        }
+        .date{
+            width: 150px;
+            height: 150px;
+        }
+        .seat-style {
+            position: relative;
+            border-radius: 2px;
+            height: 38px;
+            width: 38px;
+            float: left;
+            margin: 6px 2px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        .number {
+            display: inline-block;
+            margin: 0 auto;
+            padding: 3px;
+        }
+        .hall{
+            cursor: pointer;
+        }
+
+    </style>
+{% endblock %}
+{#{% load cinema_tags %}#}
+{% block content %}
+    <img src="{{ cinema.banner_image.url }}" class="w-100 mb-4" height="500">
+    <div class="row mb-5">
+    <div class="col-2">
+        <center>
+            <img src="{% static 'cinema/img/promo_context.png' %}" width="200">
+        </center>
+            <div class="mt-4 w-75 mx-auto">
+            <div class="mb-2"><b class="fs-5">{% trans 'Количество залов:' %} {{ halls.count }}</b></div>
+
+                {% for hall in halls%}
+                <div class="hall border p-2" id="{{ hall.pk }}">
+                    Зал {{ hall.name }}
+                </div>
+                {% endfor %}
+            </div>
+        <center>
+            <a class="btn btn-success mt-5" href="{% url 'showtimes' %}">{% trans 'Рассписание всех сеансов' %}</a>
+        </center>
+
+    </div>
+    <div class="col-8" style="word-wrap: break-word">
+    <img src="{{ cinema.logo.url }}" width="120">
+        <b class="fs-1">{{ cinema.name }}</b>
+
+            <p class="mt-3">{{ cinema.description }}</p>
+        <center><b class="fs-1">{% trans 'Условия' %}</b></center>
+        <p>{{ cinema.conditions }}</p>
+
+        <center><b class="fs-1">{% trans 'Кадры и постеры' %}</b></center>
+    <center><div class="w-75">
+    {% if gallery %}
+                <div id="carouselExampleCaptions" class="carousel slide rounded" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+      {% for image in gallery %}
+          {% if image == gallery|first %}
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              {% else %}
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter0 }}"></button>
+          {% endif %}
+      {% endfor %}
+  </div>
+  <div class="carousel-inner">
+    {% for image in gallery %}
+                            {% if image == gallery|first %}
+                        <div class="carousel-item active" data-bs-interval="10000">
+                            <img src="{{ image.image.url }}" class="d-block w-100 rounded" height="500">
+                            <div class="carousel-caption d-none d-md-block fs-2">
+                            </div>
+                        </div>
+                                {% else %}
+                            <div class="carousel-item rounded" data-bs-interval="10000">
+                                <img src="{{ image.image.url }}" class="d-block w-100" height="500">
+                                <div class="carousel-caption d-none d-md-block fs-2">
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+        {% else %}
+                        <div style="height: 500px" class="w-100 d-table">
+                            <div class="d-table-cell align-middle">
+                                <center>{% trans 'Контент отсутствует' %}</center>
+                            </div>
+                        </div>
+    {% endif %}
+
+    </div></center>
+    </div>
+    </div>
+
+
+
+
+{% endblock %}
+{% block scripts %}
+    <script>
+    $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+    </script>
+    <script>
+            $('.hall').click(function (e) {
+            window.location.href = "{% url 'hall_card' 12345 %}".replace(/12345/, e.currentTarget.id);
+        })
+    </script>
+{% endblock %}

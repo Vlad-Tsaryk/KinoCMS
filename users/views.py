@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 
@@ -28,7 +28,7 @@ def login_page(request):
                 print('next found')
                 return redirect('/' + user.language + request.GET.get('next')[3:])
             else:
-                return redirect('statistic')
+                return redirect('kino_cms')
         else:
             messages.info(request, 'Username OR Password is incorrect')
     context = {}
@@ -36,6 +36,7 @@ def login_page(request):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def update_user(request, user_id):
     obj_user = get_object_or_404(User, id=user_id)
     if request.method == 'POST':
@@ -76,6 +77,7 @@ def logout_user(request):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def users(request):
     obj_users = User.objects.all()
     context = {'users': obj_users}
@@ -83,6 +85,7 @@ def users(request):
 
 
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def mailing(request):
     obj_users = User.objects.all()
     if request.method == 'POST':

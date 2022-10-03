@@ -24,6 +24,7 @@
                     <th>{% trans 'ФИО' %}</th>
                     <th>Username</th>
                     <th>{% trans 'Город' %}</th>
+                    <th style="border: none"></th>
 
 
                 </tr>
@@ -31,13 +32,18 @@
                 <tbody>
                 {% for user in users %}
                     <tr>
-                        <td><a href="{% url 'update_user' user.id %}">{{ user.id }}</a> </td>
+                        <td>{{ user.id }}</td>
                         <td>{{ user.date_joined }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.phone }}</td>
                         <td>{{ user.first_name }} {{ user.last_name }}</td>
                         <td>{{ user.username }}</td>
                         <td>{{ user.city }}</td>
+                        <td style="border: none" width="106">
+                            <a href="{% url 'update_user' user.id %}"><img src="{% static 'cinema/img/pencil.png' %}" height="48px"></a>
+                            <a href="#"><img height="48px" src="{% static 'cinema/img/trash-can.png' %}"></a>
+
+                        </td>
 
 
 {#                        <th class="border-0" width="48px"><a#}

@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import BannerCollectionForm, BackgroundBannerForm, BannerFormSet, BannerNewsCollectionForm, \
     BannerNewsFormSet
 from .models import Banner, Banner_collection, Background_banner, Banner_news, Banner_news_collection
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 # Create your views here.
 @login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def baners(request):
     obj_banner = get_object_or_404(Banner_collection, id=1)
     obj_back_banner = get_object_or_404(Background_banner, id=1)

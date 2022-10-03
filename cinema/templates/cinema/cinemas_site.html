@@ -24,10 +24,14 @@
     <center><b class="fs-1">{% trans 'Наши кинотеатры' %}</b></center>
     <div class="row mt-4">
         {% for cinema in cinemas %}
+
     <div class="col text-center mb-5">
+    <a href="{% url 'cinema_card' cinema.pk %}" class="text-light">
     <img src="{{ cinema.banner_image.url }}" height="400" width="500">
         <p class="fs-4">{{ cinema.name }}</p>
+        </a>
     </div>
+
         {% endfor %}
     </div>
     </div>

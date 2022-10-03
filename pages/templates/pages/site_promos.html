@@ -54,9 +54,10 @@
         {% for promo in promos %}
         {% if promo.active %}
             <div class="col">
+            <a href="{% url 'news_promo_card' promo.pk %}" class="fs-4 d-block text-light" style="text-align: center">
             <img src="{{ promo.main_image.url }}" height="300"  width="450" class="rounded">
-            <br><a href="{% url 'promo_card' promo.pk %}" class="fs-4">{{ promo.name }}</a>
-            <br><div class="border border-2 rounded-pill border-dark d-inline-block p-1"
+            <br>{{ promo.name }}</a>
+            <div class="border border-2 rounded-pill border-dark d-inline-block p-1"
                      style="background-color: #1c1b1b; font-size: smaller"><b>{{ promo.date|date:'d.m.Y' }}</b> </div>
             <p style="color: #abbac9"><b>{{ promo.description }}</b></p>
             </div>

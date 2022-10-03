@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path, include
-from cinema.views import kino_cms, movies, soon, cinemas_page, showtimes, film_card, seat_reservation, hall_card
-from pages.views import site_promos, promo_card, site_news, site_contact, site_vip, site_advertiser, site_children_room
+from cinema.views import kino_cms, movies, soon, cinemas_page, showtimes, film_card, seat_reservation, hall_card,\
+    cinema_card
+from pages.views import site_promos, news_promo_card, site_news, site_contact, site_vip, site_advertiser,\
+    site_children_room
 from users.views import login_page, create_user, logout_user
 from django.conf.urls.static import static
 from django.conf import settings
@@ -37,8 +39,9 @@ urlpatterns = [
     path('reservation/<int:session_id>', seat_reservation, name='reservation'),
     path('film/<int:film_id>', film_card, name='film_card'),
     path('hall/<int:hall_id>', hall_card, name='hall_card'),
+    path('cinema/<int:cinema_id>', cinema_card, name='cinema_card'),
     path('promos/', site_promos, name='site_promos'),
-    path('promo/<int:promo_id>', promo_card, name='promo_card'),
+    path('news_promo/<int:news_promo_id>', news_promo_card, name='news_promo_card'),
     path('news/', site_news, name='site_news'),
     path('contacts/', site_contact, name='site_contact'),
     path('vip_hall/', site_vip, name='site_vip'),
