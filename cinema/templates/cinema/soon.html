@@ -21,10 +21,11 @@
             <div class="col text-center mt-4">
             <b>C {{ film.date|date:"d.m.Y" }}</b>
 {#    <div >#}
-        <a class="fs-6 link-primary"><img class="ml-auto mr-auto rounded" src="{{ film.main_image.url }}" height="200" >
+        <a class="fs-6 link-primary" href="{% url 'film_card' film.pk %}">
+            <img class="ml-auto mr-auto rounded" src="{{ film.main_image.url }}" height="200" >
 {#        </div>#}
         <p><b>{{ film.name }}</b></p></a>
-                <a class="badge rounded-pill bg-warning mx-auto fs-6">
+                <a class="badge rounded-pill bg-warning mx-auto fs-6" href="{% url 'film_card' film.pk %}">
                 <i class="fa-solid fa-ticket fa-rotate-by" style="--fa-rotate-angle: -45deg;"></i>  {% trans 'Купить билет' %}</a>
     </div>
     {% endfor %}

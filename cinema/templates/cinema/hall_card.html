@@ -1,0 +1,162 @@
+{% extends 'layout/KinoCMS.html' %}
+{% load static %}
+{% load i18n %}
+{% block head %}
+    <style>
+        body {
+            background-color: #222831;
+            color: white;
+
+        }
+        table{
+            cursor: pointer;
+        }
+        .date{
+            width: 150px;
+            height: 150px;
+        }
+        .seat-style {
+            position: relative;
+            border-radius: 2px;
+            height: 38px;
+            width: 38px;
+            float: left;
+            margin: 6px 2px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        .number {
+            display: inline-block;
+            margin: 0 auto;
+            padding: 3px;
+        }
+        .session{
+            cursor: pointer;
+        }
+
+    </style>
+{% endblock %}
+{#{% load cinema_tags %}#}
+{% block content %}
+    <img src="{{ hall.banner_image.url }}" class="w-100 mb-4" height="500">
+    <div class="row mb-5">
+    <div class="col-2">
+        <center>
+            <img src="{% static 'cinema/img/promo_context.png' %}" width="200">
+        </center>
+
+            <div class="mt-4 w-75 mx-auto">
+            <div class="mb-2"><b class="fs-5">{% trans 'Смотрите сегодня:' %}</b></div>
+                {% for session in hall_sessions|slice:'0:5' %}
+                <div class="session border p-2" id="{{ session.pk }}">
+                    {{ session.film.name }}
+                    <br>
+                    <b class="text text-success">{% trans 'Цена:' %} {{ session.price }} грн</b>
+                </div>
+                {% endfor %}
+            </div>
+        <center>
+            <a class="btn btn-success mt-5" href="{% url 'showtimes' %}">{% trans 'Рассписание всех сеансов' %}</a>
+        </center>
+
+    </div>
+    <div class="col-8" style="word-wrap: break-word">
+        <center><b class="fs-1">{% trans 'Зал' %} {{ hall.name }}</b></center>
+            <p>{{ hall.description }}</p>
+        <center><b class="fs-1">{% trans 'Карта зала' %}</b></center>
+        <div class="seats row row-cols-2 position-relative mt-5" style="">
+                <div class="col-1"></div>
+                <div class="col-11 mb-5">
+                    <center>
+                        <div class="screen" style="width:900px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 806 21" fill="#e4e4e4">
+                                <path d="M3.2,20l-2,0.2l-0.3-4l2-0.2C136.2,5.3,269.6,0,403,0s266.8,5.3,400.2,16l2,0.2l-0.3,4l-2-0.2 C669.5,9.3,536.3,4,403,4S136.4,9.3,3.2,20z"></path>
+                            </svg>
+                            <div class="name">{% trans 'ЭКРАН' %}</div>
+                        </div>
+                    </center>
+                </div>
+
+            </div>
+
+            <div class="empty-seat">
+            </div>
+        <center><b class="fs-1">{% trans 'Кадры и постеры' %}</b></center>
+    <center><div class="w-75">
+    {% if film_gallery %}
+                <div id="carouselExampleCaptions" class="carousel slide rounded" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+      {% for image in gallery %}
+          {% if image == gallery|first %}
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              {% else %}
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter0 }}"></button>
+          {% endif %}
+      {% endfor %}
+  </div>
+  <div class="carousel-inner">
+    {% for image in gallery %}
+                            {% if image == gallery|first %}
+                        <div class="carousel-item active" data-bs-interval="10000">
+                            <img src="{{ image.image.url }}" class="d-block w-100 rounded" height="500">
+                            <div class="carousel-caption d-none d-md-block fs-2">
+                            </div>
+                        </div>
+                                {% else %}
+                            <div class="carousel-item rounded" data-bs-interval="10000">
+                                <img src="{{ image.image.url }}" class="d-block w-100" height="500">
+                                <div class="carousel-caption d-none d-md-block fs-2">
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+        {% else %}
+                        <div style="height: 500px" class="w-100 d-table">
+                            <div class="d-table-cell align-middle">
+                                <center>{% trans 'Контент отсутствует' %}</center>
+                            </div>
+                        </div>
+    {% endif %}
+
+    </div></center>
+    </div>
+    </div>
+
+
+
+
+{% endblock %}
+{% block scripts %}
+    <script>
+    $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+    </script>
+    <script>
+            let numbers_list
+        let mask = {{ hall.scheme }}
+
+        numbers_list = Object.keys(mask)
+                    numbers_list.forEach(function (item) {
+            $('.seats').append(`<div class="col-1 d-table" style="height: 60px"><b class="align-middle d-table-cell">Ряд ${item}</b></div>`)
+            $('.seats').append(`<div class="col-11" style="height: 60px"><center><div class="number" id="${item}"></div><center></div>`)
+            for (let i = 1; i <= mask[item.toString()]; i++) {
+                let clone = $('.empty-seat').clone()
+                clone.text(i)
+                clone.attr('class', 'seat-style')
+                clone.appendTo(`#${item}`)
+            }
+        })
+            $('.session').click(function (e) {
+            window.location.href = "{% url 'reservation' 12345 %}".replace(/12345/, e.currentTarget.id);
+        })
+    </script>
+{% endblock %}

@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from baners.models import Background_banner, Banner, Banner_collection, Banner_news, Banner_news_collection
 from pages.models import Main_page
 from users.models import Ticket
+import locale
 
 
 # Create your views here.
@@ -335,17 +336,41 @@ def showtimes(request):
 
 
 def film_card(request, film_id):
+    today = datetime.datetime.today()
     obj_films = Film.objects.get(pk=film_id)
     main_page = Main_page.objects.get(pk=1)
     film_sessions = Session.objects.filter(film_id=film_id)
-    cinema_list = []
+    film_gallery = Image.objects.filter(galleryId=obj_films.gallery.pk)
+    cinemas_dict = {}
     session_dates = []
+    for cinema in film_sessions.order_by('hall__cinema__name').values('hall__cinema__name',
+                                                                      'hall__cinema_id').distinct():
+        cinemas_dict[cinema['hall__cinema__name']] = cinema['hall__cinema_id']
     for s in film_sessions:
-        if s.hall.cinema.name not in cinema_list:
-            cinema_list.append(s.hall.cinema.name)
-        if s.date_time.date() not in session_dates:
-            session_dates.append(s.date_time.date())
-    context = {'film': obj_films, 'main_page': main_page, 'cinema_list': cinema_list, 'session_dates': session_dates}
+        if s.date_time.astimezone().date() not in session_dates:
+            session_dates.append(s.date_time.astimezone().date())
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        data = json.load(request)
+        cinema = data.get('cinema')
+        if request.method == 'POST':
+            try:
+                date = datetime.datetime.strptime(data.get('date'), '%Y-%m-%d')
+                date = date.astimezone().date()
+                filter_sessions_by_date = film_sessions.filter(hall__cinema_id=cinema, date_time__day=date.day,
+                                                               date_time__month=date.month,
+                                                               date_time__year=date.year).order_by('date_time')
+                return JsonResponse({'filter_sessions': list(filter_sessions_by_date.values('id', 'hall__name',
+                                                                                            'date_time',
+                                                                                            'price'))})
+            except:
+                filter_sessions_by_cinema = film_sessions.filter(hall__cinema_id=cinema)
+                filter_dates = []
+                for session in filter_sessions_by_cinema:
+                    if session.date_time.astimezone().date() not in filter_dates:
+                        filter_dates.append(session.date_time.astimezone().date())
+                return JsonResponse({'filter_dates': filter_dates})
+    context = {'film': obj_films, 'main_page': main_page, 'cinemas_dict': cinemas_dict, 'session_dates': session_dates,
+               'film_gallery': film_gallery}
     return render(request, 'cinema/film_card.html', context)
 
 
@@ -358,7 +383,6 @@ def seat_reservation(request, session_id):
             data = json.load(request)
             seats = data.get('seats')
             reservation = data.get('reserved')
-            print(reservation)
             for seat in seats:
                 ticket = Ticket(session_id=session_id, user_id=request.user.pk, seat=seat, reservation=reservation)
                 ticket.save()
@@ -379,3 +403,14 @@ def seat_reservation(request, session_id):
 
 def cinema_card(request, cinema_id):
     pass
+
+
+def hall_card(request, hall_id):
+    obj_hall = Hall.objects.get(pk=hall_id)
+    hall_sessions = Session.objects.filter(hall=obj_hall)
+    hall_gallery = Image.objects.filter(galleryId=obj_hall.gallery.pk)
+    context = {'hall': obj_hall,
+               'hall_sessions': hall_sessions,
+               'gallery': hall_gallery
+               }
+    return render(request, 'cinema/hall_card.html', context)

@@ -1,5 +1,6 @@
 {% extends 'layout/KinoCMS.html' %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <style>
         body {
@@ -8,45 +9,323 @@
 
         }
 
+        table {
+            cursor: pointer;
+        }
+
+        .date {
+            width: 150px;
+            height: 150px;
+        }
+
+        .video-container iframe, .video-container object, .video-container embed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            padding-top: 30px;
+            height: 0;
+            overflow: hidden;
+        }
+
     </style>
 {% endblock %}
 {#{% load cinema_tags %}#}
 {% block content %}
-        <iframe class="w-100" height="700"
-                src="{{ film.trailer_url}}">
+    <div class="video-container">
+        <iframe
+                src="{{ film.trailer_url }}" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
         </iframe>
+    </div>
     <div class="container">
+        {% if cinemas_dict %}
+            <div class="row mb-4">
+                <div class="col-6 fs-2 w-auto d-table">
+                    <div class="d-table-cell align-middle">{% trans 'Рассписание сеансов в кинотеатре: ' %}</div>
+                </div>
+                <div class="col-2 d-table">
+                    <div class="d-table-cell align-middle"><select id="film_select" class="form-select">
+                        {% for key, value in cinemas_dict.items %}
+                            <option onclick="cinema_sort(event)" value="{{ value }}">{{ key }}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <center class="fs-1">{% trans 'К сожалению на этот фильм сеансов нет' %}</center>
+        {% endif %}
+        <div class="row" id="dates">
+        </div>
+    </div>
     <div class="row">
-{#    {% get_obj obj=film_sessions as test %}#}
-    <select>
-        {% for cinema in cinema_list %}
-        <option>{{ cinema }}</option>
-        {% endfor %}
-    </select>
-    {% for date in session_dates %}
-    <div class="col-1">
-    <table class="table border border-light text-center text-light">
-        <tr>
-            <th>{{ date|date:'d,D' }}</th></tr>
-        <tr><td>{{ date|date:'F' }}</td></tr>
-    </table>
+        <div id="cinema_label" class="col-2 pt-4 w-auto" style="margin-right: 30px;"></div>
+        <div class="col-9">
+            <div class="row row-cols-6" id="sessions">
 
-{#    <div style="height: 100px; width: 100px;" class="border border-dark">#}
-{#        {{ session.date_time|date:'d,D' }}#}
-{#        <br>{{ session.date_time|date:'F' }}#}
-{#    </div>#}
+            </div>
+        </div>
     </div>
-    {% endfor %}
+    <center>
+        <button class="btn btn-success fs-3" id="btn_ticket" style="display: none;">{% trans 'Купить билет' %}</button>
+    </center>
 
+    <div class="row">
+        <div class="col-3">
+            <center><img src="{{ film.main_image.url }}" width="400"></center>
+        </div>
+        <div class="col-8" style="word-wrap: break-word">
+            <b class="fs-1">{{ film.name }}</b>
+            <p>{{ film.description }}</p>
+        </div>
+        <div class="col-3 mt-3">
+            <img class="mt-4" src="{% static 'cinema/img/iIfXiui6.png' %}">
+        </div>
+        <div class="col-8 mt-3">
+            <center><b class="fs-1">{% trans 'Кадры и постеры' %}</b></center>
+            <center>
+                <div class="w-75">
+                    {% if film_gallery %}
+                        <div id="carouselExampleCaptions" class="carousel slide rounded" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                {% for image in film_gallery %}
+                                    {% if image == film_gallery|first %}
+                                        <button type="button" data-bs-target="#carouselExampleCaptions"
+                                                data-bs-slide-to="0" class="active" aria-current="true"
+                                                aria-label="Slide 1"></button>
+                                    {% else %}
+                                        <button type="button" data-bs-target="#carouselExampleCaptions"
+                                                data-bs-slide-to="{{ forloop.counter0 }}"
+                                                aria-label="Slide {{ forloop.counter0 }}"></button>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="carousel-inner">
+                                {% for image in film_gallery %}
+                                    {% if image == film_gallery|first %}
+                                        <div class="carousel-item active" data-bs-interval="10000">
+                                            <img src="{{ image.image.url }}" class="d-block w-100 rounded" height="500">
+                                            <div class="carousel-caption d-none d-md-block fs-2">
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="carousel-item rounded" data-bs-interval="10000">
+                                            <img src="{{ image.image.url }}" class="d-block w-100" height="500">
+                                            <div class="carousel-caption d-none d-md-block fs-2">
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                    data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    {% else %}
+                        <div style="height: 500px" class="w-100 d-table">
+                            <div class="d-table-cell align-middle">
+                                <center>{% trans 'Контент отсутствует' %}</center>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </center>
+        </div>
     </div>
-
-
+    <div class="empty-date d-none">
+        <div hidden id="index"></div>
+        <table class="table border border-light text-center text-light">
+            <tr>
+                <th id="day"></th>
+            </tr>
+            <tr>
+                <td id="month"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="empty-session d-none">
+        <div hidden id="id"></div>
+        <table class="table table-bordered border border-light text-center text-light">
+            <tr>
+                <th colspan="2" id="time"></th>
+            </tr>
+            <tr>
+                <td id="hall"></td>
+                <td id="price"></td>
+            </tr>
+        </table>
     </div>
 
 
 {% endblock %}
 {% block scripts %}
     <script>
-    $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+        $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+    </script>
+    <script>
+        var date_select = 1
+        var res_data
+        var row_dates = []
+        var dates = []
+        var selected_cinema
+        var filtered_sessions
+        var selected_session
+        console.log(date_select)
+
+        $(document).ready(function () {
+            $("#film_select option:selected").click()
+            console.log($('#date_table'))
+
+        })
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function set_dates() {
+            $('#dates').empty()
+            $('#sessions').empty()
+            $('#cinema_label').empty()
+            $('#btn_ticket').hide()
+            dates.slice(0, 7).forEach(function (item) {
+                let clone = $('.empty-date').clone()
+                clone.find('#day').text(item[1] + ', ' + capitalizeFirstLetter(item[0]))
+                clone.find('#month').text(capitalizeFirstLetter(item[2]))
+                clone.find('#index').text(item[3])
+                clone.attr('class', 'date col fs-4')
+                {#clone.find('.table').attr('id', 'date_table')#}
+                clone.appendTo('#dates')
+            })
+            select_date()
+        }
+
+        function padTo2Digits(num) {
+            if (num <= 10) {
+                return String(num).padStart(2, '0');
+            } else {
+                return String(num)
+            }
+        }
+
+        function set_sessions() {
+            $('#cinema_label').empty().append($("#film_select option:selected").text())
+            $('#sessions').empty()
+            filtered_sessions.forEach(function (item) {
+                let clone = $('.empty-session').clone()
+                clone.find('#time').text(new Date(item['date_time']).getHours() + ':' + padTo2Digits(new Date(item['date_time']).getMinutes()))
+                clone.find('#price').text(item['price'] + ' грн')
+                clone.find('#hall').text('Зал ' + item['hall__name'])
+                clone.find('#id').text(item['id'])
+                clone.attr('class', 'session col')
+                {#clone.find('.table').attr('id', 'date_table')#}
+                clone.appendTo('#sessions')
+            })
+            select_session()
+
+        }
+
+        function cinema_sort(event) {
+            console.log(event.target.value)
+            selected_cinema = event.target.value
+            send_POST(event.target.value, undefined)
+
+
+        }
+
+        $('#btn_ticket').click(function () {
+            window.location.href = "{% url 'reservation' 12345 %}".replace(/12345/, selected_session.toString());
+        })
+
+        function select_session() {
+            $('.session').click(function (e) {
+                console.log('session clicked')
+                console.log(e)
+                $('#sessions table').css("background-color", '')
+                $(e.currentTarget).find('.table').css("background-color", '#ee7414')
+                selected_session = $(e.currentTarget).find('#id').text()
+                $('#btn_ticket').show()
+
+            });
+        }
+
+        function select_date() {
+            $('.date').click(function (e) {
+                console.log('date clicked')
+                console.log(e)
+                $('#dates table').css("background-color", '')
+                $(e.currentTarget).find('.table').css("background-color", '#ee7414')
+
+                send_POST(selected_cinema, row_dates[$(e.currentTarget).find('#index').text()])
+
+            });
+        }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var options = {day: 'numeric', weekday: 'short', month: 'long'};
+
+        async function send_POST(cinema, date) {
+            console.log('clicked')
+            let response = await fetch('{% url 'film_card' film.pk %}', {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+                body: JSON.stringify({'cinema': cinema, 'date': date})
+            })
+            res_data = await response.json()
+            if (res_data.filter_dates) {
+                row_dates = res_data.filter_dates
+                dates = []
+                row_dates.forEach(function (item, index) {
+                    dates.push((new Date(item).toLocaleDateString('{{ request.LANGUAGE_CODE }}', options).replace(',', '') + ' ' + index).split(' '))
+                    set_dates();
+
+                })
+                console.log('row_dates')
+                console.log(row_dates)
+            } else {
+                filtered_sessions = res_data.filter_sessions
+                filtered_sessions.forEach(function (item) {
+                    console.log(item.id)
+                    console.log(item['hall__name'])
+                    console.log(item['price'])
+                    console.log(new Date(item['date_time']))
+                })
+                set_sessions()
+            }
+
+
+        }
     </script>
 {% endblock %}
