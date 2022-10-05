@@ -25,7 +25,7 @@ class Banner_collection(models.Model):
 
 
 class Banner(models.Model):
-    image = models.ImageField(upload_to='banner/', null=True, blank=True)
+    image = models.ImageField(upload_to='banner/')
     url = models.URLField()
     text = models.CharField(max_length=100)
     banner_collection = models.ForeignKey(Banner_collection, on_delete=models.PROTECT)

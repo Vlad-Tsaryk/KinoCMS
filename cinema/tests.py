@@ -4,9 +4,6 @@ from .models import Session, Film, Hall
 import random
 from faker import Faker
 from django.utils import timezone
-import datetime
-
-
 fake = Faker()
 
 i = 0
