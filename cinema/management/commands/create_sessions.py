@@ -6,11 +6,14 @@ from django.utils import timezone
 
 
 class Command(BaseCommand):
+    def add_arguments(self, parser):
+        parser.add_argument('number', type=int, help='how many sessions generate')
+
     def handle(self, *args, **options):
         fake = Faker()
         count_film = Film.objects.all()
         count_hall = Hall.objects.all()
-        for _ in range(options['numb']):
+        for _ in range(options['number']):
             Session.objects.create(
                 film=random.choice(count_film),
                 hall=random.choice(count_hall),
@@ -21,3 +24,4 @@ class Command(BaseCommand):
                 type_VIP=random.randrange(0, 1),
                 type_DBOX=random.randrange(0, 1),
             )
+        print(str(options['number']) + ' sessions successfully create')
