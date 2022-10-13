@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from baners.models import Background_banner, Banner_collection, Banner_news, Banner_news_collection, Banner
 from pages.models import Contact_collection, Contact_page, Main_page, Other_page
-from cinema.models import Film, Cinema, Hall, Session
+from cinema.models import Film, Cinema, Hall
 from users.models import Mail_template
 from gallery_seo.models import SEO, Image_gallery
 from datetime import datetime
