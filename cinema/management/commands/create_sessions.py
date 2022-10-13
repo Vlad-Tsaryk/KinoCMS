@@ -8,11 +8,10 @@ from django.utils import timezone
 class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker()
-        i = 0
         count_film = Film.objects.all()
         count_hall = Hall.objects.all()
-        while i < options['numb']:
-            session = Session.objects.create(
+        for _ in range(options['numb']):
+            Session.objects.create(
                 film=random.choice(count_film),
                 hall=random.choice(count_hall),
                 price=random.randrange(50, 200, 5),
@@ -22,5 +21,3 @@ class Command(BaseCommand):
                 type_VIP=random.randrange(0, 1),
                 type_DBOX=random.randrange(0, 1),
             )
-            session.save()
-            i += 1
