@@ -20,7 +20,7 @@ class Background_banner(models.Model):
 
 
 class Banner_collection(models.Model):
-    rotation_speed = models.CharField(max_length=10, choices=Rotation_Speed_CHOISES, default='5s')
+    rotation_speed = models.CharField(max_length=10, choices=Rotation_Speed_CHOISES, default='5000')
     active = models.BooleanField(default=True)
 
 
@@ -32,7 +32,7 @@ class Banner(models.Model):
 
 
 class Banner_news_collection(models.Model):
-    rotation_speed = models.CharField(max_length=10, choices=Rotation_Speed_CHOISES, default='5s')
+    rotation_speed = models.CharField(max_length=10, choices=Rotation_Speed_CHOISES, default='5000')
     active = models.BooleanField(default=True)
 
 

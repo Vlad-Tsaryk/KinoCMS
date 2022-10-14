@@ -14,11 +14,12 @@ services:
   web:
     build: .
     restart: always
-    command: sh -c "python manage.py first && gunicorn KinoCMS.wsgi:application --bind 0.0.0.0:8000"
+    command: gunicorn KinoCMS.wsgi:application --bind 0.0.0.0:8000
 #    command: python manage.py migrate
 #    command: python manage.py collectstatic --no-input
 #    command: python manage.py initadmin
-#    command: sh -c "python manage.py migrate && python manage.py initadmin && python manage.py collectstatic --no-input && gunicorn KinoCMS.wsgi:application --bind 0.0.0.0:8000"
+#    command: python manage.py first
+#    command: sh -c "python manage.py migrate && python manage.py initadmin && python manage.py collectstatic --no-input && python manage.py first"
     volumes:
       - static_volume:/home/app/KinoCMS/static
       - media_volume:/home/app/KinoCMS/media
@@ -33,8 +34,18 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env
-
-
+  celery:
+    build: .
+    command: celery -A KinoCMS.celery worker -1 INFO
+    volumes:
+      - .:/home/app/KinoCMS
+    env_file:
+      - ./.env
+    depends_on:
+      - web
+      - redis
+  redis:
+    image: redis:alpine
 
 volumes:
   static_volume:

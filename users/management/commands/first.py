@@ -12,6 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker()
         url = 'test.com'
+        rotation_speed = '5s'
         if Banner_collection.objects.count() == 0:
             Banner_collection.objects.create()
             print('Banner_collection create successful')
@@ -26,7 +27,7 @@ class Command(BaseCommand):
             for index in range(2):
                 b = Banner_news()
                 b.url = url
-                b.image = f'static_kit/banners/news_promo/{index + 1}.png'
+                b.image = 'static_kit/banners/news_promo/'+str(index+1)+'.png'
                 b.banner_news_collection = Banner_news_collection.objects.get(pk=1)
                 b.save()
             print('Banner_news create successful')
@@ -35,8 +36,8 @@ class Command(BaseCommand):
                 b = Banner()
                 b.url = url
                 b.text = 'Test'
-                b.image = f'static_kit/banners/{index + 1}.jpg'
-                b.banner_news_collection = Banner_news_collection.objects.get(pk=1)
+                b.image = 'static_kit/banners/'+str(index+1)+'.jpg'
+                b.banner_collection = Banner_collection.objects.get(pk=1)
                 b.save()
             print('Banners create successful')
         if Contact_collection.objects.count() == 0:
@@ -49,7 +50,7 @@ class Command(BaseCommand):
                 contact.name_uk = 'Multiplex'
                 contact.address_ru = 'Multiplex'
                 contact.address_uk = 'Multiplex'
-                contact.logo = f'static_kit/pages/contact/{index + 1}.jpg'
+                contact.logo = 'static_kit/pages/contact/'+str(index+1)+'.jpg'
                 contact.coords = '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2482.' \
                                  '882221238436!2d31.30413268731127!3d51.515376752843494!3m2!1i1024!2i768!' \
                                  '4f13.1!3m3!1m2!1s0x0%3A0x279389079807cbdc!2sMultiplex%20Cinema%20(Hollywood)!' \
@@ -90,19 +91,20 @@ class Command(BaseCommand):
             cinema_names = [['Multiplex Hollywood', 'Multiplex Hollywood'],
                             ['Multiplex RiverMall', 'Multiplex RiverMall'],
                             ['Планета Кино', 'Планета Кіно']]
-            for index, name in cinema_names:
+            for index in range(len(cinema_names)):
+                cinema_name = cinema_names[index]
                 cinema = Cinema()
                 cinema.seo = SEO.objects.create(url=url, description='0', keywords='0', title='0')
-                cinema.name_ru = name[0]
-                cinema.name_uk = name[1]
+                cinema.name_ru = cinema_name[0]
+                cinema.name_uk = cinema_name[1]
                 cinema.description_ru = fake.text(max_nb_chars=500)
                 cinema.description_uk = fake.text(max_nb_chars=500)
                 cinema.email = fake.email()
                 cinema.conditions_ru = fake.text(max_nb_chars=500)
                 cinema.conditions_uk = fake.text(max_nb_chars=500)
                 cinema.phone = '+38 (098) 000-00-00'
-                cinema.logo = f'static_kit/cinema/logo/{index + 1}.png'
-                cinema.banner_image = f'static_kit/cinema/{index + 1}.jpg'
+                cinema.logo = 'static_kit/cinema/logo/'+str(index+1)+'.png'
+                cinema.banner_image = 'static_kit/cinema/'+str(index+1)+'.jpg'
                 cinema.gallery = Image_gallery.objects.create()
                 cinema.save()
             print('Cinemas create successful')
@@ -115,11 +117,11 @@ class Command(BaseCommand):
                     hall.scheme = '{1: 5,2: 10,3: 12,4: 15,5: 5,6: 18,7: 6,}'
                     hall.seo = SEO.objects.create(url=url, description='0', keywords='0', title='0')
                     hall.gallery = Image_gallery.objects.create()
-                    hall.name_ru = str(index + 1)
-                    hall.name_uk = str(index + 1)
+                    hall.name_ru = str(str(index + 1))
+                    hall.name_uk = str(str(index + 1))
                     hall.description_ru = fake.text(max_nb_chars=500)
                     hall.description_uk = fake.text(max_nb_chars=500)
-                    hall.banner_image = f'static_kit/hall/{index + 1}.jpg'
+                    hall.banner_image = 'static_kit/hall/'+str(index+1)+'.jpg'
                     hall.save()
             print('Halls create successful')
         if Film.objects.count() == 0:
@@ -139,20 +141,24 @@ class Command(BaseCommand):
                                  "https://www.youtube.com/embed/g4U4BQW9OEk",
                                  "https://www.youtube.com/embed/urqy8DrcGBs",
                                  "https://www.youtube.com/embed/wvhDQO1uuTQ"]
-            for index, name in films_names:
+            for index in range(len(films_names)):
+                name = films_names[index]
                 film = Film()
                 film.name_ru = name[0]
                 film.name_uk = name[1]
                 film.description_ru = fake.text(max_nb_chars=500)
                 film.description_uk = fake.text(max_nb_chars=500)
-                film.date = fake.date_between_dates(datetime_start='-10days', datetime_end='+10days')
-                film.main_image = f'static_kit/films/{index + 1}.png'
+                film.date = fake.date_between_dates(date_start='-10days', date_end='+10days')
+                film.main_image = 'static_kit/films/'+str(index+1)+'.png'
                 film.gallery = Image_gallery.objects.create()
                 film.trailer_url = films_trailer_url[index]
                 film.type_IMAX = fake.pybool()
                 film.type_3D = fake.pybool()
                 film.type_2D = fake.pybool()
+                film.seo = SEO.objects.create(url=url, description='0', keywords='0', title='0')
                 film.save()
+            print('Films create successful')
         if Mail_template.objects.count() == 0:
-            Mail_template.objects.create(template=f'static_kit/emails/test.html')
-            Mail_template.objects.create(template=f'static_kit/emails/mail.html')
+            Mail_template.objects.create(template='static_kit/emails/test.html')
+            Mail_template.objects.create(template='static_kit/emails/mail.html')
+            print('Templates create successful')
