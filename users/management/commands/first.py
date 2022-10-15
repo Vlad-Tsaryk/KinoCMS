@@ -19,7 +19,7 @@ class Command(BaseCommand):
             Banner_news_collection.objects.create()
             print('Banner_news_collection create successful')
         if Background_banner.objects.count() == 0:
-            Background_banner.objects.create(color=fake.hex_color(), image='static_kit/bg_banner/1.png',
+            Background_banner.objects.create(color=fake.hex_color(), image='static_kit/bg_banner/1.jpg',
                                              is_image=True)
             print('Background_banner create successful')
         if Banner_news.objects.count() == 0:
@@ -168,7 +168,7 @@ class Command(BaseCommand):
                 news_promo.gallery = Image_gallery.objects.create()
                 news_promo.date = fake.date_between_dates(date_start='now', date_end='+10days')
                 news_promo.trailer_url = url
-                news_promo.main_image = f'static_kit/news_promo/{index + 1}.png'
+                news_promo.main_image = f'static_kit/pages/news_promo/{index + 1}.png'
                 if index > 5:
                     news_promo.type = 'News'
                     news_promo.name_ru = f'Тестовая новость {index + 1}'
