@@ -168,7 +168,7 @@ class Command(BaseCommand):
                 news_promo.gallery = Image_gallery.objects.create()
                 news_promo.date = fake.date_between_dates(date_start='now', date_end='+10days')
                 news_promo.trailer_url = url
-                news_promo.main_image = f'static_kit/pages/news_promo/{index + 1}.png'
+                news_promo.main_image = 'static_kit/pages/news_promo/'+str(index + 1)+'.png'
                 if index > 5:
                     news_promo.type = 'News'
                     news_promo.name_ru = f'Тестовая новость {index + 1}'
