@@ -6,9 +6,8 @@
 {% endblock %}
 {% block content %}
     <div class="container-fluid">
+    <div class="row">
         <div class="col-5">
-        </div>
-        <div class="col-4">
             <div class="small-box bg-warning">
                 <div class="inner">
                     <h3>{{ obj_users.count }}</h3>
@@ -23,7 +22,7 @@
                 </a>
             </div>
             <!-- PIE CHART -->
-            <div class="card card-danger">
+            <div class="card card-danger mt-5">
                 <div class="card-header">
                     <h3 class="card-title">{% trans 'Пол' %}</h3>
 
@@ -43,7 +42,7 @@
                 <!-- /.card-body -->
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-7">
             <div class="card card-danger">
                 <div class="card-header">
                     <h3 class="card-title">{% trans 'Сеансы' %}</h3>
@@ -59,12 +58,13 @@
                 </div>
                 <div class="card-body">
                     <canvas id="visitors-chart" style="display: block; width: 764px; height: 500px;"
-                            class="chartjs-render-monitor" width="764" height="500"></canvas>
+                            class="chartjs-render-monitor" width="800" height="400"></canvas>
                     {#                            <canvas style="display: block; box-sizing: border-box; height: 250px; width: 250px;" width="800" height="400" id="visitors-chart"></canvas>#}
                 </div>
             </div>
         </div>
 
+    </div>
     </div>
     {{ num_visits }}
 {% endblock %}

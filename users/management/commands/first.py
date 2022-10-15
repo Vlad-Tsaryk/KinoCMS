@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from baners.models import Background_banner, Banner_collection, Banner_news, Banner_news_collection, Banner
-from pages.models import Contact_collection, Contact_page, Main_page, Other_page
+from pages.models import Contact_collection, Contact_page, Main_page, Other_page, News_promo
 from cinema.models import Film, Cinema, Hall
 from users.models import Mail_template
 from gallery_seo.models import SEO, Image_gallery
@@ -11,8 +11,7 @@ from faker import Faker
 class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker()
-        url = 'test.com'
-        rotation_speed = '5s'
+        url = 'https://test.com'
         if Banner_collection.objects.count() == 0:
             Banner_collection.objects.create()
             print('Banner_collection create successful')
@@ -27,7 +26,7 @@ class Command(BaseCommand):
             for index in range(2):
                 b = Banner_news()
                 b.url = url
-                b.image = 'static_kit/banners/news_promo/'+str(index+1)+'.png'
+                b.image = 'static_kit/banners/news_promo/' + str(index + 1) + '.png'
                 b.banner_news_collection = Banner_news_collection.objects.get(pk=1)
                 b.save()
             print('Banner_news create successful')
@@ -36,7 +35,7 @@ class Command(BaseCommand):
                 b = Banner()
                 b.url = url
                 b.text = 'Test'
-                b.image = 'static_kit/banners/'+str(index+1)+'.jpg'
+                b.image = 'static_kit/banners/' + str(index + 1) + '.jpg'
                 b.banner_collection = Banner_collection.objects.get(pk=1)
                 b.save()
             print('Banners create successful')
@@ -50,7 +49,7 @@ class Command(BaseCommand):
                 contact.name_uk = 'Multiplex'
                 contact.address_ru = 'Multiplex'
                 contact.address_uk = 'Multiplex'
-                contact.logo = 'static_kit/pages/contact/'+str(index+1)+'.jpg'
+                contact.logo = 'static_kit/pages/contact/' + str(index + 1) + '.jpg'
                 contact.coords = '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2482.' \
                                  '882221238436!2d31.30413268731127!3d51.515376752843494!3m2!1i1024!2i768!' \
                                  '4f13.1!3m3!1m2!1s0x0%3A0x279389079807cbdc!2sMultiplex%20Cinema%20(Hollywood)!' \
@@ -103,8 +102,8 @@ class Command(BaseCommand):
                 cinema.conditions_ru = fake.text(max_nb_chars=500)
                 cinema.conditions_uk = fake.text(max_nb_chars=500)
                 cinema.phone = '+38 (098) 000-00-00'
-                cinema.logo = 'static_kit/cinema/logo/'+str(index+1)+'.png'
-                cinema.banner_image = 'static_kit/cinema/'+str(index+1)+'.jpg'
+                cinema.logo = 'static_kit/cinema/logo/' + str(index + 1) + '.png'
+                cinema.banner_image = 'static_kit/cinema/' + str(index + 1) + '.jpg'
                 cinema.gallery = Image_gallery.objects.create()
                 cinema.save()
             print('Cinemas create successful')
@@ -121,7 +120,7 @@ class Command(BaseCommand):
                     hall.name_uk = str(str(index + 1))
                     hall.description_ru = fake.text(max_nb_chars=500)
                     hall.description_uk = fake.text(max_nb_chars=500)
-                    hall.banner_image = 'static_kit/hall/'+str(index+1)+'.jpg'
+                    hall.banner_image = 'static_kit/hall/' + str(index + 1) + '.jpg'
                     hall.save()
             print('Halls create successful')
         if Film.objects.count() == 0:
@@ -149,7 +148,7 @@ class Command(BaseCommand):
                 film.description_ru = fake.text(max_nb_chars=500)
                 film.description_uk = fake.text(max_nb_chars=500)
                 film.date = fake.date_between_dates(date_start='-10days', date_end='+10days')
-                film.main_image = 'static_kit/films/'+str(index+1)+'.png'
+                film.main_image = 'static_kit/films/' + str(index + 1) + '.png'
                 film.gallery = Image_gallery.objects.create()
                 film.trailer_url = films_trailer_url[index]
                 film.type_IMAX = fake.pybool()
@@ -162,3 +161,23 @@ class Command(BaseCommand):
             Mail_template.objects.create(template='static_kit/emails/test.html')
             Mail_template.objects.create(template='static_kit/emails/mail.html')
             print('Templates create successful')
+        if News_promo.objects.count() == 0:
+            for index in range(10):
+                news_promo = News_promo()
+                news_promo.seo = SEO.objects.create(url=url, description='0', keywords='0', title='0')
+                news_promo.gallery = Image_gallery.objects.create()
+                news_promo.date = fake.date_between_dates(date_start='now', date_end='+10days')
+                news_promo.trailer_url = url
+                news_promo.main_image = f'static_kit/news_promo/{index + 1}.png'
+                if index > 5:
+                    news_promo.type = 'News'
+                    news_promo.name_ru = f'Тестовая новость {index + 1}'
+                    news_promo.name_uk = f'Тестова новина {index + 1}'
+                else:
+                    news_promo.type = 'Promo'
+                    news_promo.name_ru = f'Тестовая акция {index + 1}'
+                    news_promo.name_uk = f'Тестова акція {index + 1}'
+
+                news_promo.description_ru = fake.text(max_nb_chars=500)
+                news_promo.description_uk = fake.text(max_nb_chars=500)
+                news_promo.save()
