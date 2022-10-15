@@ -203,7 +203,7 @@
                 <a class="fs-4 link-dark" href="{% url 'film_card' film.pk %}">
                     <img class="rounded ml-auto mr-auto" src="{{ film.main_image.url }}" height="300" width="250">
                 <p><b>{{ film.name }}</b></p></a>
-                <b class="fs-4 text-success">{% trans 'C' %} {{ film.get_date }}</b>
+                <b class="fs-4 text-success">{% trans 'C' %} {{ film.date|date:'d E' }}</b>
                 </div>
             {% endfor %}
 
