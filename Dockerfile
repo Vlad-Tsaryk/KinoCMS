@@ -9,4 +9,5 @@ ENV PYTHONUNBUFFERED=1
 RUN pip install --upgrade pip
 # copy project
 COPY . /home/app/KinoCMS
+RUN apt-get install gettext -y
 RUN pip install -r requirements.txt
