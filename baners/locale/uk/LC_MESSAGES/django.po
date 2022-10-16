@@ -1,0 +1,56 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-16 15:45+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+#: baners/templates/banners/banner.html:24
+msgid "Баннеры"
+msgstr ""
+
+#: baners/templates/banners/banner.html:65
+#: baners/templates/banners/banner.html:110
+#: baners/templates/banners/banner.html:186
+#: baners/templates/banners/banner.html:261
+#: baners/templates/banners/banner.html:303
+msgid "Добавить"
+msgstr ""
+
+#: baners/templates/banners/banner.html:136
+#: baners/templates/banners/banner.html:327
+msgid "Скорость вращения"
+msgstr ""
+
+#: baners/templates/banners/banner.html:142
+#: baners/templates/banners/banner.html:213
+#: baners/templates/banners/banner.html:333
+msgid "Сохранить"
+msgstr ""
+
+#: baners/templates/banners/banner.html:151
+msgid "Сквозной баннер на заднем фоне"
+msgstr ""
+
+#: baners/templates/banners/banner.html:198
+msgid "Удалить"
+msgstr ""
+
+#: baners/templates/banners/banner.html:221
+msgid "Новости и Акции"
+msgstr ""
