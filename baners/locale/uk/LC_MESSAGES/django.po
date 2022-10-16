@@ -22,7 +22,7 @@ msgstr ""
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 #: baners/templates/banners/banner.html:24
 msgid "Баннеры"
-msgstr ""
+msgstr "Банери"
 
 #: baners/templates/banners/banner.html:65
 #: baners/templates/banners/banner.html:110
@@ -30,22 +30,22 @@ msgstr ""
 #: baners/templates/banners/banner.html:261
 #: baners/templates/banners/banner.html:303
 msgid "Добавить"
-msgstr ""
+msgstr "Додати"
 
 #: baners/templates/banners/banner.html:136
 #: baners/templates/banners/banner.html:327
 msgid "Скорость вращения"
-msgstr ""
+msgstr "Швидкість обертання"
 
 #: baners/templates/banners/banner.html:142
 #: baners/templates/banners/banner.html:213
 #: baners/templates/banners/banner.html:333
 msgid "Сохранить"
-msgstr ""
+msgstr "Зберегти"
 
 #: baners/templates/banners/banner.html:151
 msgid "Сквозной баннер на заднем фоне"
-msgstr ""
+msgstr "Наскрізний банер на задньому фоні"
 
 #: baners/templates/banners/banner.html:198
 msgid "Удалить"
@@ -53,4 +53,4 @@ msgstr ""
 
 #: baners/templates/banners/banner.html:221
 msgid "Новости и Акции"
-msgstr ""
+msgstr "Новини та Акції"

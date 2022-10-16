@@ -34,7 +34,7 @@ msgstr ""
 #: pages/templates/pages/news_promo_update.html:42
 #: pages/templates/pages/pages.html:14 pages/templates/pages/promos.html:14
 msgid "Название"
-msgstr ""
+msgstr "Назва"
 
 #: pages/templates/pages/add_news_promo.html:36
 #: pages/templates/pages/add_news_promo.html:46
@@ -43,13 +43,13 @@ msgstr ""
 #: pages/templates/pages/news_promo_update.html:36
 #: pages/templates/pages/news_promo_update.html:46
 msgid "Описание"
-msgstr ""
+msgstr "Опис"
 
 #: pages/templates/pages/add_news_promo.html:63
 #: pages/templates/pages/add_update_page.html:49
 #: pages/templates/pages/news_promo_update.html:63
 msgid "Главная картинка"
-msgstr ""
+msgstr "Головна сторінка"
 
 #: pages/templates/pages/add_news_promo.html:82
 #: pages/templates/pages/add_update_page.html:71
@@ -57,7 +57,7 @@ msgstr ""
 #: pages/templates/pages/contact_page.html:182
 #: pages/templates/pages/news_promo_update.html:82
 msgid "Загрузить"
-msgstr ""
+msgstr "Завантажити"
 
 #: pages/templates/pages/add_news_promo.html:93
 #: pages/templates/pages/add_update_page.html:83
@@ -65,12 +65,12 @@ msgstr ""
 #: pages/templates/pages/contact_page.html:194
 #: pages/templates/pages/news_promo_update.html:93
 msgid "Удалить"
-msgstr ""
+msgstr "Видалити"
 
 #: pages/templates/pages/add_news_promo.html:102
 #: pages/templates/pages/news_promo_update.html:102
 msgid "Ссылка на трейлер"
-msgstr ""
+msgstr "Посилання на трейлер"
 
 #: pages/templates/pages/add_news_promo.html:111
 #: pages/templates/pages/add_update_page.html:93
@@ -78,99 +78,104 @@ msgstr ""
 #: pages/templates/pages/main_page.html:61
 #: pages/templates/pages/news_promo_update.html:111
 msgid "Сохранить"
-msgstr ""
+msgstr "Зберегти"
 
 #: pages/templates/pages/contact_page.html:50
 #: pages/templates/pages/contact_page.html:60
-#: pages/templates/pages/contact_page.html:147
-#: pages/templates/pages/contact_page.html:157
 msgid "Адрес"
-msgstr ""
+msgstr "Адреса"
 
 #: pages/templates/pages/contact_page.html:66
 #: pages/templates/pages/contact_page.html:163
 msgid "Координаты"
-msgstr ""
+msgstr "Координати"
 
 #: pages/templates/pages/contact_page.html:72
 msgid "Логотип"
-msgstr ""
+msgstr "Логотип"
+
+#: pages/templates/pages/contact_page.html:147
+#: pages/templates/pages/contact_page.html:157
+msgid "Адрес"
+msgstr "Адреса"
 
 #: pages/templates/pages/news.html:8
 msgid "Новости"
-msgstr ""
+msgstr "Новини"
 
 #: pages/templates/pages/news.html:15 pages/templates/pages/pages.html:15
 #: pages/templates/pages/promos.html:15
 msgid "Дата создания"
-msgstr ""
+msgstr "Дата створення"
 
 #: pages/templates/pages/news.html:16
 msgid "Статус"
-msgstr ""
+msgstr "Статус"
 
 #: pages/templates/pages/news.html:26 pages/templates/pages/pages.html:25
 #: pages/templates/pages/pages.html:42 pages/templates/pages/pages.html:58
 #: pages/templates/pages/pages.html:74 pages/templates/pages/promos.html:26
 msgid "Вкл"
-msgstr ""
+msgstr "Вмк"
 
 #: pages/templates/pages/news.html:28 pages/templates/pages/pages.html:27
 #: pages/templates/pages/pages.html:44 pages/templates/pages/pages.html:60
 #: pages/templates/pages/pages.html:76 pages/templates/pages/promos.html:28
 msgid "Выкл"
-msgstr ""
+msgstr "Вимк"
 
 #: pages/templates/pages/news.html:36
 msgid "Удалить новость?"
-msgstr ""
+msgstr "Видалити новину?"
 
 #: pages/templates/pages/news.html:46
 msgid "Добавить новость"
-msgstr ""
+msgstr "Додати новину"
 
 #: pages/templates/pages/pages.html:8
+#, fuzzy
+#| msgid "Сохранить"
 msgid "Страницы"
-msgstr ""
+msgstr "Зберегти"
 
 #: pages/templates/pages/pages.html:22
 msgid "Главная страница"
-msgstr ""
+msgstr "Головна сторінка"
 
 #: pages/templates/pages/pages.html:55
 msgid "Контакты"
-msgstr ""
+msgstr "Контакти"
 
 #: pages/templates/pages/pages.html:85
 msgid "Удалить страницу?"
-msgstr ""
+msgstr "Видалити сторінку?"
 
 #: pages/templates/pages/pages.html:96
 msgid "Добавить страницу"
-msgstr ""
+msgstr "Додати сторінку"
 
 #: pages/templates/pages/promos.html:8
 msgid "Акции"
-msgstr ""
+msgstr "Акції"
 
 #: pages/templates/pages/promos.html:36
 msgid "Удалить акцию?"
-msgstr ""
+msgstr "Видалити акцію?"
 
 #: pages/templates/pages/promos.html:46
 msgid "Добавить акцию"
-msgstr ""
+msgstr "Додати акцію"
 
 #: pages/templates/pages/site_advertiser.html:18
 msgid "Рекламодателям"
-msgstr ""
+msgstr "Рекламодавцям"
 
 #: pages/templates/pages/site_advertiser.html:81
 #: pages/templates/pages/site_children_room.html:80
 #: pages/templates/pages/site_vip.html:80
 msgid "Фотогалерея"
-msgstr ""
+msgstr "Фотогалерея"
 
 #: pages/templates/pages/site_children_room.html:18
 msgid "Детская комната"
-msgstr ""
+msgstr "Дитяча кімната"
