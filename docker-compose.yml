@@ -49,7 +49,7 @@ services:
       - web
       - redis
   redis:
-    image: redis:alpine
+    image: redis
 
 volumes:
   static_volume:
