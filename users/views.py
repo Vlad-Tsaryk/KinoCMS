@@ -24,7 +24,7 @@ def login_page(request):
             print(user.language)
             translation.activate(user.language)
             request.LANGUAGE_CODE = user.language
-            if request.GET.get('next'):
+            if request.GET.get('next') and request.user.is_superuser:
                 print('next found')
                 return redirect('/' + user.language + request.GET.get('next')[3:])
             else:

@@ -68,12 +68,22 @@
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
     <script>
+    var min_date = new Date();
+    var max_date = new Date();
+    max_date.setFullYear(max_date.getFullYear() - 16)
+    min_date.setFullYear(min_date.getFullYear() - 90)
+    console.log(min_date)
     $(function () {
         $('#id_phone').inputmask('+38 (999) 999-99-99')
     //Date picker
     $('#reservationdate').datetimepicker({
+        minDate: min_date,
+        maxDate: max_date,
         format: 'L'
     });
+        $("#reservationdate").on("change.datetimepicker", function (e) {
+            console.log(e.date)
+        });
         $('#id_language div').attr('style', 'display: inline-block; margin-right: 20px')
         $('#id_gender div').attr('style', 'display: inline-block; margin-right: 20px')
 });

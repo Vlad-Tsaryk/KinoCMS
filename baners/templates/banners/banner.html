@@ -40,12 +40,13 @@
                             {{ hidden }}
                         {% endfor %}
 
-                        <div id="banner_{{ form.prefix }}" class="col-sm-2 d-inline-block mt-4">
-                            <div id="banner_img" class="mx-auto position-relative" style="width: 150px">
+                        <div id="banner_{{ form.prefix }}" class="col-xl-3 d-inline-block mt-5">
+                            <div id="banner_img" class="mx-auto position-relative" style="width: 300px">
                                 {% if form.instance.image %}
                                     <img id="img_{{ form.image.auto_id }}" src="{{ form.instance.image.url }}"
-                                         class="d-block ml-auto mr-auto"
-                                         height="250" width="150">
+                                         class="d-block"
+                                         height="200" width="300"
+                                    >
                                 {% else %}
                                     <img id="img_{{ form.image.auto_id }}" height="250" width="150"
                                          class="d-block ml-auto mr-auto"
@@ -82,7 +83,7 @@
                            id="add_more_banner" data-toggle="lightbox"
                            data-title="sample 1 - white" data-gallery="gallery">
                             <img class="d-block ml-auto mr-auto d-inline"
-                                 src="{% static 'adminLte/dist/img/plus_icon.png' %}">
+                                 src="{% static 'adminLte/dist/img/plus_icon.png' %}" width="100">
                         </a>
 
 
@@ -92,8 +93,8 @@
 
 
                 <div id="empty_form-banner" class="d-none">
-                    <div id="banner_img" class="mx-auto position-relative mt-4" style="width: 150px">
-                        <img id="img_{{ formset.empty_form.image.auto_id }}" height="250" width="150"
+                    <div id="banner_img" class="mx-auto position-relative mt-4" style="width: 300px">
+                        <img id="img_{{ formset.empty_form.image.auto_id }}" height="200" width="300"
                              class="d-block ml-auto mr-auto"
                              src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %} ">
                         <a class="btn position-absolute top-0 start-100 translate-middle"
@@ -153,15 +154,15 @@
             <div class="card-body">
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="row">
-                    <div class="col-2 d-block">
+                <div class="row" >
+                    <div class="col-2 mr-5 d-block">
                         <div class="position-absolute top-50 start-0 translate-middle-y">
                             {{ background_banner_form.is_image }}
                         </div>
                     </div>
                     <div id="background_img" class="col">
-                        <div class="row" id="background_banner">
-                            <div class="col-sm-2">
+                        <div class="row row-cols-auto" id="background_banner">
+                            <div class="col">
                                 <div>
                                     {% if background_banner_form.instance.image %}
                                         <img id="img_{{ background_banner_form.image.auto_id }}"
@@ -177,7 +178,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col">
                                 <button class="btn btn-secondary d-block position-absolute
                                 top-50 start-50 translate-middle"
                                         type="button"
@@ -189,7 +190,7 @@
                                     {{ background_banner_form.image }}
                                 </div>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col">
                                 {{ background_banner_form.image.clear }}
                                 <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
                                         type="button"
@@ -235,15 +236,15 @@
                             {{ hidden }}
                         {% endfor %}
 
-                        <div id="banner_news_{{ banner_news_form.prefix }}" class="col-sm-2 d-inline-block mt-4">
-                            <div id="banner_img" class="mx-auto position-relative" style="width: 150px">
+                        <div id="banner_news_{{ banner_news_form.prefix }}" class="col-xl-3 d-inline-block mt-5">
+                            <div id="banner_img" class="mx-auto position-relative" style="width: 300px">
                                 {% if banner_news_form.instance.image %}
                                     <img id="img_{{ banner_news_form.image.auto_id }}"
                                          src="{{ banner_news_form.instance.image.url }}"
                                          class="d-block ml-auto mr-auto"
-                                         height="250" width="150">
+                                         height="200" width="300">
                                 {% else %}
-                                    <img id="img_{{ banner_news_form.image.auto_id }}" height="250" width="150"
+                                    <img id="img_{{ banner_news_form.image.auto_id }}" height="200" width="300"
                                          class="d-block ml-auto mr-auto"
                                          src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %} ">
                                 {% endif %}
@@ -275,7 +276,7 @@
                            id="add_more_news_banner" data-toggle="lightbox"
                            data-title="sample 1 - white" data-gallery="gallery">
                             <img class="d-block ml-auto mr-auto d-inline"
-                                 src="{% static 'adminLte/dist/img/plus_icon.png' %}">
+                                 src="{% static 'adminLte/dist/img/plus_icon.png' %}" width="100">
                         </a>
 
 
@@ -285,8 +286,8 @@
 
 
                 <div id="empty_form-news-banner" class="d-none">
-                    <div id="banner_img" class="mx-auto position-relative mt-4" style="width: 150px">
-                        <img id="img_{{ banner_news_formset.empty_form.image.auto_id }}" height="250" width="150"
+                    <div id="banner_img" class="mx-auto position-relative mt-4" style="width: 300px">
+                        <img id="img_{{ banner_news_formset.empty_form.image.auto_id }}" height="200" width="300"
                              class="d-block ml-auto mr-auto"
                              src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %} ">
                         <a class="btn position-absolute top-0 start-100 translate-middle"

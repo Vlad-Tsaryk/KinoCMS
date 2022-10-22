@@ -55,19 +55,27 @@
                 <div class="row row-cols-1">
                     {% for contact in contacts %}
                         {% if contact.active %}
-                            <div class="row row-cols-2 mt-5">
-                                <div class="col"><b class="fs-2">{{ contact.name }}</b></div>
-                                <div class="col">
+                            <div class="row mt-5">
+{#                                <div class="col"><b class="fs-2">{{ contact.name }}</b></div>#}
+{#                                <div class="col">#}
+{#                                    <div class="text-break w-75">#}
+{#                                        {% autoescape on %}#}
+{#    {{ contact.address }}#}
+{#{% endautoescape %}#}
+
+{#                                    </div>#}
+                                </div>
+                                <div class="col-xxl-6 text-center">
+                                    <b class="fs-2">{{ contact.name }}</b>
+                                    <img src="{{ contact.logo.url }}" height="450" width="600"
+                                                      class="rounded"></div>
+                                <div class="col-xxl-6 text-center">
                                     <div class="text-break w-75">
                                         {% autoescape on %}
     {{ contact.address }}
 {% endautoescape %}
-
+                                        {{ contact.coords|safe }}
                                     </div>
-                                </div>
-                                <div class="col"><img src="{{ contact.logo.url }}" height="450" width="600"
-                                                      class="rounded"></div>
-                                <div class="col">{{ contact.coords|safe }}</div>
                             </div>
                         {% endif %}
                     {% endfor %}

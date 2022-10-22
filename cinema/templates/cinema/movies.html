@@ -15,10 +15,10 @@
 {% endblock %}
 {% block content %}
     <div class="container p-0 pb-4" id="main_content">
-    <div class="row row-cols-6">
+    <div class="row">
     {% for film in films_today %}
-            <div class="col text-center mt-4">
-                <b>{% trans 'Сейчас в кино' %}</b>
+            <div class="col-lg-2 text-center mt-4 text-center mt-4">
+                <b>{% trans 'Сейчас в кино' %}</b><br>
 
         <a class="fs-6 link-primary" href="{% url 'film_card' film.pk %}">
             <img class="ml-auto mr-auto rounded" src="{{ film.main_image.url }}" height="200" >

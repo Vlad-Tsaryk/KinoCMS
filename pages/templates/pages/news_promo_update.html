@@ -2,9 +2,9 @@
 {% load static %}
 {% load i18n %}
 {% block head %}
-{#    <!-- Tempusdominus Bootstrap 4 -->#}
-{#    <link rel="stylesheet"#}
-{#          href="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">#}
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet"
+          href="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
 {% endblock %}
 {% block content %}
     <section class="content">
@@ -116,11 +116,12 @@
     <script>
         $('#nav_{{ news_promo_form.instance.type }}').attr('class', 'nav-link active')
     </script>
-{#    <!-- InputMask -->#}
-{#    <script src="{% static 'adminLte/plugins/moment/moment.min.js' %}"></script>#}
-{#    <script src="{% static 'adminLte/plugins/inputmask/jquery.inputmask.min.js' %}"></script>#}
-{#    <!-- Tempusdominus Bootstrap 4 -->#}
-{#    <script src="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>#}
+    <!-- InputMask -->
+    <script src="{% static 'adminLte/plugins/moment/moment.min.js' %}"></script>
+    <script src="{% static 'adminLte/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+{#    <script src="{% static 'cinema/js/create_update_film.js' %}"></script>#}
     <script src="{% static 'pages/js/create_page.js' %}"></script>
 
 {% endblock %}

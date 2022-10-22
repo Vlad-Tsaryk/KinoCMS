@@ -52,12 +52,12 @@ function add_new_banner(event) {
     }
     const formCopyTarget = $('#banner-form-list .col-sm-1')
     let currentFormCount = 0;
-    if ($('#banner-form-list .col-sm-2').length > 0) {
-        currentFormCount = parseInt($('#banner-form-list .col-sm-2').last().attr('id').split('-').pop()) + 1;
+    if ($('#banner-form-list .col-xl-3').length > 0) {
+        currentFormCount = parseInt($('#banner-form-list .col-xl-3').last().attr('id').split('-').pop()) + 1;
     }
     console.log(currentFormCount)
     const copyEmptyFormEl = document.getElementById('empty_form-banner').cloneNode(true)
-    copyEmptyFormEl.setAttribute('class', 'col-sm-2 d-inline-block')
+    copyEmptyFormEl.setAttribute('class', 'col-xl-3 d-inline-block mt-5')
     copyEmptyFormEl.setAttribute('id', `banner_form-${currentFormCount}`)
     const regex = new RegExp('__prefix__', 'g')
     copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
@@ -75,12 +75,12 @@ function add_new_news_banner(event) {
     }
     const formCopyTarget = $('#banner-news-form-list .col-sm-1')
     let currentFormCount = 0;
-    if ($('#banner-news-form-list .col-sm-2').length > 0) {
-        currentFormCount = parseInt($('#banner-news-form-list .col-sm-2').last().attr('id').split('-').pop()) + 1;
+    if ($('#banner-news-form-list .col-xl-3').length > 0) {
+        currentFormCount = parseInt($('#banner-news-form-list .col-xl-3').last().attr('id').split('-').pop()) + 1;
     }
     console.log(currentFormCount)
     const copyEmptyFormEl = document.getElementById('empty_form-news-banner').cloneNode(true)
-    copyEmptyFormEl.setAttribute('class', 'col-sm-2 d-inline-block')
+    copyEmptyFormEl.setAttribute('class', 'col-xl-3 d-inline-block mt-5')
     copyEmptyFormEl.setAttribute('id', `banner_news_form-${currentFormCount}`)
     const regex = new RegExp('__prefix__', 'g')
     copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
