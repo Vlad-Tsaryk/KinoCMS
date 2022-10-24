@@ -1,0 +1,102 @@
+{% extends 'layout/KinoCMS.html' %}
+{% load static %}
+{% load i18n %}
+{% block head %}
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet"
+          href="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+    <style>
+        body{
+            background-color: #222831;
+            color: white;
+
+    }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container" id="main_content">
+    <div class="container w-75">
+    <form method="post">
+    {% csrf_token %}
+{#        <input name="language" value="{{ request.user.language }}" hidden>#}
+{#    {{ user_form.as_p }}#}
+        <div class="row">
+        <div class="col">
+        <label for="{{ user_form.username.id_for_label }}">Username</label>
+        {{ user_form.username }}
+        <label for="{{ user_form.first_name.id_for_label }}">{% trans 'Имя'%}</label>
+        {{ user_form.first_name }}
+        <label for="{{ user_form.last_name.id_for_label }}">{% trans 'Фамилия'%}</label>
+        {{ user_form.last_name }}
+        <label for="{{ user_form.email.id_for_label }}">Email</label>
+        {{ user_form.email }}
+        <label for="{{ user_form.phone.id_for_label }}">{% trans 'Телефон'%}</label>
+        {{ user_form.phone }}
+        <label for="{{ user_form.city.id_for_label }}">{% trans 'Город'%}</label>
+        {{ user_form.city }}
+        <label for="{{ user_form.address.id_for_label }}">{% trans 'Адрес'  %}</label>
+        {{ user_form.address }}
+            </div>
+        <div class="col">
+        <label for="{{ user_form.card_number.id_for_label }}">{% trans 'Номер карты'%}</label>
+        {{ user_form.card_number }}
+            <div class="form-group">
+        <label for="{{ user_form.birth_date.id_for_label }}">{% trans 'Дата рождения'%}</label>
+        <div class="input-group date" id="reservationdate" data-target-input="nearest" style="width: 60%">
+            {{ user_form.birth_date }}
+            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                <div class="input-group-text h-100"><i class="fa fa-calendar"></i></div>
+            </div>
+        </div>
+    </div>
+        <label for="{{ user_form.language.id_for_label }}">{% trans 'Язык'%}</label>
+        {{ user_form.language }}
+        <label for="{{ user_form.gender.id_for_label }}">{% trans 'Пол'%}</label>
+        {{ user_form.gender }}
+        <label for="{{ user_form.password1.id_for_label }}">Password1</label>
+        {{ user_form.password1 }}
+        <label for="{{ user_form.password2.id_for_label }}">Password2</label>
+        {{ user_form.password2 }}
+        </div>
+            </div>
+
+{#        Password 1#}
+{#        {{ user_form.password1 }}#}
+{#        Password 2#}
+{#        {{ user_form.password2 }}#}
+    {{ user_form.errors }}
+    <center><input type="submit" class="btn btn-primary mt-4 mb-2" value="{% trans 'Сохранить'%}"></center>
+    </form>
+    </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <!-- InputMask -->
+    <script src="{% static 'adminLte/plugins/moment/moment.min.js' %}"></script>
+    <script src="{% static 'adminLte/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{% static 'adminLte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script>
+    var min_date = new Date();
+    var max_date = new Date();
+    max_date.setFullYear(max_date.getFullYear() - 16)
+    min_date.setFullYear(min_date.getFullYear() - 90)
+    console.log(min_date)
+    $(function () {
+        $('#id_phone').inputmask('+38 (999) 999-99-99')
+    //Date picker
+    $('#reservationdate').datetimepicker({
+        minDate: min_date,
+        maxDate: max_date,
+        format: 'L'
+    });
+        $("#reservationdate").on("change.datetimepicker", function (e) {
+            console.log(e.date)
+        });
+        $('#id_language div').attr('style', 'display: inline-block; margin-right: 20px')
+        $('#id_gender div').attr('style', 'display: inline-block; margin-right: 20px')
+        $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+});
+    {#$('#id_phone').inputmask('+38 (999) 999-99-99')#}
+    </script>
+{% endblock %}
