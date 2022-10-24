@@ -33,6 +33,10 @@
             height: 0;
             overflow: hidden;
         }
+        .film_img{
+            -ms-flex: 0 0 230px;
+    flex: 0 0 230px;
+        }
 
     </style>
 {% endblock %}
@@ -78,17 +82,19 @@
     </center>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col film_img">
             <center><img src="{{ film.main_image.url }}" width="400"></center>
         </div>
-        <div class="col-8" style="word-wrap: break-word">
+        <div class="col" style="word-wrap: break-word">
             <b class="fs-1">{{ film.name }}</b>
             <p>{{ film.description }}</p>
         </div>
-        <div class="col-3 mt-3">
-            <img class="mt-4" src="{% static 'cinema/img/iIfXiui6.png' %}">
+    </div>
+    <div class="row">
+        <div class="col mt-3 film_img">
+            <img class="mt-4" src="{% static 'cinema/img/iIfXiui6.png' %}" width="400">
         </div>
-        <div class="col-8 mt-3">
+        <div class="col mt-3">
             <center><b class="fs-1">{% trans 'Кадры и постеры' %}</b></center>
             <center>
                 <div class="w-75">

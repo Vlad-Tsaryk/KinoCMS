@@ -8,6 +8,10 @@
             color: white;
 
     }
+        .fix_size{
+            -ms-flex: 0 0 230px;
+    flex: 0 0 230px;
+        }
 
     </style>
 {% endblock %}
@@ -50,10 +54,10 @@
     <div class="row mt-5">
 
     <div class="col"><div class="container-fluid m-0">
-    <div class="row row-cols-3">
+    <div class="row">
         {% for promo in promos %}
         {% if promo.active %}
-            <div class="col">
+            <div class="col-xxl-4">
             <a href="{% url 'news_promo_card' promo.pk %}" class="fs-4 d-block text-light" style="text-align: center">
             <img src="{{ promo.main_image.url }}" height="300"  width="450" class="rounded">
             <br>{{ promo.name }}</a>
@@ -67,7 +71,7 @@
     </div>
 
 </div></div>
-    <div class="col-2"><div class="mb-5">
+    <div class="col fix_size"><div class="mb-5">
     <img src="{% static 'cinema/img/promo_cinemas.png' %}"
           width="215"
          class="img-fluid">

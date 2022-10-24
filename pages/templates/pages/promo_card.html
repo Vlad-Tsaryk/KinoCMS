@@ -2,11 +2,11 @@
 {% load static %}
 {% block head %}
     <style>
-        body{
+        body {
             background-color: #222831;
             color: white;
 
-    }
+        }
 
     </style>
 {% endblock %}
@@ -17,16 +17,16 @@
     <div class="col"><div class="container-fluid m-0">
         <b class="fs-1">{{ news_promo.name }}</b>
         <div class="row mt-3">
-            <div class="col-4"><img src="{{ news_promo.main_image.url }}" height="300"  width="450" class="rounded"></div>
+            <div class="col fix_size"><img src="{{ news_promo.main_image.url }}" height="300"  width="450" class="rounded"></div>
             <div class="col fs-4"><b style="color: #abbac9">{{ news_promo.description }}</b></div>
         </div>
 
 
 </div></div>
-    <div class="col-2"><div class="mb-5">
+    <div class="col fix_size"><div class="mb-5">
     <img src="{% static 'cinema/img/promo_cinemas.png' %}"
           width="215"
-         class="img-fluid">
+         >
 </div></div>
     </div>
 

@@ -16,31 +16,31 @@
     <div class="row mb-4">
     <div class="col-3"></div>
             <div class="col-2">
-        <select class="form-select">
+        <select class="form-select" onchange="sort_by_date()" id="date_sort">
             <option onclick="sort_by_date()">{% trans 'Дата' %}</option>
-            <option onclick="sort_by_date('today')">{% trans 'Сегодня' %}</option>
-            <option onclick="sort_by_date('tomorrow')">{% trans 'Завтра' %}</option>
-            <option onclick="sort_by_date('week')">{% trans 'Неделя' %}</option>
-            <option onclick="sort_by_date('month')">{% trans 'Месяц' %}</option>
+            <option  id="today">{% trans 'Сегодня' %}</option>
+            <option  id="tomorrow">{% trans 'Завтра' %}</option>
+            <option  id="week">{% trans 'Неделя' %}</option>
+            <option  id="month">{% trans 'Месяц' %}</option>
         </select>
         </div>
     <div class="col-2">
-        <select class="form-select">
-            <option onclick="sort_by()" >{% trans 'Кинотеатр' %}</option>
+        <select class="form-select" onchange="sort_by(event, 'cinema')" id="cinema_sort">
+            <option value="">{% trans 'Кинотеатр' %}</option>
             {% for name in cinemas_names %}
-                <option value="{{ name }}" onclick="sort_by('{{ name }}','cinema')">{{ name }}</option>
+                <option value="{{ name }}">{{ name }}</option>
             {% endfor %}
         </select>
     </div>
     <div class="col-2">
-        <select id="film_sort" class="form-select">
-            <option id="film_header" onclick="sort_by()">{% trans 'Фильмы' %}</option>
+        <select id="film_sort" class="form-select" onchange="sort_by(event, 'film')">
+            <option id="film_header">{% trans 'Фильмы' %}</option>
 
         </select>
     </div>
     <div class="col-2">
-        <select id="hall_sort" class="form-select">
-            <option id="hall_header" onclick="sort_by(undefined,'hall')">{% trans 'Зал' %}</option>
+        <select id="hall_sort" class="form-select" onchange="sort_by(event, 'hall')">
+            <option id="hall_header">{% trans 'Зал' %}</option>
         </select>
     </div>
     </div>
@@ -148,13 +148,14 @@
 
         function set_films_options(data) {
             if ($('#film_sort option[value="' + data.film__name + '"]').length === 0) {
-                $('#film_sort').append(`<option value="${data.film__name}" onclick="sort_by('${data.film__name}', 'film')">${data.film__name}</option>`)
+                $('#film_sort').append(`<option value="${data.film__name}">${data.film__name}</option>`)
 
             }
         }
 
-        function sort_by(elem_name, elem_option) {
-
+        function sort_by(event, elem_option) {
+            console.log($('#'+event.target.id +' option:selected').val())
+            let elem_name = $('#'+event.target.id +' option:selected').val()
             if (elem_option) {
                 let option_sort = sort_list[elem_option]
                 if (elem_option === 'cinema') {
@@ -198,19 +199,24 @@
 
         }
         Date.prototype.today = function () {
-    return ((this.getDate() < 10)?"0":"") + this.getDate() +"."+(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) +"."+ this.getFullYear();
+    return ((this.getDate() < 10)?"0":"") + this.getDate() +"."+(((this.getMonth()+1) < 10)?"0":"")
+        + (this.getMonth()+1) +"."+ this.getFullYear();
 }
     Date.prototype.tomorrow = function () {
-        return ((this.getDate() < 10) ? "0" : "") + (this.getDate()+1) + "." + (((this.getMonth() + 1) < 10) ? "0" : "") + (this.getMonth() + 1) + "." + this.getFullYear();
+        return ((this.getDate() < 10) ? "0" : "") + (this.getDate()+1) + "." +
+            (((this.getMonth() + 1) < 10) ? "0" : "") + (this.getMonth() + 1) + "." + this.getFullYear();
     }
     Date.prototype.next_week = function () {
-        return (((this.getDate()+7) < 10) ? "0" : "") + (this.getDate() + 7) + "." + (((this.getMonth() + 1) < 10) ? "0" : "") + (this.getMonth() + 1) + "." + this.getFullYear();
+        return (((this.getDate()+7) < 10) ? "0" : "") + (this.getDate() + 7) + "." +
+            (((this.getMonth() + 1) < 10) ? "0" : "") + (this.getMonth() + 1) + "." + this.getFullYear();
     }
     Date.prototype.next_month = function () {
-    return ((this.getDate() < 10)?"0":"") + this.getDate() +"."+(((this.getMonth()+2) < 10)?"0":"") + (this.getMonth()+2) +"."+ this.getFullYear();
+    return ((this.getDate() < 10)?"0":"") + this.getDate() +"."+(((this.getMonth()+2) < 10)?"0":"") +
+        (this.getMonth()+2) +"."+ this.getFullYear();
 }
         Date.prototype.timeNow = function () {
-     return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+     return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") +
+         this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
 }
 console.log('today'+new Date().today())
 console.log('tomorrow'+new Date().tomorrow())
@@ -218,9 +224,11 @@ console.log('next_week'+new Date().next_week())
 console.log('next_month'+new Date().next_month())
         function sort_by_date(date_option) {
             let today = new Date().today()
+            date_option = $('#date_sort option:selected').attr('id')
             if (date_option) {
 
                 if (date_option === 'today') {
+                    console.log('hi')
                     sorted_by_date = res_data.sessions.filter(function (item) {
                         return item['date_time'] === today
                     })
@@ -253,7 +261,7 @@ console.log('next_month'+new Date().next_month())
 
         function set_halls_options(data) {
             if ($('#hall_sort option[value="' + data.hall__name + '"]').length === 0) {
-                $('#hall_sort').append(`<option value="${data.hall__name}" onclick="sort_by('${data.hall__name}','hall')">${data.hall__name}</option>`)
+                $('#hall_sort').append(`<option value="${data.hall__name}">${data.hall__name}</option>`)
 
             }
         }

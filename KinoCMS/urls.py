@@ -20,7 +20,7 @@ from cinema.views import kino_cms, movies, soon, cinemas_page, showtimes, film_c
     cinema_card
 from pages.views import site_promos, news_promo_card, site_news, site_contact, site_vip, site_advertiser,\
     site_children_room
-from users.views import login_page, create_user, logout_user
+from users.views import login_page, create_user, logout_user, update_user
 from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
@@ -48,6 +48,7 @@ urlpatterns = [
     path('advertiser/', site_advertiser, name='site_advertiser'),
     path('children_room/', site_children_room, name='site_children_room'),
     path('register/', create_user, name='register'),
+    path('update/<int:user_id>', update_user, {'admin': False}, name='site_user_update'),
     path('logout/', logout_user, name='logout'),
     path('login/', login_page, name='login_page'),
 )

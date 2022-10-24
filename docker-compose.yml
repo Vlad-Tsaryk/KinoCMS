@@ -38,9 +38,13 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env
+
+  redis:
+    image: redis
+
   celery:
     build: .
-    command: celery -A KinoCMS.celery worker -1 INFO
+    command: celery -A KinoCMS.celery worker -l INFO
     volumes:
       - .:/home/app/KinoCMS
     env_file:
@@ -48,8 +52,7 @@ services:
     depends_on:
       - web
       - redis
-  redis:
-    image: redis
+
 
 volumes:
   static_volume:

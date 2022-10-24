@@ -36,8 +36,8 @@ def login_page(request):
 
 
 @login_required()
-@user_passes_test(lambda u: u.is_superuser)
-def update_user(request, user_id):
+# @user_passes_test(lambda u: u.is_superuser)
+def update_user(request, user_id, admin):
     obj_user = get_object_or_404(User, id=user_id)
     if request.method == 'POST':
         user_change_form = CustomUserChangeForm(request.POST, instance=obj_user)
@@ -51,9 +51,13 @@ def update_user(request, user_id):
         user_change_form = CustomUserChangeForm(instance=obj_user)
 
     context = {'user_form': user_change_form}
-    return render(request, 'users/user_update.html', context)
+    if admin:
+        return render(request, 'users/user_update.html', context)
+    else:
+        return render(request, 'users/site_user_update.html', context)
 
-
+@login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def create_user(request):
     if request.user.is_authenticated:
         return redirect('')
@@ -124,3 +128,4 @@ def mailing(request):
         mailing_formset = MailingFormSet()
     context = {'mailing_formset': mailing_formset, 'users': obj_users}
     return render(request, 'users/mailing.html', context)
+
