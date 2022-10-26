@@ -97,23 +97,17 @@ def mailing(request):
     if request.method == 'POST':
         mail_form = MailingForm(request.POST, request.FILES)
         print(request.POST)
-        if mail_form.is_valid():
-            mail = mail_form.save()
-            with open(mail.template.path, 'r') as f:
-                html_message = f.read()
-            emails_list = []
-            if request.POST.get('all_users'):
-                emails_list = []
-                for user in obj_users:
-                    emails_list.append(user.email)
-                send_mail_task(msg_title='KinoCMS', html_message=html_message, emails_list=emails_list)
-            if request.POST.get('user_choice'):
-                emails_list = request.POST.getlist('users_email')
-                if emails_list:
-                    print('sending.....')
-                    print(emails_list)
-                    send_mail_task(msg_title='KinoCMS', html_message=html_message, emails_list=emails_list)
-            return redirect('mailing')
+        # print(mail_form.template)
+        send_mail = request.POST.get('send_email')
+        if send_mail:
+            if send_mail == 'file':
+                mail = mail_form.save()
+                do_mailing(mail, request, obj_users)
+                return redirect('mailing')
+            else:
+                template_obj = Mail_template.objects.get(pk=send_mail)
+                do_mailing(template_obj, request, obj_users)
+                return redirect('mailing')
         else:
             print('not valid')
     else:
@@ -122,5 +116,35 @@ def mailing(request):
     return render(request, 'users/mailing.html', context)
 
 
+def do_mailing(template_obj, request, obj_users):
+    with open(template_obj.template.path, 'r') as f:
+        html_message = f.read()
+    emails_list = []
+    if request.POST.get('all_users'):
+        emails_list = []
+        for user in obj_users:
+            emails_list.append(user.email)
+        send_mail_task(msg_title='KinoCMS', html_message=html_message, emails_list=emails_list)
+    if request.POST.get('user_choice'):
+        emails_list = request.POST.getlist('users_email')
+        if emails_list:
+            print('sending.....')
+            print(emails_list)
+            send_mail_task(msg_title='KinoCMS', html_message=html_message, emails_list=emails_list)
+
+
+@login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def delete_email(request, template_id):
-    pass
+    del_template = Mail_template.objects.get(pk=template_id)
+    del_template.delete()
+    return redirect('mailing')
+
+
+@login_required()
+@user_passes_test(lambda u: u.is_superuser)
+def delete_user(request, user_id):
+    del_user = User.objects.get(pk=user_id)
+    if not del_user.is_superuser:
+        del_user.delete()
+    return redirect('users')

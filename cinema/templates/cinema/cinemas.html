@@ -22,12 +22,10 @@
                                 <img src="{% static 'adminLte/dist/img/default-placeholder-150x250.png' %}" height="250" width="150"
                                      class="d-block ml-auto mr-auto d-inline">
                             {% endif %}
-                        <a class="btn position-absolute top-0 start-100 translate-middle"
-                                   id="delete_img" data-toggle="lightbox"
-                                   data-title="sample 1 - white" data-gallery="gallery"
-                                    onclick="return confirm('{% trans 'Удалить кинотеатр?' %}');"
-                                   href="{% url 'delete_cinema' cinema.pk %}">
-                                    <img src="{% static 'adminLte/dist/img/remove.png' %}" width="32">
+                        <a class="delete_cinema btn position-absolute top-0 start-100 translate-middle"
+                                   id="{{ cinema.pk }}" data-toggle="lightbox"
+                                   data-title="sample 1 - white" data-gallery="gallery">
+                                    <img id="{{ cinema.pk }}" src="{% static 'adminLte/dist/img/remove.png' %}" width="32">
                                 </a>
                         </a>
                     </div>
@@ -54,5 +52,16 @@
 {% block scripts %}
     <script>
         $('#nav_cinemas').attr('class', 'nav-link active')
+        $('.delete_cinema').click(function (event){
+            let tag = $(event.target.parentNode.parentNode).next().text()
+            alertify.confirm('{% trans 'Удалить кинотеатр' %} - '+ `${tag} ?`,
+                function () {
+                    window.location.href = '{% url 'delete_cinema' cinema_id=12345 %}'.replace(/12345/, event.target.id);
+                    alertify.success('{% trans 'Шаблон удалён' %}')
+                },
+                function () {
+                }).set({labels: {ok: '{% trans 'Подтвердить' %}', cancel: '{% trans 'Отмена' %}'}});
+
+        })
     </script>
 {% endblock %}

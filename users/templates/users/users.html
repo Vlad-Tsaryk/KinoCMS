@@ -32,30 +32,24 @@
                 <tbody>
                 {% for user in users %}
                     <tr>
-                        <td>{{ user.id }}</td>
+                        <td class="id">{{ user.id }}</td>
                         <td>{{ user.date_joined }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.phone }}</td>
                         <td>{{ user.first_name }} {{ user.last_name }}</td>
-                        <td>{{ user.username }}</td>
+                        <td class="username">{{ user.username }}</td>
                         <td>{{ user.city }}</td>
                         <td style="border: none" width="106">
-                            <a href="{% url 'update_user' user.id %}"><img src="{% static 'cinema/img/pencil.png' %}" height="48px"></a>
-                            <a href="#"><img height="48px" src="{% static 'cinema/img/trash-can.png' %}"></a>
-
+                            <a href="{% url 'update_user' user.id %}"><img
+                                    src="{% static 'cinema/img/pencil.png' %}" height="48px"></a>
+                            {% if user.is_superuser %}
+                            {% else %}
+                                <a class="submit link-dark"
+                                   onclick="delete_user(event,{{ user.pk }},'{{ user.username }}')"
+                                   style="cursor: pointer">
+                                    <img height="48px" src="{% static 'cinema/img/trash-can.png' %}"></a>
+                            {% endif %}
                         </td>
-
-
-{#                        <th class="border-0" width="48px"><a#}
-{#                                href="{% url 'update_user' user.pk%}"#}
-{#                        ><img height="48px"#}
-{#                                                                   src="{% static 'cinema/img/pencil.png' %}"></a>#}
-{#                        </th>#}
-{#                        <td class="border-0" width="48px"><a onclick="return confirm('Are you sure?');"#}
-{#                               href="{% url 'delete_news_promo' item.pk  %}"#}
-{#                        ><img height="48px"#}
-{#                                                                   src="{% static 'cinema/img/trash-can.png' %}"></a>#}
-{#                        </td>#}
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -90,5 +84,18 @@
       "responsive": true,
     });
 </script>
+    <script>
+
+            function delete_user(event,user_id,username){
+            alertify.confirm('{% trans 'Удалить пользователя' %} - '+`${username} ?`,
+                function () {
+                    window.location.href = '{% url 'delete_user' user_id=12345 %}'.replace(/12345/, user_id);
+                    alertify.success('{% trans 'Пользователь удалён' %}')
+                },
+                function () {
+                }).set({labels: {ok: '{% trans 'Подтвердить' %}', cancel: '{% trans 'Отмена' %}'}});
+
+        }
+    </script>
 
 {% endblock %}

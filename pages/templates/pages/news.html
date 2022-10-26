@@ -33,8 +33,8 @@
                         ><img height="48px"
                                                                    src="{% static 'cinema/img/pencil.png' %}"></a>
                         </th>
-                        <td class="border-0" width="48px"><a onclick="return confirm('{% trans 'Удалить новость?' %}');"
-                               href="{% url 'delete_news_promo' item.pk  %}"
+                        <td class="border-0" width="48px"><a onclick="delete_news(event,{{ item.pk }},'{{ item.name }}')"
+                               style="cursor: pointer"
                         ><img height="48px"
                                                                    src="{% static 'cinema/img/trash-can.png' %}"></a>
                         </td>
@@ -54,5 +54,15 @@
 {% block scripts %}
     <script>
         $('#nav_News').attr('class', 'nav-link active')
+        function delete_news(event,id,name){
+            alertify.confirm('{% trans 'Удалить новость' %} - '+`${name} ?`,
+                function () {
+                    window.location.href = '{% url 'delete_news_promo' news_promo_id=12345  %}'.replace(/12345/, id);
+                    alertify.success('{% trans 'Новость удалена' %}')
+                },
+                function () {
+                }).set({labels: {ok: '{% trans 'Подтвердить' %}', cancel: '{% trans 'Отмена' %}'}});
+
+        }
     </script>
 {% endblock %}

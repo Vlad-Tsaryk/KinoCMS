@@ -51,6 +51,12 @@
                                 <button type="button" class="btn btn-secondary rounded rounded-pill" id="upload">
                                     {% trans 'Загрузить' %}
                                 </button>
+                                <div hidden id="mail">
+                            {% for hidden in mail_form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                                {{ mail_form.template }}
+                                </div>
                             </p>
                             <p class="d-inline mb-3 mr-3">{% trans 'Загруженный шаблон' %}:</p>
                             <div id="upload_template" class="text-primary d-inline"></div>
@@ -62,42 +68,25 @@
                             <div class="container border border-dark h-100" style="border-radius: 1.3rem">
 
                                 <div id="email_form">
-                                    {{ mailing_formset.management_form }}
-                                    {% for mail in mailing_formset %}
-                                        {% for hidden in mail.hidden_fields %}
-                                            {{ hidden }}
-                                        {% endfor %}
-                                        <div class="form-check d-block" id="{{ mail.prefix }}">
+                                    {% for mail in mails|slice:'0:5' %}
+                                        <div class="form-check d-block" id="{{ mail.pk }}">
                                             <input class="form-check-input" type="checkbox" name="template"
-                                                   id="{{ mail.prefix }}">
-                                            <label id="{{ mail.prefix }}">{{ mail.template.value|cut:'Mailing/' }}</label>
+                                                   id="{{ mail.pk }}">
+                                            <label id="{{ mail.pk }}">
+                                                {{ mail.filename }} [{{ mail.date_added|date:'d.m.Y/H:i'}}]</label>
                                             <input type="button" value="{% trans 'Удалить' %}"
-                                                   class="btn btn-danger rounded rounded-pill"
-                                                   onclick="delete_template('{{ mail.prefix }}')">
+                                                   class="delete_mail btn btn-danger rounded rounded-pill">
                                         </div>
-                                        <div hidden>{{ mail.DELETE }}</div>
                                     {% endfor %}
                                 </div>
+                                    <div hidden id="template">
+                                        <input name="send_email" value="">
+                                    </div>
 
                             </div>
 
                         </div>
                     </div>
-
-                    <div id="empty-form-mail" class="d-none">
-                        <input class="form-check-input" type="checkbox" name="template"
-                               id="{{ mailing_formset.empty_form.prefix }}">
-                        <label id="{{ mailing_formset.empty_form.prefix }}"></label>
-                        <input type="button" value="{% trans 'Удалить' %}" class="btn btn-danger rounded rounded-pill"
-                               onclick="delete_template('{{ mailing_formset.empty_form.prefix }}')">
-                        <div hidden>
-                            {{ mailing_formset.empty_form.template }}
-                            {{ mailing_formset.empty_form.DELETE }}
-                        </div>
-
-
-                    </div>
-{#                    {{ mailing_formset.errors }}#}
                 </div>
                 <div id="user_choice_form" class="d-none">
                     <table id="users" class="table table-bordered table-hover">
@@ -119,7 +108,6 @@
                         {% for user in users %}
                             <tr>
                                 <td><input type="checkbox" name="users_email" id="user_{{ user.pk }}"></td>
-                                {#                        <td>0</td>#}
                                 <td><a href="{% url 'update_user' user.id %}">{{ user.id }}</a></td>
                                 <td>{{ user.date_joined }}</td>
                                 <td id="email_user_{{ user.pk }}">{{ user.email }}</td>
@@ -149,9 +137,6 @@
     <script src={% static "adminLte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}></script>
     <script src={% static "adminLte/plugins/datatables-buttons/js/dataTables.buttons.min.js" %}></script>
     <script src={% static "adminLte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js" %}></script>
-    <script src={% static "adminLte/plugins/jszip/jszip.min.js" %}></script>
-    <script src={% static "adminLte/plugins/pdfmake/pdfmake.min.js" %}></script>
-    <script src={% static "adminLte/plugins/pdfmake/vfs_fonts.js" %}></script>
     <script src={% static "adminLte/plugins/datatables-buttons/js/buttons.html5.min.js" %}></script>
     <script src={% static "adminLte/plugins/datatables-buttons/js/buttons.print.min.js" %}></script>
     <script src={% static "adminLte/plugins/datatables-buttons/js/buttons.colVis.min.js" %}></script>
@@ -159,11 +144,6 @@
         $('#nav_mailing').attr('class', 'nav-link active')
     </script>
     <script>
-
-        function delete_template(form) {
-            $('#id_' + form + '-DELETE').prop('checked', true)
-            $('div[id = ' + form + ']').remove()
-        }
 
         $('#user_choice').change(function (event) {
             $('#all_users').prop("checked", false);
@@ -181,51 +161,28 @@
                 if (event.target.checked) {
                     $('#selected_template').text($('label[id = ' + event.target.id + ']').text())
                     $('#email_form input[name=template]').prop('checked', false)
-                    let value = ($('#id_' + event.target.id + '-id').val())
-                    $('input[id=' + event.target.id + ']').prop('checked', true).attr('value', value)
+                    let value = ($('#' + event.target.id).val())
+                    console.log(event.target.id)
+                    $('input[name = "send_email"]').attr('value',event.target.id)
+                    $('input[id=' + event.target.id + ']').prop('checked', true)
+                    $('#mail :input').attr('value','')
                 } else {
                     $('#selected_template').text('')
+                    $('input[name = "send_email"]').attr('value','')
                 }
             });
         }
-
         const addMoreBtn = document.getElementById('upload')
-        addMoreBtn.addEventListener('click', add_new_template)
-        const totalNewForms = $('#email_form #id_form-TOTAL_FORMS')
-        let currentFormCount = 0;
-
-        function add_new_template(event) {
-            if (event) {
-                event.preventDefault()
-            }
-            const formCopyTarget = $('#email_form')
-
-            if ($('#email_form .form-check').length > 0) {
-                currentFormCount = $('#email_form .form-check').length;
-            }
-            console.log(currentFormCount)
-            const copyEmptyFormEl = document.getElementById('empty-form-mail').cloneNode(true)
-            copyEmptyFormEl.setAttribute('class', 'form-check d-none')
-            copyEmptyFormEl.setAttribute('id', `form-${currentFormCount}`)
-            const regex = new RegExp('__prefix__', 'g')
-            copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
-            totalNewForms.attr('value', currentFormCount + 1)
-            formCopyTarget.append(copyEmptyFormEl)
-            email_check()
-        }
-
         addMoreBtn.addEventListener('click', upload_template)
 
         function upload_template(event) {
-            $('#id_form-' + currentFormCount + '-template').click().change(function (event) {
+            $('#mail :input').click().change(function (event) {
                 $('#upload_template').text(event.target.files[0].name)
-                $('#form-' + currentFormCount).attr('class', 'form-check d-block')
-                console.log()
-                $('label[id = form-' + currentFormCount + ']').text(event.target.files[0].name)
+                $('#email_form input[name=template]').prop('checked', false)
+                $('#selected_template').text(event.target.files[0].name)
+                $('input[name = "send_email"]').attr('value','file')
             })
         }
-
-
     </script>
 
 
@@ -252,10 +209,21 @@
 
         });
 
-        function user_choice_show(event) {
+        function user_choice_show(event){
             $('#form_content').hide()
             $('#user_choice_form').attr('class', '')
         }
+        $('.delete_mail').click(function (event){
+            let tag = $(event.target.parentNode).find('label').text()
+            alertify.confirm('{% trans 'Удалить шаблон' %} - '+ `${tag} ?`,
+                function () {
+                    window.location.href = '{% url 'delete_template' template_id=12345 %}'.replace(/12345/, event.target.parentNode.id);
+                    alertify.success('{% trans 'Шаблон удалён' %}')
+                },
+                function () {
+                }).set({labels: {ok: '{% trans 'Подтвердить' %}', cancel: '{% trans 'Отмена' %}'}});
+
+        })
     </script>
 
 {% endblock %}

@@ -149,8 +149,8 @@
                         ><img height="48px"
                                                                    src="{% static 'cinema/img/pencil.png' %}"></a>
                         </th>
-                        <td class="border-0" width="48px"><a onclick="return confirm('{% trans 'Удалить зал?' %}');"
-                               href="{% url 'delete_hall' cinema_form.instance.id  hall.pk  %}"
+                        <td class="border-0" width="48px"><a onclick="delete_hall(event,{{ hall.pk }},'{{ hall.name }}')"
+                               style="cursor: pointer"
                         ><img height="48px"
                                                                    src="{% static 'cinema/img/trash-can.png' %}"></a>
                         </td>
@@ -190,5 +190,17 @@
     </script>
     <script>
         $('#nav_cinemas').attr('class', 'nav-link active')
+    </script>
+    <script>
+    function delete_hall(event,id,name){
+            alertify.confirm('{% trans 'Удалить' %} - '+`Зал ${name} ?`,
+                function () {
+                    window.location.href = '{% url 'delete_hall' cinema_id=222 hall_id=12345 %}'.replace(/12345/, id).replace(/222/,{{ cinema_form.instance.id }});
+                    alertify.success('{% trans 'Зал удален' %}')
+                },
+                function () {
+                }).set({labels: {ok: '{% trans 'Подтвердить' %}', cancel: '{% trans 'Отмена' %}'}});
+
+        }
     </script>
 {% endblock %}
