@@ -57,7 +57,7 @@ function add_new_banner(event) {
     }
     console.log(currentFormCount)
     const copyEmptyFormEl = document.getElementById('empty_form-banner').cloneNode(true)
-    copyEmptyFormEl.setAttribute('class', 'col-xl-3 d-inline-block mt-5')
+    copyEmptyFormEl.setAttribute('class', 'col-xl-3 d-inline-block mt-5 fix_size')
     copyEmptyFormEl.setAttribute('id', `banner_form-${currentFormCount}`)
     const regex = new RegExp('__prefix__', 'g')
     copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
@@ -80,7 +80,7 @@ function add_new_news_banner(event) {
     }
     console.log(currentFormCount)
     const copyEmptyFormEl = document.getElementById('empty_form-news-banner').cloneNode(true)
-    copyEmptyFormEl.setAttribute('class', 'col-xl-3 d-inline-block mt-5')
+    copyEmptyFormEl.setAttribute('class', 'col-xl-3 d-inline-block mt-5 fix_size')
     copyEmptyFormEl.setAttribute('id', `banner_news_form-${currentFormCount}`)
     const regex = new RegExp('__prefix__', 'g')
     copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)

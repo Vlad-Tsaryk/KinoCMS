@@ -14,6 +14,11 @@
             overflow-x: auto;
             white-space: nowrap;
         }
+        .fix_size{
+            height: 400px;
+            width: 350px;
+            flex: 0 0 400px;
+        }
     </style>
 {% endblock %}
 
@@ -40,7 +45,7 @@
                             {{ hidden }}
                         {% endfor %}
 
-                        <div id="banner_{{ form.prefix }}" class="col-xl-3 d-inline-block mt-5">
+                        <div id="banner_{{ form.prefix }}" class="col-xl-3 d-inline-block mt-5 fix_size">
                             <div id="banner_img" class="mx-auto position-relative" style="width: 300px">
                                 {% if form.instance.image %}
                                     <img id="img_{{ form.image.auto_id }}" src="{{ form.instance.image.url }}"
@@ -236,7 +241,7 @@
                             {{ hidden }}
                         {% endfor %}
 
-                        <div id="banner_news_{{ banner_news_form.prefix }}" class="col-xl-3 d-inline-block mt-5">
+                        <div id="banner_news_{{ banner_news_form.prefix }}" class="col-xl-3 d-inline-block mt-5 fix_size">
                             <div id="banner_img" class="mx-auto position-relative" style="width: 300px">
                                 {% if banner_news_form.instance.image %}
                                     <img id="img_{{ banner_news_form.image.auto_id }}"
