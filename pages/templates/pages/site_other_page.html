@@ -1,0 +1,116 @@
+{% extends 'layout/KinoCMS.html' %}
+{% load static %}
+{% load i18n %}
+{% block head %}
+    <style>
+        body {
+            background-color: #222831;
+            color: white;
+
+        }
+        fix_img{
+            -ms-flex: 0 0 250px;
+    flex: 0 0 250px;
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <img src="{{page.main_image.url}}" class="w-100" height="550">
+
+    <div class="row mt-5">
+        <div class="col-10"><center class="fs-1">{{ page.name }}</center></div>
+        <div class="col-2"></div>
+        <div class="col">
+
+            <div class="container-fluid m-0">
+                                {{ page.description }}
+                    <div class="row row-cols-3 mt-4 mb-4">
+                        <div class="col fix_img">
+                        <img src="{% static 'pages/img/SM-placeholder-1024x512.png' %}" class="rounded img-fluid">
+                </div>
+                        <div class="col fix_img">
+                        <img src="{% static 'pages/img/SM-placeholder-1024x512.png' %}"  class="rounded img-fluid">
+                </div>
+                        <div class="col fix_img">
+                        <img src="{% static 'pages/img/SM-placeholder-1024x512.png' %}"  class="rounded img-fluid">
+                </div>
+
+                    </div>
+                                Nullam eget risus placerat, scelerisque felis vel, lacinia ligula. Donec dapibus dictum
+                                elit sit amet finibus. Aliquam erat volutpat. Phasellus volutpat laoreet vehicula. Donec
+                                ut nunc diam. Phasellus ut metus mollis, varius felis vel, consequat nunc. Etiam feugiat
+                                volutpat nisl, in aliquet eros aliquam vitae. Fusce a aliquet leo. Phasellus placerat,
+                                lacus at convallis condimentum, ligula augue sodales ligula, vitae porttitor felis
+                                ligula sed nisl. Proin sit amet magna sagittis, dapibus massa dictum, blandit diam.
+                                Nullam pharetra sem vitae velit faucibus accumsan in vitae ante. Mauris ligula felis,
+                                posuere euismod tempus nec, mollis dignissim diam.
+
+<div class="container mb-4">
+<center class="fs-1">{% trans 'Фотогалерея' %}</center>
+{% if gallery %}
+                <div id="carouselExampleCaptions" class="carousel slide rounded" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+      {% for image in gallery %}
+          {% if image == gallery|first %}
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              {% else %}
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter0 }}"></button>
+          {% endif %}
+      {% endfor %}
+  </div>
+  <div class="carousel-inner">
+    {% for image in gallery %}
+                            {% if image == gallery|first %}
+                        <div class="carousel-item active" data-bs-interval="10000">
+                            <img src="{{ image.image.url }}" class="d-block w-100 rounded" height="600">
+                            <div class="carousel-caption d-none d-md-block fs-2">
+                            </div>
+                        </div>
+                                {% else %}
+                            <div class="carousel-item rounded" data-bs-interval="10000">
+                                <img src="{{ image.image.url }}" class="d-block w-100" height="600">
+                                <div class="carousel-caption d-none d-md-block fs-2">
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+{% else %}
+                        <div style="height: 500px" class="w-100 d-table">
+                            <div class="d-table-cell align-middle">
+                                <center>{% trans 'Контент отсутствует' %}</center>
+                            </div>
+                        </div>
+    {% endif %}
+</div>
+
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="mb-5">
+                <img src="{% static 'cinema/img/promo_cinemas.png' %}"
+                     width="215"
+                     class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+    $('#user_nav').attr('class', 'navbar navbar-expand-lg navbar-dark')
+        $('#nav_page-{{ page.pk }}').attr('class', 'dropdown-item active')
+    </script>
+{% endblock %}

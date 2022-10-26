@@ -1,0 +1,72 @@
+{% extends 'layout/KinoCMS.html' %}
+{% load static %}
+{% load i18n %}
+{% block head %}
+    <style>
+        body {
+            background-color: #222831;
+            color: white;
+
+        }
+        fix_img{
+            -ms-flex: 0 0 250px;
+            flex: 0 0 250px;
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <img src="{% static 'pages/img/mobile_banner.png' %}" class="w-100" height="550">
+
+    <div class="row mt-5">
+        <div class="col-10"><center class="fs-1">{% trans 'Мобильное приложение' %}</center></div>
+        <div class="col-2"></div>
+        <div class="col mb-4">
+
+            <div class="container-fluid m-0">
+                                Nullam eget risus placerat, scelerisque felis vel, lacinia ligula. Donec dapibus dictum
+                                elit sit amet finibus. Aliquam erat volutpat. Phasellus volutpat laoreet vehicula. Donec
+                                ut nunc diam. Phasellus ut metus mollis, varius felis vel, consequat nunc. Etiam feugiat
+                                volutpat nisl, in aliquet eros aliquam vitae. Fusce a aliquet leo. Phasellus placerat,
+                                lacus at convallis condimentum, ligula augue sodales ligula, vitae porttitor felis
+                                ligula sed nisl. Proin sit amet magna sagittis, dapibus massa dictum, blandit diam.
+                                Nullam pharetra sem vitae velit faucibus accumsan in vitae ante. Mauris ligula felis,
+                                posuere euismod tempus nec, mollis dignissim diam.
+                    <div class="row row-cols-4 mt-4 mb-4">
+                        <div class="col fix_img">
+                        <img src="{% static 'pages/img/mobile_1.png' %}" class="rounded img-fluid">
+                </div>
+                        <div class="col fix_img">
+                        <img src="{% static 'pages/img/mobile_2.png' %}"  class="rounded img-fluid">
+                </div>
+                        <div class="col fix_img">
+                        <img src="{% static 'pages/img/mobile_3.png' %}"  class="rounded img-fluid">
+                </div>
+                        <div class="col fix_img">
+                        <img src="{% static 'pages/img/mobile_4.png' %}"  class="rounded img-fluid">
+                </div>
+
+                    </div>
+
+                <img src="{% static 'cinema/img/google-play-badge.svg' %}" width="300">
+            <img src="{% static 'cinema/img/black.svg' %}" width="270">
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="mb-5">
+                <img src="{% static 'cinema/img/promo_cinemas.png' %}"
+                     width="215"
+                     class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+    $('#user_nav').attr('class', 'navbar navbar-expand-lg navbar-dark')
+        $('#nav_page-{{ page.pk }}').attr('class', 'dropdown-item active')
+    </script>
+{% endblock %}
