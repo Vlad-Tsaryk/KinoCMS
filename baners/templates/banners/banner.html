@@ -15,12 +15,18 @@
             white-space: nowrap;
         }
         .fix_size{
-            width: 300px;
-            flex: 0 0 300px;
+            height: 400px;
+            width: 350px;
+            flex: 0 0 400px;
         }
         .fix_size_small{
             width: 150px;
+            height: 150px;
             flex: 0 0 150px;
+        }
+        .fix_size_bg{
+            width: 300px;
+            flex: 0 0 300px;
         }
     </style>
 {% endblock %}
@@ -170,7 +176,7 @@
                     </div>
                     <div id="background_img" class="col">
                         <div class="row row-cols-auto" id="background_banner">
-                            <div class="col fix_size">
+                            <div class="col fix_size_bg">
                                 <div>
                                     {% if background_banner_form.instance.image %}
                                         <img id="img_{{ background_banner_form.image.auto_id }}"
