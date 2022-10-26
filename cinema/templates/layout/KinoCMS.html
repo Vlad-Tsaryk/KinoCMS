@@ -89,14 +89,15 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-2 d-table">
-            {% if user.is_superuser %}
-                <a class="btn btn-primary d-table-cell align-middle fs-5" href="{% url 'statistic' %}">AdminLte</a>
-            {% endif %}
-        </div>
-        <div class="col-md-8">
+{#                                    {% if user.is_superuser %}#}
+{#                <a class="btn btn-primary d-table-cell align-middle fs-5" href="{% url 'statistic' %}">AdminLte</a>#}
+{#            {% endif %}#}
+        <div class="col-md-10">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
+                {% if user.is_superuser %}
+                <a class="navbar-brand" href="{% url 'statistic' %}">AdminLte</a>
+                {% endif %}
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -138,14 +139,6 @@
                                            id="nav_page-{{ page.pk }}">{{ page.name }}</a></li>
                                         {% endif %}
                                     {% endfor %}
-
-{#                                    <li><a class="dropdown-item" href="{% url 'site_vip' %}">{% trans 'Vip-зал' %}</a>#}
-{#                                    </li>#}
-{#                                    <li><a class="dropdown-item"#}
-{#                                           href="{% url 'site_advertiser' %}">{% trans 'Реклама' %}</a></li>#}
-{#                                    <li><a class="dropdown-item"#}
-{#                                           href="{% url 'site_children_room' %}">{% trans 'Детская комната' %}</a></li>#}
-{#                                    <li><a class="dropdown-item" href="#">{% trans 'Кафе' %}</a></li>#}
                                     <li><a class="dropdown-item" href="{% url 'site_mobile_app' %}">
                                         {% trans 'Мобильные прил' %}</a></li>
                                     <li><a class="dropdown-item" href="{% url 'site_contact' %}"
@@ -155,7 +148,7 @@
 
 
                         </ul>
-                        <form class="d-flex">
+                        <form class="d-flex w-auto me-3">
                                     <input class="form-control me-2" type="search" placeholder="{% trans 'Поиск' %}"
                                            aria-label="Search">
                                     <button class="btn btn-outline-success" type="submit">{% trans 'Поиск' %}</button>
