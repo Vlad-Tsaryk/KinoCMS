@@ -56,7 +56,7 @@
 
     <div><img src="{{ session.hall.banner_image.url }}" height="500px" width="100%"></div>
     <div class="row mt-3 mb-3">
-        <div class="col-2">
+        <div class="col-2"style="flex: 0 0 300px">
             <center><img src="{{ session.film.main_image.url }}" width="250"></center>
 
             <center><img src="{% static 'cinema/img/promo_context.png' %}"
@@ -71,7 +71,7 @@
                 </i> <span class="fs-4" style="margin-left: 10px">{{ session.date_time|date:'H:i' }}</span></div>
                 <div class="col-3"><i class="fa-regular fa-calendar-check fs-3" style="color: #d35400">
                 </i> <span class="fs-4" style="margin-left: 10px">{{ session.date_time|date:'j E, l' }}</span></div>
-                <div class="col-4"><i class="fa-solid fa-location-dot fs-3" style="color: #d35400">
+                <div class="col-5"><i class="fa-solid fa-location-dot fs-3" style="color: #d35400">
                 </i> <span class="fs-4"
                            style="margin-left: 10px">{{ session.hall.cinema.name }}, {% trans 'зал' %}: {{ session.hall.name }}</span>
                 </div>
