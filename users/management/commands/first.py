@@ -81,14 +81,15 @@ class Command(BaseCommand):
         if Other_page.objects.count() == 0:
             pages = [['Vip-зал', 'Vip-зал'], ['Детская комната', 'Дитяча кімната'], ['Кафе-бар', 'Кафе-бар'],
                      ['О кинотеатре', 'Про кінотеатр'], ['Реклама', 'Реклама']]
-            for name in pages:
+            for index in range(len(pages)):
+                name = pages[index]
                 page = Other_page()
                 page.seo = SEO.objects.create(url=url, description='0', keywords='0', title='0')
                 page.name_ru = name[0]
                 page.name_uk = name[1]
                 page.description_ru = fake.text(max_nb_chars=500)
                 page.description_uk = fake.text(max_nb_chars=500)
-                page.main_image = 'static_kit/pages/unnamed.png'
+                page.main_image = f'static_kit/pages/{index+1}.jpeg'
                 page.gallery = Image_gallery.objects.create()
                 page.save()
             print('Pages create successful')
