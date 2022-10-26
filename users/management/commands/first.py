@@ -45,16 +45,16 @@ class Command(BaseCommand):
         if Contact_page.objects.count() == 0:
             for index in range(3):
                 contact = Contact_page()
-                contact.name_ru = 'Кинотеатр "Золотой Дюк"<br>\
+                contact.address_ru = 'Кинотеатр "Золотой Дюк"<br>\
                                 Одесса, проспект Академика Глушко, 11ж<br>\
                                 Бронирование билетов: (048) 746-32-33, (048) 746-32-20<br>\
                                 e-mail: goldduke@kino.odessa.ua<br> '
-                contact.name_uk = 'Кінотеатр "Золотий Дюк"<br>\
+                contact.address_uk = 'Кінотеатр "Золотий Дюк"<br>\
                                 Одеса, проспект Академіка Глушка, 11ж<br>\
                                 Бронювання квитків: (048) 746-32-33, (048) 746-32-20<br>\
                                 e-mail: goldduke@kino.odessa.ua<br>'
-                contact.address_ru = 'Multiplex'
-                contact.address_uk = 'Multiplex'
+                contact.name_ru = 'Multiplex'
+                contact.name_uk = 'Multiplex'
                 contact.logo = 'static_kit/pages/contact/' + str(index + 1) + '.jpg'
                 contact.coords = '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2482.' \
                                  '882221238436!2d31.30413268731127!3d51.515376752843494!3m2!1i1024!2i768!' \
