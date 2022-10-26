@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-16 15:45+0300\n"
+"POT-Creation-Date: 2022-10-26 21:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,6 +20,7 @@ msgstr ""
 "11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+
 #: users/templates/users/login.html:30
 msgid "Войдите чтобы начать"
 msgstr "Увійдіть щоб почати"
@@ -60,45 +61,63 @@ msgstr "Завантажити HTML-лист"
 msgid "Загрузить"
 msgstr "Завантажити"
 
-#: users/templates/users/mailing.html:55
+#: users/templates/users/mailing.html:61
 msgid "Загруженный шаблон"
 msgstr "Завантажений шаблон"
 
-#: users/templates/users/mailing.html:58
+#: users/templates/users/mailing.html:64
 msgid "Шаблон используемый в текущей рассылке"
 msgstr "Шаблон, що використовується в поточній розсилці"
 
-#: users/templates/users/mailing.html:74 users/templates/users/mailing.html:91
+#: users/templates/users/mailing.html:77
 msgid "Удалить"
 msgstr "Видалити"
 
-#: users/templates/users/mailing.html:109 users/templates/users/users.html:21
+#: users/templates/users/mailing.html:98 users/templates/users/users.html:21
 #: users/templates/users/users_choice.html:25
 msgid "Дата создания"
 msgstr "Дата створення"
 
-#: users/templates/users/mailing.html:111
+#: users/templates/users/mailing.html:100
+#: users/templates/users/site_user_update.html:33
 #: users/templates/users/user_update.html:25
 #: users/templates/users/users.html:23
 #: users/templates/users/users_choice.html:27
 msgid "Телефон"
 msgstr "Телефон"
 
-#: users/templates/users/mailing.html:112 users/templates/users/users.html:24
+#: users/templates/users/mailing.html:101 users/templates/users/users.html:24
 #: users/templates/users/users_choice.html:28
 msgid "ФИО"
 msgstr "ПІБ"
 
-#: users/templates/users/mailing.html:114
+#: users/templates/users/mailing.html:103
+#: users/templates/users/site_user_update.html:35
 #: users/templates/users/user_update.html:27
 #: users/templates/users/users.html:26
 #: users/templates/users/users_choice.html:30
 msgid "Город"
 msgstr "Місто"
 
-#: users/templates/users/mailing.html:135
+#: users/templates/users/mailing.html:123
 msgid "Выполнить рассылку"
 msgstr "Зробити розсилку"
+
+#: users/templates/users/mailing.html:218
+msgid "Удалить шаблон"
+msgstr "Видалити шаблон"
+
+#: users/templates/users/mailing.html:221
+msgid "Шаблон удалён"
+msgstr "Шаблон видалено"
+
+#: users/templates/users/mailing.html:224 users/templates/users/users.html:96
+msgid "Подтвердить"
+msgstr "Підтвердити"
+
+#: users/templates/users/mailing.html:224 users/templates/users/users.html:96
+msgid "Отмена"
+msgstr "Скасування"
 
 #: users/templates/users/register.html:29
 msgid "Регистрация нового пользователя"
@@ -112,34 +131,42 @@ msgstr "Зареєструвати"
 msgid "У меня уже есть аккаунт"
 msgstr "Я вже маю аккаунт"
 
+#: users/templates/users/site_user_update.html:27
 #: users/templates/users/user_update.html:19
 msgid "Имя"
 msgstr "Ім'я"
 
+#: users/templates/users/site_user_update.html:29
 #: users/templates/users/user_update.html:21
 msgid "Фамилия"
 msgstr "Прізвище"
 
+#: users/templates/users/site_user_update.html:37
 #: users/templates/users/user_update.html:29
 msgid "Адрес"
 msgstr "Ареса"
 
+#: users/templates/users/site_user_update.html:41
 #: users/templates/users/user_update.html:33
 msgid "Номер карты"
-msgstr ""
+msgstr "Номер картки"
 
+#: users/templates/users/site_user_update.html:44
 #: users/templates/users/user_update.html:36
 msgid "Дата рождения"
 msgstr "Дата народження"
 
+#: users/templates/users/site_user_update.html:52
 #: users/templates/users/user_update.html:44
 msgid "Язык"
 msgstr "Мова"
 
+#: users/templates/users/site_user_update.html:54
 #: users/templates/users/user_update.html:46
 msgid "Пол"
 msgstr "Стать"
 
+#: users/templates/users/site_user_update.html:68
 #: users/templates/users/user_update.html:60
 msgid "Сохранить"
 msgstr "Зберегти"
@@ -148,6 +175,14 @@ msgstr "Зберегти"
 #: users/templates/users/users_choice.html:14
 msgid "Пользователи"
 msgstr "Користувачі"
+
+#: users/templates/users/users.html:90
+msgid "Удалить пользователя"
+msgstr "Видалити користувача"
+
+#: users/templates/users/users.html:93
+msgid "Пользователь удалён"
+msgstr "Користувача видалено"
 
 #: users/templates/users/users_choice.html:51
 msgid "Отправить"

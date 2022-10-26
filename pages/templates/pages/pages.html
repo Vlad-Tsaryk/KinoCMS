@@ -34,7 +34,7 @@
                     </th>
                 </tr>
 
-                {% for page in pages|slice:":5" %}
+                {% for page in static_pages %}
                     <tr>
                         <td>{{ page.name }}</td>
                         <td>{{ page.date }}</td>
@@ -66,7 +66,7 @@
                           src="{% static 'cinema/img/pencil.png' %}"></a>
                     </th>
                 </tr>
-                {% for page in pages|slice:"5:" %}
+                {% for page in pages %}
                     <tr>
                         <td>{{ page.name }}</td>
                         <td>{{ page.date }}</td>
@@ -82,8 +82,8 @@
                               src="{% static 'cinema/img/pencil.png' %}"></a>
                         </th>
                         <td class="border-0" width="48px"><a
-                                onclick="return confirm('{% trans 'Удалить страницу?' %}');"
-                                href="{% url 'delete_page' page.pk %}"
+                                onclick="delete_page(event,{{ page.pk }},'{{ page.name }}')"
+                               style="cursor: pointer"
                         ><img height="48px"
                               src="{% static 'cinema/img/trash-can.png' %}"></a>
                         </td>
@@ -103,5 +103,15 @@
 {% block scripts %}
     <script>
         $('#nav_pages').attr('class', 'nav-link active')
+                function delete_page(event,id,name){
+            alertify.confirm('{% trans 'Удалить страницу' %} - '+`${name} ?`,
+                function () {
+                    window.location.href = '{% url 'delete_page' page_id=12345  %}'.replace(/12345/, id);
+                    alertify.success('{% trans 'Страница удалена' %}')
+                },
+                function () {
+                }).set({labels: {ok: '{% trans 'Подтвердить' %}', cancel: '{% trans 'Отмена' %}'}});
+
+        }
     </script>
 {% endblock %}

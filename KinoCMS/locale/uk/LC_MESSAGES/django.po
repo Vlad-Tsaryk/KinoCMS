@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-16 15:45+0300\n"
+"POT-Creation-Date: 2022-10-26 21:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,10 +21,10 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: KinoCMS/settings.py:124
+#: KinoCMS/settings.py:133
 msgid "Russian"
 msgstr "Русский"
 
-#: KinoCMS/settings.py:125
+#: KinoCMS/settings.py:134
 msgid "Ukrainian"
 msgstr "Українська"

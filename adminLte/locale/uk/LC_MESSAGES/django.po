@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-16 15:45+0300\n"
+"POT-Creation-Date: 2022-10-26 21:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,64 +21,64 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: adminLte/templates/adminLte/statistic.html:16
+#: adminLte/templates/adminLte/statistic.html:15
 msgid "Зарегистрированных пользователей"
 msgstr "Зареєстрованих користувачів"
 
-#: adminLte/templates/adminLte/statistic.html:22
+#: adminLte/templates/adminLte/statistic.html:21
 msgid "Больше информации"
 msgstr "Більше інформації"
 
-#: adminLte/templates/adminLte/statistic.html:28
+#: adminLte/templates/adminLte/statistic.html:27
 msgid "Пол"
 msgstr "Стать"
 
-#: adminLte/templates/adminLte/statistic.html:49
+#: adminLte/templates/adminLte/statistic.html:48
 #: adminLte/templates/adminLte/statistic.html:86
 msgid "Сеансы"
 msgstr "Сеанси"
 
-#: adminLte/templates/layout/basic.html:99
+#: adminLte/templates/layout/basic.html:92
 msgid "Статистика"
 msgstr "Статистика"
 
-#: adminLte/templates/layout/basic.html:106
+#: adminLte/templates/layout/basic.html:99
 msgid "Банера/Слайдеры"
 msgstr "Банери/Слайдери"
 
-#: adminLte/templates/layout/basic.html:112
+#: adminLte/templates/layout/basic.html:105
 msgid "Фильмы"
 msgstr "Фільми"
 
-#: adminLte/templates/layout/basic.html:118
+#: adminLte/templates/layout/basic.html:111
 msgid "Кинотеатры"
 msgstr "Кінотеатри"
 
-#: adminLte/templates/layout/basic.html:124
+#: adminLte/templates/layout/basic.html:117
 msgid "Новости"
 msgstr "Новини"
 
-#: adminLte/templates/layout/basic.html:130
+#: adminLte/templates/layout/basic.html:123
 msgid "Акции"
 msgstr "Акції"
 
-#: adminLte/templates/layout/basic.html:136
+#: adminLte/templates/layout/basic.html:129
 msgid "Страницы"
 msgstr "Сторінки"
 
-#: adminLte/templates/layout/basic.html:142
+#: adminLte/templates/layout/basic.html:135
 msgid "Пользователи"
 msgstr "Користувачі"
 
-#: adminLte/templates/layout/basic.html:148
+#: adminLte/templates/layout/basic.html:141
 msgid "Рассылка"
 msgstr "Розсилка"
 
-#: adminLte/templates/layout/basic.html:169
+#: adminLte/templates/layout/basic.html:162
 msgid "Галерея"
 msgstr "Галерея"
 
-#: adminLte/templates/layout/basic.html:192
-#: adminLte/templates/layout/basic.html:234
+#: adminLte/templates/layout/basic.html:185
+#: adminLte/templates/layout/basic.html:227
 msgid "Добавить"
 msgstr "Додати"

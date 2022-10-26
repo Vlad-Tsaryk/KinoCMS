@@ -57,7 +57,7 @@
             alertify.confirm('{% trans 'Удалить кинотеатр' %} - '+ `${tag} ?`,
                 function () {
                     window.location.href = '{% url 'delete_cinema' cinema_id=12345 %}'.replace(/12345/, event.target.id);
-                    alertify.success('{% trans 'Шаблон удалён' %}')
+                    alertify.success('{% trans 'Зал удален' %}')
                 },
                 function () {
                 }).set({labels: {ok: '{% trans 'Подтвердить' %}', cancel: '{% trans 'Отмена' %}'}});

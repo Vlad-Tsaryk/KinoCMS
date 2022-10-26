@@ -23,6 +23,9 @@ class Other_page(models.Model):
     gallery = models.ForeignKey(Image_gallery, on_delete=models.PROTECT)
     seo = models.OneToOneField(SEO, on_delete=models.PROTECT)
 
+    class Meta:
+        ordering = ['name']
+
 
 class News_promo(models.Model):
     name = models.CharField(max_length=50)

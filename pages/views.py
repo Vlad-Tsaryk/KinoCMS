@@ -118,8 +118,10 @@ def promos(request):
 def pages(request):
     obj_main_page = Main_page.objects.get(pk=1)
     obl_contact_page = Contact_collection.objects.get(pk=1)
-    obj_pages = Other_page.objects.all().order_by('name')
-    context = {'pages': obj_pages, 'main_page': obj_main_page, 'contact_page': obl_contact_page}
+    static_pages = Other_page.objects.filter(pk__lte=5)
+    obj_pages = Other_page.objects.filter(pk__gt=5)
+    context = {'pages': obj_pages, 'main_page': obj_main_page, 'contact_page': obl_contact_page,
+               'static_pages': static_pages}
     return render(request, 'pages/pages.html', context)
 
 

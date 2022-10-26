@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-16 15:45+0300\n"
+"POT-Creation-Date: 2022-10-26 21:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,6 +82,8 @@ msgstr "Зберегти"
 
 #: pages/templates/pages/contact_page.html:50
 #: pages/templates/pages/contact_page.html:60
+#: pages/templates/pages/contact_page.html:147
+#: pages/templates/pages/contact_page.html:157
 msgid "Адрес"
 msgstr "Адреса"
 
@@ -93,11 +95,6 @@ msgstr "Координати"
 #: pages/templates/pages/contact_page.html:72
 msgid "Логотип"
 msgstr "Логотип"
-
-#: pages/templates/pages/contact_page.html:147
-#: pages/templates/pages/contact_page.html:157
-msgid "Адрес"
-msgstr "Адреса"
 
 #: pages/templates/pages/news.html:8
 msgid "Новости"
@@ -124,19 +121,31 @@ msgstr "Вмк"
 msgid "Выкл"
 msgstr "Вимк"
 
-#: pages/templates/pages/news.html:36
-msgid "Удалить новость?"
-msgstr "Видалити новину?"
-
 #: pages/templates/pages/news.html:46
 msgid "Добавить новость"
 msgstr "Додати новину"
 
+#: pages/templates/pages/news.html:58
+msgid "Удалить новость"
+msgstr "Видалити новину?"
+
+#: pages/templates/pages/news.html:61
+msgid "Новость удалена"
+msgstr "Новина видалена"
+
+#: pages/templates/pages/news.html:64 pages/templates/pages/pages.html:113
+#: pages/templates/pages/promos.html:63
+msgid "Подтвердить"
+msgstr "Підтвердити"
+
+#: pages/templates/pages/news.html:64 pages/templates/pages/pages.html:113
+#: pages/templates/pages/promos.html:63
+msgid "Отмена"
+msgstr "Скасування"
+
 #: pages/templates/pages/pages.html:8
-#, fuzzy
-#| msgid "Сохранить"
 msgid "Страницы"
-msgstr "Зберегти"
+msgstr "Сторінки"
 
 #: pages/templates/pages/pages.html:22
 msgid "Главная страница"
@@ -146,36 +155,48 @@ msgstr "Головна сторінка"
 msgid "Контакты"
 msgstr "Контакти"
 
-#: pages/templates/pages/pages.html:85
-msgid "Удалить страницу?"
-msgstr "Видалити сторінку?"
-
 #: pages/templates/pages/pages.html:96
 msgid "Добавить страницу"
 msgstr "Додати сторінку"
+
+#: pages/templates/pages/pages.html:107
+msgid "Удалить страницу"
+msgstr "Видалити сторінку"
+
+#: pages/templates/pages/pages.html:110
+msgid "Страница удалена"
+msgstr "Сторінку видалено"
 
 #: pages/templates/pages/promos.html:8
 msgid "Акции"
 msgstr "Акції"
 
-#: pages/templates/pages/promos.html:36
-msgid "Удалить акцию?"
-msgstr "Видалити акцію?"
-
 #: pages/templates/pages/promos.html:46
 msgid "Добавить акцию"
 msgstr "Додати акцію"
 
-#: pages/templates/pages/site_advertiser.html:18
-msgid "Рекламодателям"
-msgstr "Рекламодавцям"
+#: pages/templates/pages/promos.html:57
+msgid "Удалить акцию"
+msgstr "Видалити акцію?"
 
-#: pages/templates/pages/site_advertiser.html:81
-#: pages/templates/pages/site_children_room.html:80
-#: pages/templates/pages/site_vip.html:80
+#: pages/templates/pages/promos.html:60
+msgid "Акция удалена"
+msgstr "Акція видалена"
+
+#: pages/templates/pages/site_mobile_app.html:22
+msgid "Мобильное приложение"
+msgstr "Мобільний застосунок"
+
+#: pages/templates/pages/site_other_page.html:50
 msgid "Фотогалерея"
 msgstr "Фотогалерея"
 
-#: pages/templates/pages/site_children_room.html:18
-msgid "Детская комната"
-msgstr "Дитяча кімната"
+#: pages/templates/pages/site_other_page.html:91
+msgid "Контент отсутствует"
+msgstr "Контент відсутній"
+
+#~ msgid "Рекламодателям"
+#~ msgstr "Рекламодавцям"
+
+#~ msgid "Детская комната"
+#~ msgstr "Дитяча кімната"
