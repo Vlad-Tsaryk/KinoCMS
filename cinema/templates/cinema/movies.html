@@ -21,7 +21,7 @@
                 <b>{% trans 'Сейчас в кино' %}</b><br>
 
         <a class="fs-6 link-primary" href="{% url 'film_card' film.pk %}">
-            <img class="ml-auto mr-auto rounded" src="{{ film.main_image.url }}" height="200" >
+            <img class="ml-auto mr-auto rounded" src="{{ film.main_image.url }}" height="200" width="150">
 
         <p><b>{{ film.name }}</b></p></a>
         <a class="badge rounded-pill bg-warning mx-auto fs-6" href="{% url 'film_card' film.pk %}">

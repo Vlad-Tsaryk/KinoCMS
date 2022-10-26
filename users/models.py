@@ -1,3 +1,5 @@
+import os
+
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from cinema.models import Session
@@ -32,5 +34,9 @@ class Ticket(models.Model):
 class Mail_template(models.Model):
     template = models.FileField(upload_to='Mailing', validators=[FileExtensionValidator(['html'])])
     date_added = models.DateTimeField(auto_now=True)
+
+    def filename(self):
+        return os.path.basename(self.template.name)
+
     class Meta:
         ordering = ['-date_added']

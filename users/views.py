@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 
 from .models import User, Mail_template
-from .forms import CustomUserChangeForm, CustomUserCreationForm, MailingFormSet
+from .forms import CustomUserChangeForm, CustomUserCreationForm, MailingForm
 from .tasks import send_mail_task
 from django.utils import translation
 
@@ -56,6 +56,7 @@ def update_user(request, user_id, admin):
     else:
         return render(request, 'users/site_user_update.html', context)
 
+
 @login_required()
 @user_passes_test(lambda u: u.is_superuser)
 def create_user(request):
@@ -92,27 +93,19 @@ def users(request):
 @user_passes_test(lambda u: u.is_superuser)
 def mailing(request):
     obj_users = User.objects.all()
+    mails = Mail_template.objects.all()
     if request.method == 'POST':
-        mailing_formset = MailingFormSet(request.POST, request.FILES)
+        mail_form = MailingForm(request.POST, request.FILES)
         print(request.POST)
-        if mailing_formset.is_valid():
-            mails = mailing_formset.save(commit=False)
-            for del_mail in mailing_formset.deleted_objects:
-                print(del_mail)
-                del_mail.delete()
-
-            for mail in mails:
-                mail.save()
-            mail_test = Mail_template.objects.get(pk=request.POST.get('template'))
-            with open(mail_test.template.path, 'r') as f:
+        if mail_form.is_valid():
+            mail = mail_form.save()
+            with open(mail.template.path, 'r') as f:
                 html_message = f.read()
             emails_list = []
             if request.POST.get('all_users'):
                 emails_list = []
                 for user in obj_users:
                     emails_list.append(user.email)
-                print(emails_list)
-
                 send_mail_task(msg_title='KinoCMS', html_message=html_message, emails_list=emails_list)
             if request.POST.get('user_choice'):
                 emails_list = request.POST.getlist('users_email')
@@ -120,12 +113,14 @@ def mailing(request):
                     print('sending.....')
                     print(emails_list)
                     send_mail_task(msg_title='KinoCMS', html_message=html_message, emails_list=emails_list)
-
             return redirect('mailing')
         else:
             print('not valid')
     else:
-        mailing_formset = MailingFormSet()
-    context = {'mailing_formset': mailing_formset, 'users': obj_users}
+        mail_form = MailingForm()
+    context = {'users': obj_users, 'mails': mails, 'mail_form': mail_form}
     return render(request, 'users/mailing.html', context)
 
+
+def delete_email(request, template_id):
+    pass
