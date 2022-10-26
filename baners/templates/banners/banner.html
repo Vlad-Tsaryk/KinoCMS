@@ -15,9 +15,12 @@
             white-space: nowrap;
         }
         .fix_size{
-            height: 400px;
-            width: 350px;
-            flex: 0 0 400px;
+            width: 300px;
+            flex: 0 0 300px;
+        }
+        .fix_size_small{
+            width: 150px;
+            flex: 0 0 150px;
         }
     </style>
 {% endblock %}
@@ -160,14 +163,14 @@
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row" >
-                    <div class="col-2 mr-5 d-block">
+                    <div class="col mr-5 d-block fix_size_small">
                         <div class="position-absolute top-50 start-0 translate-middle-y">
                             {{ background_banner_form.is_image }}
                         </div>
                     </div>
                     <div id="background_img" class="col">
                         <div class="row row-cols-auto" id="background_banner">
-                            <div class="col">
+                            <div class="col fix_size">
                                 <div>
                                     {% if background_banner_form.instance.image %}
                                         <img id="img_{{ background_banner_form.image.auto_id }}"
@@ -183,7 +186,7 @@
                                 </div>
 
                             </div>
-                            <div class="col">
+                            <div class="col fix_size_small">
                                 <button class="btn btn-secondary d-block position-absolute
                                 top-50 start-50 translate-middle"
                                         type="button"
@@ -195,7 +198,7 @@
                                     {{ background_banner_form.image }}
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col fix_size_small">
                                 {{ background_banner_form.image.clear }}
                                 <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
                                         type="button"
@@ -208,7 +211,7 @@
                         </div>
                     </div>
 
-                    <div id="color_picker" class="col">
+                    <div id="color_picker" class="col fix_size_small">
                         {{ background_banner_form.color }}
                     </div>
 
