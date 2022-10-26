@@ -39,8 +39,8 @@
 {#{% load cinema_tags %}#}
 {% block content %}
     <img src="{{ cinema.banner_image.url }}" class="w-100 mb-4" height="500">
-    <div class="row mb-5">
-    <div class="col-2">
+    <div class="row mb-5 mx-0">
+    <div class="col-2 fix_size">
         <center>
             <img src="{% static 'cinema/img/promo_context.png' %}" width="200">
         </center>
@@ -50,6 +50,13 @@
                 {% for hall in halls%}
                 <div class="hall border p-2" id="{{ hall.pk }}">
                     Зал {{ hall.name }}
+                </div>
+                {% endfor %}
+            <div class="mb-2"><b class="fs-5">{% trans 'Смотрите сегодня:' %}</b></div>
+
+                {% for session in sessions_today|slice:'0:10' %}
+                <div class="border p-2" id="{{ session.pk }}">
+                    {{ session }}
                 </div>
                 {% endfor %}
             </div>
@@ -124,6 +131,7 @@
 {% block scripts %}
     <script>
     $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+    $('#user_nav').attr('class', 'navbar navbar-expand-lg navbar-dark')
     </script>
     <script>
             $('.hall').click(function (e) {

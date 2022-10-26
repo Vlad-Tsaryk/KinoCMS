@@ -285,58 +285,55 @@ def contact_page(request):
 def site_promos(request):
     obj_promos = News_promo.objects.filter(type='Promo').order_by('date')
     main_page = Main_page.objects.get(pk=1)
+    page_list = Other_page.objects.all()
     banners_news = Banner_news.objects.all()
     banners_news_collection = Banner_news_collection.objects.get(pk=1)
     context = {'promos': obj_promos, 'main_page': main_page,
-               'banners_news_collection': banners_news_collection, 'banners_news': banners_news}
+               'banners_news_collection': banners_news_collection, 'banners_news': banners_news, 'pages': page_list}
     return render(request, 'pages/site_promos.html', context)
 
 
 def news_promo_card(request, news_promo_id):
     news_promo = News_promo.objects.get(pk=news_promo_id)
     main_page = Main_page.objects.get(pk=1)
-    context = {'news_promo': news_promo, 'main_page': main_page}
+    page_list = Other_page.objects.all()
+    context = {'news_promo': news_promo, 'main_page': main_page, 'pages': page_list}
     return render(request, 'pages/promo_card.html', context)
+
 
 def site_news(request):
     obj_news = News_promo.objects.filter(type='News').order_by('date')
     main_page = Main_page.objects.get(pk=1)
+    page_list = Other_page.objects.all()
     banners_news = Banner_news.objects.all()
     banners_news_collection = Banner_news_collection.objects.get(pk=1)
     context = {'news_list': obj_news, 'main_page': main_page,
-               'banners_news_collection': banners_news_collection, 'banners_news': banners_news}
+               'banners_news_collection': banners_news_collection, 'banners_news': banners_news, 'pages': page_list}
     return render(request, 'pages/site_news.html', context)
+
+
+def site_other_page(request, page_id):
+    page_list = Other_page.objects.all()
+    obj_page = page_list.get(pk=page_id)
+    main_page = Main_page.objects.get(pk=1)
+    gallery = Image.objects.filter(galleryId=obj_page.gallery.pk)
+    context = {'page': obj_page, 'main_page': main_page, 'gallery': gallery, 'pages': page_list}
+    return render(request, 'pages/site_other_page.html', context)
 
 
 def site_contact(request):
     contacts = Contact_page.objects.all()
     main_page = Main_page.objects.get(pk=1)
+    page_list = Other_page.objects.all()
     banners_news = Banner_news.objects.all()
     banners_news_collection = Banner_news_collection.objects.get(pk=1)
     context = {'contacts': contacts, 'main_page': main_page,
-               'banners_news_collection': banners_news_collection, 'banners_news': banners_news}
+               'banners_news_collection': banners_news_collection, 'banners_news': banners_news, 'pages': page_list}
     return render(request, 'pages/site_contact.html', context)
 
 
-def site_vip(request):
-    vip_page = Other_page.objects.get(pk=2)
+def site_mobile_app(request):
     main_page = Main_page.objects.get(pk=1)
-    gallery = Image.objects.filter(galleryId=vip_page.gallery.pk)
-    context = {'vip_page': vip_page, 'main_page': main_page, 'gallery': gallery}
-    return render(request, 'pages/site_vip.html', context)
-
-
-def site_children_room(request):
-    children_room = Other_page.objects.get(pk=4)
-    main_page = Main_page.objects.get(pk=1)
-    gallery = Image.objects.filter(galleryId=children_room.gallery.pk)
-    context = {'children_room': children_room, 'main_page': main_page, 'gallery': gallery}
-    return render(request, 'pages/site_children_room.html', context)
-
-
-def site_advertiser(request):
-    advertiser_page = Other_page.objects.get(pk=3)
-    main_page = Main_page.objects.get(pk=1)
-    gallery = Image.objects.filter(galleryId=advertiser_page.gallery.pk)
-    context = {'vip_page': advertiser_page, 'main_page': main_page, 'gallery': gallery}
-    return render(request, 'pages/site_advertiser.html', context)
+    page_list = Other_page.objects.all()
+    context = {'main_page': main_page, 'pages': page_list}
+    return render(request, 'pages/site_mobile_app.html', context)

@@ -36,7 +36,7 @@
     {% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="user_nav">
     <div class="container-fluid">
 
         <ul class="navbar-nav ms-auto">
@@ -121,25 +121,35 @@
                                    id="nav_promos">{% trans 'Акции' %}</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                <a class="nav-link dropdown-toggle" href="{% url 'site_news' %}" id="navbarDropdown" role="button"
                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     {% trans 'О кинотеатре' %}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="{% url 'site_news' %}"
                                            id="nav_news">{% trans 'Новости' %}</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'site_vip' %}">{% trans 'Vip-зал' %}</a>
-                                    </li>
-                                    <li><a class="dropdown-item"
-                                           href="{% url 'site_advertiser' %}">{% trans 'Реклама' %}</a></li>
-                                    <li><a class="dropdown-item"
-                                           href="{% url 'site_children_room' %}">{% trans 'Детская комната' %}</a></li>
-                                    <li><a class="dropdown-item" href="#">{% trans 'Кафе' %}</a></li>
-                                    <li><a class="dropdown-item" href="#">{% trans 'Мобильные прил' %}</a></li>
+                                    {% for page in pages %}
+                                        {% if page.active %}
+                                        <li><a class="dropdown-item" href="{% url 'other_page' page.pk %}"
+                                           id="nav_page-{{ page.pk }}">{{ page.name }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+
+{#                                    <li><a class="dropdown-item" href="{% url 'site_vip' %}">{% trans 'Vip-зал' %}</a>#}
+{#                                    </li>#}
+{#                                    <li><a class="dropdown-item"#}
+{#                                           href="{% url 'site_advertiser' %}">{% trans 'Реклама' %}</a></li>#}
+{#                                    <li><a class="dropdown-item"#}
+{#                                           href="{% url 'site_children_room' %}">{% trans 'Детская комната' %}</a></li>#}
+{#                                    <li><a class="dropdown-item" href="#">{% trans 'Кафе' %}</a></li>#}
+                                    <li><a class="dropdown-item" href="{% url 'site_mobile_app' %}">
+                                        {% trans 'Мобильные прил' %}</a></li>
                                     <li><a class="dropdown-item" href="{% url 'site_contact' %}"
                                            id="nav_contact">{% trans 'Контакты' %}</a></li>
                                 </ul>
                             </li>
+
+
                         </ul>
                         <form class="d-flex">
                                     <input class="form-control me-2" type="search" placeholder="{% trans 'Поиск' %}"

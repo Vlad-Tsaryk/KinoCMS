@@ -9,6 +9,7 @@ from .models import Film, Hall, Cinema, RU_MONTH_VALUES, Session
 from .forms import FilmForm, CinemaForm, HallFormSet, HallForm
 from gallery_seo.forms import SeoForm, GalleryForm, ImageFormSet
 from gallery_seo.forms import Image
+from pages.models import Other_page
 from django.contrib.auth.decorators import login_required, user_passes_test
 from baners.models import Background_banner, Banner, Banner_collection, Banner_news, Banner_news_collection
 from pages.models import Main_page
@@ -282,6 +283,7 @@ def delete_hall(request, hall_id, cinema_id):
 def kino_cms(request):
     today = datetime.datetime.today()
     main_page = Main_page.objects.get(pk=1)
+    page_list = Other_page.objects.all()
     films_today = Film.objects.filter(date__lte=today)
     films_soon = Film.objects.filter(date__gt=today)
     back_banner = Background_banner.objects.get(pk=1)
@@ -293,7 +295,8 @@ def kino_cms(request):
     current_day = str(today.day) + " " + RU_MONTH_VALUES[today.month - 1]
     context = {'films_today': films_today, 'films_soon': films_soon, 'back_banner': back_banner, 'banners': banners,
                'main_page': main_page, 'current_day': current_day, 'banners_news': banners_news,
-               'banners_collection': banners_collection, 'banners_news_collection': banners_news_collection
+               'banners_collection': banners_collection, 'banners_news_collection': banners_news_collection,
+               'pages': page_list
                }
     return render(request, 'layout/KinoCMS.html', context)
 
@@ -301,21 +304,24 @@ def kino_cms(request):
 def movies(request):
     films_today = Film.objects.filter(date__lte=datetime.datetime.today())
     main_page = Main_page.objects.get(pk=1)
-    context = {'films_today': films_today, 'main_page': main_page}
+    page_list = Other_page.objects.all()
+    context = {'films_today': films_today, 'main_page': main_page, 'pages': page_list}
     return render(request, 'cinema/movies.html', context)
 
 
 def soon(request):
     films_soon = Film.objects.filter(date__gt=datetime.datetime.today())
     main_page = Main_page.objects.get(pk=1)
-    context = {'films_soon': films_soon, 'main_page': main_page}
+    page_list = Other_page.objects.all()
+    context = {'films_soon': films_soon, 'main_page': main_page, 'pages': page_list}
     return render(request, 'cinema/soon.html', context)
 
 
 def cinemas_page(request):
     obj_cinemas = Cinema.objects.all()
     main_page = Main_page.objects.get(pk=1)
-    context = {'cinemas': obj_cinemas, 'main_page': main_page}
+    page_list = Other_page.objects.all()
+    context = {'cinemas': obj_cinemas, 'main_page': main_page, 'pages': page_list}
     return render(request, 'cinema/cinemas_site.html', context)
 
 
@@ -337,11 +343,12 @@ def showtimes(request):
             films_names.append(s['film__name'])
     sessions_list = list(sessions)
     main_page = Main_page.objects.get(pk=1)
+    page_list = Other_page.objects.all()
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         if request.method == 'GET':
             return JsonResponse({'sessions': sessions_list})
 
-    context = {'main_page': main_page, 'cinemas_names': cinemas_names, 'films_names': films_names}
+    context = {'main_page': main_page, 'cinemas_names': cinemas_names, 'films_names': films_names, 'pages': page_list}
     return render(request, 'cinema/showtimes.html', context)
 
 
@@ -349,6 +356,7 @@ def film_card(request, film_id):
     today = datetime.datetime.today()
     obj_films = Film.objects.get(pk=film_id)
     main_page = Main_page.objects.get(pk=1)
+    page_list = Other_page.objects.all()
     film_sessions = Session.objects.filter(film_id=film_id)
     film_gallery = Image.objects.filter(galleryId=obj_films.gallery.pk)
     cinemas_dict = {}
@@ -380,12 +388,14 @@ def film_card(request, film_id):
                         filter_dates.append(session.date_time.astimezone().date())
                 return JsonResponse({'filter_dates': filter_dates})
     context = {'film': obj_films, 'main_page': main_page, 'cinemas_dict': cinemas_dict, 'session_dates': session_dates,
-               'film_gallery': film_gallery}
+               'film_gallery': film_gallery, 'pages': page_list}
     return render(request, 'cinema/film_card.html', context)
 
 
 @login_required()
 def seat_reservation(request, session_id):
+    page_list = Other_page.objects.all()
+    main_page = Main_page.objects.get(pk=1)
     obj_session = Session.objects.get(pk=session_id)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         sold_out = []
@@ -407,27 +417,39 @@ def seat_reservation(request, session_id):
             return JsonResponse({'sold_out': sold_out})
         return JsonResponse({'status': 'Invalid request'}, status=400)
 
-    context = {'session': obj_session}
+    context = {'session': obj_session, 'pages': page_list, 'main_page': main_page}
     return render(request, 'cinema/seat_reservation.html', context)
 
 
 def cinema_card(request, cinema_id):
+    date = datetime.date.today()
+    sessions = Session.objects.filter(date_time__day=date.day,
+                                            date_time__month=date.month,
+                                            date_time__year=date.year)
+    sessions_today = []
+    for session in sessions:
+        if session.film.name not in sessions_today:
+            sessions_today.append(session.film.name)
+    page_list = Other_page.objects.all()
+    main_page = Main_page.objects.get(pk=1)
     obj_cinema = Cinema.objects.get(pk=cinema_id)
     cinema_gallery = Image.objects.filter(galleryId=obj_cinema.gallery.pk)
     cinema_halls = Hall.objects.filter(cinema=obj_cinema).order_by('name')
     context = {'cinema': obj_cinema,
                'gallery': cinema_gallery,
-               'halls': cinema_halls
+               'halls': cinema_halls, 'pages': page_list, 'main_page': main_page, 'sessions_today': sessions_today
                }
     return render(request, 'cinema/cinema_card.html', context)
 
 
 def hall_card(request, hall_id):
+    page_list = Other_page.objects.all()
+    main_page = Main_page.objects.get(pk=1)
     obj_hall = Hall.objects.get(pk=hall_id)
     hall_sessions = Session.objects.filter(hall=obj_hall)
     hall_gallery = Image.objects.filter(galleryId=obj_hall.gallery.pk)
     context = {'hall': obj_hall,
                'hall_sessions': hall_sessions,
-               'gallery': hall_gallery
+               'gallery': hall_gallery, 'pages': page_list, 'main_page': main_page
                }
     return render(request, 'cinema/hall_card.html', context)

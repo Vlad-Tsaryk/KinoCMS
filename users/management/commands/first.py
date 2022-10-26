@@ -45,8 +45,14 @@ class Command(BaseCommand):
         if Contact_page.objects.count() == 0:
             for index in range(3):
                 contact = Contact_page()
-                contact.name_ru = 'Multiplex'
-                contact.name_uk = 'Multiplex'
+                contact.name_ru = 'Кинотеатр "Золотой Дюк"<br>\
+                                Одесса, проспект Академика Глушко, 11ж<br>\
+                                Бронирование билетов: (048) 746-32-33, (048) 746-32-20<br>\
+                                e-mail: goldduke@kino.odessa.ua<br> '
+                contact.name_uk = 'Кінотеатр "Золотий Дюк"<br>\
+                                Одеса, проспект Академіка Глушка, 11ж<br>\
+                                Бронювання квитків: (048) 746-32-33, (048) 746-32-20<br>\
+                                e-mail: goldduke@kino.odessa.ua<br>'
                 contact.address_ru = 'Multiplex'
                 contact.address_uk = 'Multiplex'
                 contact.logo = 'static_kit/pages/contact/' + str(index + 1) + '.jpg'
@@ -168,7 +174,7 @@ class Command(BaseCommand):
                 news_promo.gallery = Image_gallery.objects.create()
                 news_promo.date = fake.date_between_dates(date_start='now', date_end='+10days')
                 news_promo.trailer_url = url
-                news_promo.main_image = 'static_kit/pages/news_promo/'+str(index + 1)+'.png'
+                news_promo.main_image = 'static_kit/pages/news_promo/' + str(index + 1) + '.png'
                 if index > 5:
                     news_promo.type = 'News'
                     news_promo.name_ru = f'Тестовая новость {index + 1}'

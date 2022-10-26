@@ -152,6 +152,9 @@
             </center>
         </div>
     </div>
+    <div class="mt-5 mb-3">
+            <center><img class="img-fluid" src="{% static 'cinema/img/promo.png' %}"></center>
+        </div>
     <div class="empty-date d-none">
         <div hidden id="index"></div>
         <table class="table border border-light text-center text-light">
@@ -181,6 +184,7 @@
 {% block scripts %}
     <script>
         $('.navbar').attr('class', 'navbar navbar-expand-lg navbar-dark border border-light')
+    $('#user_nav').attr('class', 'navbar navbar-expand-lg navbar-dark')
     </script>
     <script>
         var date_select = 1
