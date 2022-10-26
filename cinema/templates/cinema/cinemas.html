@@ -6,6 +6,7 @@
     <div class="card card-secondary">
         <div class="card-header">
             <h4 class="card-title">{% trans 'Кинотеатры' %}</h4>
+            <a href="{% url 'add_cinema' %}"><i class="fa-solid fa-plus float-right fs-4"></i></a>
         </div>
         <div class="card-body">
             <div class="row mt-3">
@@ -33,16 +34,6 @@
                                for="{{ cinema.name }}">{{ cinema.name }}</label>
                     </div>
                 {% endfor %}
-                <div class="col-sm-2">
-                    <a class="d-block position-absolute top-50 start-50 translate-middle"
-                       href="{% url 'add_cinema' %}" data-toggle="lightbox"
-                       data-title="sample 1 - white" data-gallery="gallery" style="text-align: center"
-                       id="{{ film.name }}">
-                        <img src="{% static 'adminLte/dist/img/plus_icon.png' %}"
-                             class="d-block ml-auto mr-auto d-inline">
-                    </a>
-
-                </div>
             </div>
         </div>
     </div>
