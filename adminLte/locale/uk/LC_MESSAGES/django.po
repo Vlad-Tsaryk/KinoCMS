@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-26 21:52+0300\n"
+"POT-Creation-Date: 2022-10-28 02:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,47 +38,47 @@ msgstr "Стать"
 msgid "Сеансы"
 msgstr "Сеанси"
 
-#: adminLte/templates/layout/basic.html:92
+#: adminLte/templates/layout/basic.html:101
 msgid "Статистика"
 msgstr "Статистика"
 
-#: adminLte/templates/layout/basic.html:99
+#: adminLte/templates/layout/basic.html:108
 msgid "Банера/Слайдеры"
 msgstr "Банери/Слайдери"
 
-#: adminLte/templates/layout/basic.html:105
+#: adminLte/templates/layout/basic.html:114
 msgid "Фильмы"
 msgstr "Фільми"
 
-#: adminLte/templates/layout/basic.html:111
+#: adminLte/templates/layout/basic.html:120
 msgid "Кинотеатры"
 msgstr "Кінотеатри"
 
-#: adminLte/templates/layout/basic.html:117
+#: adminLte/templates/layout/basic.html:126
 msgid "Новости"
 msgstr "Новини"
 
-#: adminLte/templates/layout/basic.html:123
+#: adminLte/templates/layout/basic.html:132
 msgid "Акции"
 msgstr "Акції"
 
-#: adminLte/templates/layout/basic.html:129
+#: adminLte/templates/layout/basic.html:138
 msgid "Страницы"
 msgstr "Сторінки"
 
-#: adminLte/templates/layout/basic.html:135
+#: adminLte/templates/layout/basic.html:144
 msgid "Пользователи"
 msgstr "Користувачі"
 
-#: adminLte/templates/layout/basic.html:141
+#: adminLte/templates/layout/basic.html:150
 msgid "Рассылка"
 msgstr "Розсилка"
 
-#: adminLte/templates/layout/basic.html:162
+#: adminLte/templates/layout/basic.html:171
 msgid "Галерея"
 msgstr "Галерея"
 
-#: adminLte/templates/layout/basic.html:185
-#: adminLte/templates/layout/basic.html:227
+#: adminLte/templates/layout/basic.html:194
+#: adminLte/templates/layout/basic.html:236
 msgid "Добавить"
 msgstr "Додати"

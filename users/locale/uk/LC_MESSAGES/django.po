@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-26 21:52+0300\n"
+"POT-Creation-Date: 2022-10-28 02:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -152,22 +152,22 @@ msgid "Номер карты"
 msgstr "Номер картки"
 
 #: users/templates/users/site_user_update.html:44
-#: users/templates/users/user_update.html:36
+#: users/templates/users/user_update.html:37
 msgid "Дата рождения"
 msgstr "Дата народження"
 
 #: users/templates/users/site_user_update.html:52
-#: users/templates/users/user_update.html:44
+#: users/templates/users/user_update.html:45
 msgid "Язык"
 msgstr "Мова"
 
 #: users/templates/users/site_user_update.html:54
-#: users/templates/users/user_update.html:46
+#: users/templates/users/user_update.html:47
 msgid "Пол"
 msgstr "Стать"
 
 #: users/templates/users/site_user_update.html:68
-#: users/templates/users/user_update.html:60
+#: users/templates/users/user_update.html:61
 msgid "Сохранить"
 msgstr "Зберегти"
 

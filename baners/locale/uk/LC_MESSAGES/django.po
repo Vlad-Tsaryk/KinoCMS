@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-26 21:52+0300\n"
+"POT-Creation-Date: 2022-10-28 02:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,37 +21,37 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: baners/templates/banners/banner.html:29
+#: baners/templates/banners/banner.html:40
 msgid "Баннеры"
 msgstr "Банери"
 
-#: baners/templates/banners/banner.html:71
-#: baners/templates/banners/banner.html:116
-#: baners/templates/banners/banner.html:192
-#: baners/templates/banners/banner.html:267
-#: baners/templates/banners/banner.html:309
+#: baners/templates/banners/banner.html:82
+#: baners/templates/banners/banner.html:127
+#: baners/templates/banners/banner.html:203
+#: baners/templates/banners/banner.html:278
+#: baners/templates/banners/banner.html:320
 msgid "Добавить"
 msgstr "Додати"
 
-#: baners/templates/banners/banner.html:142
-#: baners/templates/banners/banner.html:333
+#: baners/templates/banners/banner.html:153
+#: baners/templates/banners/banner.html:344
 msgid "Скорость вращения"
 msgstr "Швидкість обертання"
 
-#: baners/templates/banners/banner.html:148
-#: baners/templates/banners/banner.html:219
-#: baners/templates/banners/banner.html:339
+#: baners/templates/banners/banner.html:159
+#: baners/templates/banners/banner.html:230
+#: baners/templates/banners/banner.html:350
 msgid "Сохранить"
 msgstr "Зберегти"
 
-#: baners/templates/banners/banner.html:157
+#: baners/templates/banners/banner.html:168
 msgid "Сквозной баннер на заднем фоне"
 msgstr "Наскрізний банер на задньому фоні"
 
-#: baners/templates/banners/banner.html:204
+#: baners/templates/banners/banner.html:215
 msgid "Удалить"
 msgstr "Видалити"
 
-#: baners/templates/banners/banner.html:227
+#: baners/templates/banners/banner.html:238
 msgid "Новости и Акции"
 msgstr "Новини та Акції"
