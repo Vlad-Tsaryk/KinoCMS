@@ -5,8 +5,8 @@ from django.forms import modelformset_factory
 
 class BannerForm(forms.ModelForm):
     image = forms.ImageField(required=False, widget=forms.FileInput(attrs={'type': 'file', 'class': 'ban-img'}))
-    url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control'}))
-    text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '2'}))
+    url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control', 'required': ''}))
+    text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '2', 'required': ''}))
 
     class Meta:
         model = Banner
@@ -21,6 +21,7 @@ class BannerCollectionForm(forms.ModelForm):
     rotation_speed = forms.ChoiceField(choices=Rotation_Speed_CHOISES,
                                        widget=forms.Select(attrs={'class': 'form-select d-inline',
                                                                   'style': 'width:auto'}))
+
     class Meta:
         model = Banner_collection
         fields = ['active', 'rotation_speed']
@@ -40,8 +41,6 @@ class BackgroundBannerForm(forms.ModelForm):
         fields = '__all__'
 
 
-
-
 class BannerNewsCollectionForm(forms.ModelForm):
     active = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
     rotation_speed = forms.ChoiceField(choices=Rotation_Speed_CHOISES,
@@ -54,7 +53,7 @@ class BannerNewsCollectionForm(forms.ModelForm):
 
 
 class BannerNewsForm(forms.ModelForm):
-    url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control'}))
+    url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control', 'required': ''}))
 
     class Meta:
         model = Banner_news

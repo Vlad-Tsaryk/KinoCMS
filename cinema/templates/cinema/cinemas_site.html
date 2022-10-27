@@ -14,13 +14,9 @@
 {% block content %}
     <div class="content">
     <div><img src="{{ cinemas.first.banner_image.url }}" height="600px" width="100%"></div>
-
-    <div class="w-25 float-end">
-    <img src="{% static 'cinema/img/promo_cinemas.png' %}"
-         style="margin-left: 150px;margin-top:82px" width="215"
-         class="img-fluid">
-</div>
-    <div class="container p-0 w-75" style="margin-left: 5%; margin-right: 0px;">
+    <div class="row">
+        <div class="col">
+{#            <div class="container p-0 w-75" style="margin-left: 5%; margin-right: 0px;">#}
     <center><b class="fs-1">{% trans 'Наши кинотеатры' %}</b></center>
     <div class="row mt-4">
         {% for cinema in cinemas %}
@@ -34,7 +30,18 @@
 
         {% endfor %}
     </div>
+{#    </div>#}
+        </div>
+    <div class="col-1 my-4" style="width: 250px">
+        <img src="{% static 'cinema/img/promo_cinemas.png' %}"
+{#         style="margin-left: 150px;margin-top:82px"#}
+             width="215">
     </div>
+    </div>
+{#    <div class="w-25 float-end">#}
+{#    #}
+{#</div>#}
+
     </div>
 
 {% endblock %}

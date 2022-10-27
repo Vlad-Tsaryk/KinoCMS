@@ -33,6 +33,7 @@
         <label for="{{ user_form.card_number.id_for_label }}">{% trans 'Номер карты'%}</label>
         {{ user_form.card_number }}
             <div class="form-group">
+                {{ user_form.birth_date }}
         <label for="{{ user_form.birth_date.id_for_label }}">{% trans 'Дата рождения'%}</label>
         <div class="input-group date" id="reservationdate" data-target-input="nearest" style="width: 280px">
             {{ user_form.birth_date }}
@@ -80,9 +81,6 @@
         maxDate: max_date,
         format: 'L'
     });
-        $("#reservationdate").on("change.datetimepicker", function (e) {
-            console.log(e.date)
-        });
         $('#id_language div').attr('style', 'display: inline-block; margin-right: 20px')
         $('#id_gender div').attr('style', 'display: inline-block; margin-right: 20px')
 });

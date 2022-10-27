@@ -45,10 +45,13 @@
     </div>
     </div>
         <div class="row">
-            <div class="col-8">
-                <table class="d-none">
+            <div class="col-8" id="table_list">
+
+            </div>
+            <div class="d-none">
+            <table class="d-none">
                     <tbody>
-                    {{ sessions.first.date_time.dat }}
+{#                    {{ sessions.first.date_time.dat }}#}
                     <tr class="d-none" id="empty-session">
 
                         <td id="date" style="text-align: center;"></td>
@@ -61,8 +64,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <b>{{ sessions_tomorrow.first.date_time }}</b>
-                <table class="table table-light border border-warning border-5 w-100 center">
+                <table class="table table-light border border-warning border-5 w-100 center" id="copy_table">
                     <thead>
                     <tr>
                         <th scope="col" style="text-align: center;">{% trans 'Дата' %}</th>
@@ -77,7 +79,7 @@
                     <tbody id="sessions_list">
                     </tbody>
                 </table>
-            </div>
+                </div>
             <div class="col"><img src="{% static 'cinema/img/promo_context.png' %}" height="400"></div>
         </div>
 
@@ -113,7 +115,7 @@
                 sorted_by_cinemas = res_data.sessions
                 sorted_data = res_data.sessions
                 sorted_by_date = res_data.sessions
-                add_to_table(sorted_by_date)
+                show_by_dates(sorted_by_date)
             }
         )
 
@@ -127,25 +129,6 @@
 
         console.log(new Date().getDate(), new Date().getMonth(), new Date().getFullYear())
 
-        function add_to_table(data, target) {
-            $('#sessions_list tr').remove()
-            data.forEach(function (item) {
-                    let clone = $('#empty-session').clone().attr('class', '').removeAttr('id')
-                    clone.find('#date').text(item.date_time)
-                    clone.find('#time').text(item.date_time__time)
-                    clone.find('#film').text(item.film__name)
-                    clone.find('#hall').text(item.hall__name)
-                    clone.find('#price').text(item.price)
-                    let link = "{% url 'reservation' session_id=12345 %}".replace(/12345/, item.pk)
-                    clone.find('#reservation').attr('href', link)
-                    let pk = parseInt(item.pk)
-                    console.log()
-                    clone.appendTo('#sessions_list')
-                    set_films_options(item)
-                    set_halls_options(item)
-
-            })
-        }
 
         function set_films_options(data) {
             if ($('#film_sort option[value="' + data.film__name + '"]').length === 0) {
@@ -164,14 +147,14 @@
                     sorted_by_cinemas = sorted_by_date.filter(function (item) {
                     return item[option_sort] === elem_name
                 })
-                    add_to_table(sorted_by_cinemas)
+                    show_by_dates(sorted_by_cinemas)
                 }
                 if (elem_option === 'film') {
                     $('#hall_sort option').not('#hall_header').remove()
                     sorted_by_films = sorted_by_cinemas.filter(function (item) {
                     return item[option_sort] === elem_name
                 })
-                    add_to_table(sorted_by_films)
+                    show_by_dates(sorted_by_films)
                 }
                 if (elem_option === 'hall') {
                     {#$('#film_sort option').not('#film_header').remove()#}
@@ -188,13 +171,13 @@
                         sorted_by_halls = sorted_by
                     }
 
-                    add_to_table(sorted_by_halls)
+                    show_by_dates(sorted_by_halls)
                 }
 
 
             } else {
                 console.log(sorted_by_cinemas)
-                add_to_table(sorted_by_date)
+                show_by_dates(sorted_by_date)
 
             }
 
@@ -256,8 +239,9 @@ console.log('next_month'+new Date().next_month())
             }
             else {
                 sorted_by_date = res_data.sessions
+                show_by_dates(res_data.sessions)
             }
-            add_to_table(sorted_by_date)
+            show_by_dates(sorted_by_date)
         }
 
         function set_halls_options(data) {
@@ -265,6 +249,50 @@ console.log('next_month'+new Date().next_month())
                 $('#hall_sort').append(`<option value="${data.hall__name}">${data.hall__name}</option>`)
 
             }
+        }
+        function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+        function show_by_dates(data) {
+            $('#table_list').empty()
+            let dates = []
+
+
+            for (let i=0; i<data.length;i++){
+                let date = data[i]['date_time']
+
+                if(!dates.includes(date)){
+                    let date_split = date.split('.')
+                    let d = new Date(date_split[2], date_split[1], date_split[0]);
+                    let we = new Intl.DateTimeFormat('{{request.LANGUAGE_CODE}}', { weekday: 'long' }).format(d);
+                    let mo = new Intl.DateTimeFormat('{{request.LANGUAGE_CODE}}', { month: 'short' }).format(d);
+                    let da = new Intl.DateTimeFormat('{{request.LANGUAGE_CODE}}', { day: '2-digit' }).format(d);
+                    dates.push(date)
+                    let copy_table = $('#copy_table').clone().attr('id',i)
+                    copy_table.appendTo('#table_list')
+                    copy_table.before(`<label>${da} ${mo}, ${capitalizeFirstLetter(we)}</label>`)
+                    for(let j=i; j<data.length;j++){
+                        if(data[j]['date_time']===date){
+                            let clone = $('#empty-session').clone().attr('class', '').removeAttr('id')
+                            clone.find('#date').text(data[j].date_time)
+                            clone.find('#time').text(data[j].date_time__time)
+                            clone.find('#film').text(data[j].film__name)
+                            clone.find('#hall').text(data[j].hall__name)
+                            clone.find('#price').text(data[j].price)
+                            let link = "{% url 'reservation' session_id=12345 %}".replace(/12345/, data[j].pk)
+                            clone.find('#reservation').attr('href', link)
+                            let pk = parseInt(data[j].pk)
+                            $(`#${i} #sessions_list`).append(clone)
+                        }
+                    }
+                    console.log(date)
+                }
+                set_films_options(data[i])
+            set_halls_options(data[i])
+
+            }
+
+
         }
 
     </script>

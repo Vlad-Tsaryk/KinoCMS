@@ -1,5 +1,6 @@
 {% extends 'layout/KinoCMS.html' %}
 {% load i18n %}
+{% load static %}
 {% block head %}
     <style>
         body{
@@ -10,12 +11,31 @@
         #main_content{
             background-color: #393E46;
             border-radius: 5px;
+            min-height: 350px;
         }
     </style>
 {% endblock %}
 {% block content %}
-    <div class="container p-0 pb-4" id="main_content">
     <div class="row">
+
+    <div class="col-2" style="flex: 0 0 180px;">
+        <ul class="nav flex-column nav-pills mb-3">
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="{% url 'movies' %}">{% trans 'Афиша' %}</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{% url 'soon' %}">{% trans 'Скоро' %}</a>
+  </li>
+</ul>
+
+        <img src="{% static 'cinema/img/promo_context.png' %}" width="150" height="250">
+
+    </div>
+    <div class="col-1" style="flex: 0 0 5%;"></div>
+    <div class="col ">
+       <div class="container p-0 pb-4 m-0" id="main_content">
+    <div class="row">
+    {% if films_soon %}
     {% for film in films_soon %}
 
             <div class="col-lg-2 text-center mt-4">
@@ -29,8 +49,14 @@
                 <i class="fa-solid fa-ticket fa-rotate-by" style="--fa-rotate-angle: -45deg;"></i>  {% trans 'Купить билет' %}</a>
     </div>
     {% endfor %}
+        {% else %}
+        <center><b class="fs-3">{% trans 'Фильмов нет' %}</b></center>
+    {% endif %}
     </div>
     </div>
+    </div>
+    </div>
+
 {% endblock %}
 {% block scripts %}
     <script>

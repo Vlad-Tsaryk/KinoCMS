@@ -317,6 +317,8 @@ def site_news(request):
 def site_other_page(request, page_id):
     page_list = Other_page.objects.all()
     obj_page = page_list.get(pk=page_id)
+    if not obj_page.active:
+        return redirect('kino_cms')
     main_page = Main_page.objects.get(pk=1)
     gallery = Image.objects.filter(galleryId=obj_page.gallery.pk)
     context = {'page': obj_page, 'main_page': main_page, 'gallery': gallery, 'pages': page_list}

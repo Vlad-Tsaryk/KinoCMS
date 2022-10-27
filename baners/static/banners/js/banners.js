@@ -21,7 +21,12 @@ $('input[name = is_image]').change(function (event) {
         $('#color_picker').show()
     }
 });
+$( document ).ready(function () {
+    $('#empty_form-banner input').removeAttr('required')
+    $('#empty_form-banner textarea').removeAttr('required')
+    $('#empty_form-news-banner input').removeAttr('required')
 
+})
 
 function chooseFileBanners(input, img) {
     $('#banner-form-list '+"#" + input).click().change(function (event) {
@@ -59,10 +64,14 @@ function add_new_banner(event) {
     const copyEmptyFormEl = document.getElementById('empty_form-banner').cloneNode(true)
     copyEmptyFormEl.setAttribute('class', 'col-xl-3 d-inline-block mt-5 fix_size')
     copyEmptyFormEl.setAttribute('id', `banner_form-${currentFormCount}`)
+
+    console.log('#'+copyEmptyFormEl.id)
     const regex = new RegExp('__prefix__', 'g')
     copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
     totalNewForms.attr('value', $('#banner-form-list #banner_img').length + 1)
     formCopyTarget.before(copyEmptyFormEl)
+    $('#'+copyEmptyFormEl.id+' input').attr('required','')
+    $('#'+copyEmptyFormEl.id+' textarea').attr('required','')
 }
 
 const addMoreNewsBtn = document.getElementById('add_more_news_banner')
@@ -86,6 +95,7 @@ function add_new_news_banner(event) {
     copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
     totalNewNewsForms.attr('value', $('#banner-news-form-list #banner_img').length + 1)
     formCopyTarget.before(copyEmptyFormEl)
+    $('#'+copyEmptyFormEl.id+' input').attr('required','')
 }
 
 function delete_banner(form_id) {
