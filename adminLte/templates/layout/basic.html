@@ -26,6 +26,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{% static 'adminLte/plugins/alertifyjs/css/alertify.min.css' %}"/>
     <!-- include a theme -->
     <link rel="stylesheet" href="{% static 'adminLte/plugins/alertifyjs/css/themes/default.min.css' %}"/>
+    <style>
+        .row{
+            margin-right: 0px;
+            margin-left: 0px;
+        }
+        body{
+             overflow-x: hidden;
+        }
+    </style>
     {% block head %}
     {% endblock %}
 </head>
@@ -160,7 +169,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="form-group">
                     {{ images_formset.management_form }}
                     <label for="gallery_id" class="form-label">{% trans 'Галерея' %}</label>
-                    <div class="row" id="gallery_list">
+                    <div class="row mx-0" id="gallery_list">
                         {% for image in images_formset %}
                             {% for hidden in image.hidden_fields %}
                                 {{ hidden }}
@@ -193,7 +202,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
 
                         {% endfor %}
-                        <div class="col-sm-1 d-inline-block" style="height: 250px">
+                        <div class="col-sm-1 d-inline-block" style="height: 250px; width: 150px">
                             <a class="btn d-block position-absolute top-50 start-50 translate-middle"
                                id="add_more" data-toggle="lightbox"
                                data-title="sample 1 - white" data-gallery="gallery">

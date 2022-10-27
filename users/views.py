@@ -57,8 +57,6 @@ def update_user(request, user_id, admin):
         return render(request, 'users/site_user_update.html', context)
 
 
-@login_required()
-@user_passes_test(lambda u: u.is_superuser)
 def create_user(request):
     if request.user.is_authenticated:
         return redirect('')

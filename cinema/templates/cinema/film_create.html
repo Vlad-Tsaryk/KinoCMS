@@ -52,7 +52,7 @@
     </div>
     <div class="form-group">
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-2" style="width:420px">
                 <div>
                 <label>{% trans 'Главная картинка' %}</label>
                     {% if film_form.instance.main_image %}
@@ -68,7 +68,7 @@
                 </div>
 
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2 my-auto" style="width: 190px; height: 100px">
                 <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
                         type="button"
                         onclick="chooseFile('{{ film_form.main_image.auto_id }}','img_{{ film_form.main_image.auto_id }}')">
@@ -78,7 +78,7 @@
                     {{ film_form.main_image }}
                 </div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2 my-auto" style="width: 190px; height: 100px">
                 {{ film_form.main_image.clear }}
                 <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
                         type="button"
@@ -118,7 +118,7 @@
     {{ film_form.errors }}
 {% endblock %}
 {% block content3 %}
-    <button type="submit" class="btn btn-primary">{% trans 'Сохранить' %}</button>
+    <center><button type="submit" class="btn btn-primary mb-3">{% trans 'Сохранить' %}</button></center>
     </form>
     </section>
 {% endblock %}

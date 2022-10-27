@@ -65,7 +65,7 @@
     <div class="form-group">
         <label for="{{ cinema_form.logo.id_for_label }}" class="form-label">{% trans 'Логотип' %}</label>
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-2" style="width:420px">
                 <div>
                     <img id="img_{{ cinema_form.logo.auto_id }}" height="250" width="150"
                          class="d-block ml-auto mr-auto d-inline"
@@ -73,7 +73,7 @@
                 </div>
 
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2 my-auto" style="width: 190px; height: 100px">
                 <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
                         type="button"
                         onclick="chooseFile('{{ cinema_form.logo.auto_id }}','img_{{ cinema_form.logo.auto_id }}')">
@@ -83,7 +83,7 @@
                     {{ cinema_form.logo }}
                 </div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2 my-auto" style="width: 190px; height: 100px">
                 {{ cinema_form.logo.clear }}
                 <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
                         type="button"
@@ -97,7 +97,7 @@
     <div class="form-group">
         <label for="{{ cinema_form.banner_image.id_for_label }}" class="form-label">{% trans 'Фото верхнего баннера' %}</label>
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-2" style="width:420px">
                 <div>
                     <img id="img_{{ cinema_form.banner_image.auto_id }}" height="250" width="150"
                          class="d-block ml-auto mr-auto d-inline"
@@ -105,7 +105,7 @@
                 </div>
 
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2 my-auto" style="width: 190px; height: 100px">
                 <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
                         type="button"
                         onclick="chooseFile('{{ cinema_form.banner_image.auto_id }}','img_{{ cinema_form.banner_image.auto_id }}')">
@@ -115,7 +115,7 @@
                     {{ cinema_form.banner_image }}
                 </div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2 my-auto" style="width: 190px; height: 100px">
                 {{ cinema_form.banner_image.clear }}
                 <button class="btn btn-secondary d-block position-absolute top-50 start-50 translate-middle"
                         type="button"
@@ -168,7 +168,7 @@
 {% endblock %}
 {% block content3 %}
     {{ cinema_form.errors }}
-    <button type="submit" class="btn btn-primary">{% trans 'Сохранить' %}</button>
+    <center><button type="submit" class="btn btn-primary mb-3">{% trans 'Сохранить' %}</button></center>
     </form>
 
 
