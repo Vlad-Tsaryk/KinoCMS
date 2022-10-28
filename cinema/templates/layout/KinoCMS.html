@@ -22,6 +22,10 @@
             margin-left: 0px;
             margin-right: 0px;
         }
+                .fixed_promo_news{
+            flex: 0 0 33%;
+            {#width: 420px;#}
+        }
     </style>
     {% block head %}
         <style>
@@ -148,9 +152,10 @@
 
 
                         </ul>
-                        <form class="d-flex w-auto me-3">
-                                    <input class="form-control me-2" type="search" placeholder="{% trans 'Поиск' %}"
-                                           aria-label="Search">
+                        <form class="d-flex w-auto me-3" action="{% url 'search'%}" method="post">
+                            {% csrf_token %}
+                                    <input class="form-control me-2" type="search" name="search_text"
+                                           placeholder="{% trans 'Поиск' %}" aria-label="Search">
                                     <button class="btn btn-outline-success" type="submit">{% trans 'Поиск' %}</button>
                                 </form>
                     </div>

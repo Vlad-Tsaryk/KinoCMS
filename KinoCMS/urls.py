@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from cinema.views import kino_cms, movies, soon, cinemas_page, showtimes, film_card, seat_reservation, hall_card, \
-    cinema_card
+    cinema_card, search
 from pages.views import site_promos, news_promo_card, site_news, site_contact, site_other_page, site_mobile_app
 from users.views import login_page, create_user, logout_user, update_user
 from django.conf.urls.static import static
@@ -48,6 +48,7 @@ urlpatterns = [
     path('update/<int:user_id>', update_user, {'admin': False}, name='site_user_update'),
     path('logout/', logout_user, name='logout'),
     path('login/', login_page, name='login_page'),
+    path('search/', search, name='search'),
 )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -56,7 +56,7 @@
     <div class="row mt-5">
 
         <div class="col">
-            <div class="container-fluid m-0">
+            <div class="container-fluid m-0 p-0">
                 <div class="row row-cols-1">
                     {% for contact in contacts %}
                         {% if contact.active %}
@@ -86,7 +86,7 @@
 
             </div>
         </div>
-        <div class="col-2">
+        <div class="col" style="flex: 0 0 150px;">
             <div class="mb-5">
                 <img src="{% static 'cinema/img/promo_cinemas.png' %}"
                      width="215"

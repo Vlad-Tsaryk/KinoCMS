@@ -44,6 +44,10 @@ function chooseFileBackBanner(input, img) {
     $('#background_banner ' + "#" + input).click().change(function (event) {
         $('#background_banner '+'#' + img).attr("src", URL.createObjectURL(event.target.files[0]));
     })
+    if ($('#background_banner ' + "#" + input).val() != ''){
+        $('#id_is_image_1').removeAttr('disabled').removeAttr('title')
+    }
+
 };
 
 const addMoreBtn = document.getElementById('add_more_banner')
@@ -117,6 +121,8 @@ function delete_news_banner(form_id) {
 
 function clearFile(input, img) {
 
-    $("#" + img).attr("src", '/static/default-placeholder-150x250.png ');
+    $("#" + img).attr("src", '/static/banners/img/default-placeholder-150x250.png');
+    $('#' + input).attr('value', '').attr('required', '')
+    $('#id_is_image_1').attr('disabled','').attr('title', "Please select file")
 }
 

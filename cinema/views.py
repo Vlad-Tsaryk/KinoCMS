@@ -12,7 +12,7 @@ from gallery_seo.forms import Image
 from pages.models import Other_page
 from django.contrib.auth.decorators import login_required, user_passes_test
 from baners.models import Background_banner, Banner, Banner_collection, Banner_news, Banner_news_collection
-from pages.models import Main_page
+from pages.models import Main_page, News_promo
 from users.models import Ticket
 import locale
 
@@ -424,8 +424,8 @@ def seat_reservation(request, session_id):
 def cinema_card(request, cinema_id):
     date = datetime.date.today()
     sessions = Session.objects.filter(date_time__day=date.day,
-                                            date_time__month=date.month,
-                                            date_time__year=date.year)
+                                      date_time__month=date.month,
+                                      date_time__year=date.year)
     sessions_today = []
     for session in sessions:
         if session.film.name not in sessions_today:
@@ -453,3 +453,19 @@ def hall_card(request, hall_id):
                'gallery': hall_gallery, 'pages': page_list, 'main_page': main_page
                }
     return render(request, 'cinema/hall_card.html', context)
+
+
+def search(request):
+    print(request.POST)
+    item_name = request.POST.get('search_text')
+    print(item_name)
+    if item_name:
+        obj_film = Film.objects.filter(name__icontains=item_name)
+        if len(obj_film) == 1:
+            return redirect('film_card', film_id=obj_film[0].pk)
+        else:
+            return render(request, 'cinema/search.html', context={'films': obj_film})
+    return redirect('kino_cms')
+    # obj_promo = News_promo.objects.get(type='Promo', name__contains=item_name)
+
+    # return render(request, '', context={'obj_film': obj_film})

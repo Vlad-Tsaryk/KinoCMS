@@ -57,9 +57,9 @@
     <div class="row">
         {% for promo in promos %}
         {% if promo.active %}
-            <div class="col-xxl-4">
+            <div class="col fixed_promo_news">
             <a href="{% url 'news_promo_card' promo.pk %}" class="fs-4 d-block text-light" style="text-align: center">
-            <img src="{{ promo.main_image.url }}" height="300"  width="450" class="rounded">
+            <img src="{{ promo.main_image.url }}" height="250"  width="400" class="rounded">
             <br>{{ promo.name }}</a>
             <div class="border border-2 rounded-pill border-dark d-inline-block p-1"
                      style="background-color: #1c1b1b; font-size: smaller"><b>{{ promo.date|date:'d.m.Y' }}</b> </div>
