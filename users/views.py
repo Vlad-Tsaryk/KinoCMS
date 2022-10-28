@@ -16,12 +16,8 @@ def login_page(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        print(request.POST)
-        # print(request.GET.get('next'))
-
         if user is not None:
             login(request, user)
-            print(user.language)
             translation.activate(user.language)
             request.LANGUAGE_CODE = user.language
             if request.GET.get('next') and request.user.is_superuser:

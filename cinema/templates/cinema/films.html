@@ -35,7 +35,7 @@
     <div class="card-body">
             <div class="row">
                 {% for film in films_soon %}
-                <div class="col-sm-2" style="width:420px">
+                <div class="col-xl-2">
                     <a href="{% url 'film_update' film.pk %}" data-toggle="lightbox"
                        data-title="sample 1 - white" data-gallery="gallery" style="text-align: center" id="{{ film.name}}">
                         {% if film.main_image %}
